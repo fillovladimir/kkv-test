@@ -115,7 +115,15 @@
         .q-image { display: none; max-width: 100%; height: auto; margin: 25px auto 0 auto; border-radius: 12px; border: 1px solid var(--border); }
         .welcome-image { max-width: 100%; height: auto; margin: 30px auto; border-radius: 15px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); border: 1px solid var(--border); }
 
-        @media (max-width: 600px) { .group-selection { grid-template-columns: 1fr; } .btn-main, .btn-errors { grid-column: span 1; } }
+        /* ŠTÝLY PRE 3D ŠTATISTIKU */
+        .stats-container { margin: 20px 0; display: flex; flex-direction: column; align-items: center; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; margin-top: 20px; text-align: left; }
+        .stat-item { padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
+        .stat-name { font-weight: bold; display: block; margin-bottom: 5px; font-size: 0.9rem; }
+        .stat-bar-bg { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .stat-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease-out; }
+
+        @media (max-width: 600px) { .group-selection { grid-template-columns: 1fr; } .btn-main, .btn-errors { grid-column: span 1; } .stats-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -191,6 +199,12 @@
         <div id="results-screen" class="card" style="text-align: center;">
             <h2 id="result-status" style="font-size: 2rem; margin-bottom: 10px;"></h2>
             <p id="final-score" style="font-size: 3rem; font-weight: 800; margin: 15px 0;"></p>
+            
+            <div class="stats-container">
+                <canvas id="statsChart" width="220" height="220"></canvas>
+                <div id="stats-legend" class="stats-grid"></div>
+            </div>
+
             <p id="result-msg" style="font-size: 1.2rem; margin-bottom: 30px;"></p>
             <button class="btn-main btn-exam" onclick="goHome()" style="max-width: 300px;">NÁVRAT NA HLAVNÉ MENU</button>
         </div>
@@ -205,7 +219,6 @@
         let timerInterval;
         let timeLeft = 90 * 60;
 
-        // DARK MODE JE TERAZ DEFAULT
         window.onload = () => {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
@@ -359,21 +372,106 @@
                 status.style.color = "var(--error)";
                 msg.innerText = "Na úspešné zvládnutie potrebujete aspoň 70% (56 správnych odpovedí).";
             }
+            
+            drawStatistics();
             updateErrorButton();
         }
 
+        function drawStatistics() {
+            const groups = {
+                'A': { correct: 0, total: 0, color: '#3b82f6', dark: '#1d4ed8', label: 'Skupina A' },
+                'B': { correct: 0, total: 0, color: '#10b981', dark: '#047857', label: 'Skupina B' },
+                'C': { correct: 0, total: 0, color: '#f59e0b', dark: '#b45309', label: 'Skupina C' },
+                'D': { correct: 0, total: 0, color: '#ef4444', dark: '#b91c1c', label: 'Skupina D' }
+            };
+
+            currentQuestions.forEach((q, idx) => {
+                let g = '';
+                const n = q.originalIndex + 1;
+                if (n <= 101) g = 'A';
+                else if (n <= 195) g = 'B';
+                else if (n <= 262) g = 'C';
+                else g = 'D';
+                groups[g].total++;
+                if (userAnswers[idx] === q.correct) groups[g].correct++;
+            });
+
+            const canvas = document.getElementById('statsChart');
+            const ctx = canvas.getContext('2d');
+            const legendDiv = document.getElementById('stats-legend');
+            legendDiv.innerHTML = '';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = (canvas.height / 2) - 10;
+            const radius = 85;
+
+            // Tieň pod grafom
+            ctx.save();
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY + 10, radius, radius - 15, 0, 0, 2 * Math.PI);
+            ctx.fillStyle = 'rgba(0,0,0,0.4)';
+            ctx.fill();
+            ctx.restore();
+
+            Object.keys(groups).forEach((key, i) => {
+                const group = groups[key];
+                const startAngle = (i * 0.5 * Math.PI) - (0.5 * Math.PI) + 0.06;
+                const endAngle = startAngle + (0.5 * Math.PI) - 0.12;
+                const successPct = group.total > 0 ? group.correct / group.total : 0;
+
+                // Pozadie (prázdne)
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.fillStyle = 'rgba(255,255,255,0.05)';
+                ctx.fill();
+
+                // 3D Farebný segment
+                if (successPct > 0) {
+                    const successAngle = startAngle + ((endAngle - startAngle) * successPct);
+                    const grad = ctx.createRadialGradient(centerX, centerY, 20, centerX, centerY, radius);
+                    grad.addColorStop(0, group.color);
+                    grad.addColorStop(1, group.dark);
+
+                    ctx.save();
+                    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                    ctx.shadowBlur = 12;
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.arc(centerX, centerY, radius, startAngle, successAngle);
+                    ctx.lineTo(centerX, centerY);
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                const pctNum = Math.round(successPct * 100);
+                const item = document.createElement('div');
+                item.className = 'stat-item';
+                item.innerHTML = `
+                    <span class="stat-name" style="color:${group.color}">${group.label}: ${pctNum}%</span>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:${pctNum}%; background:${group.color}"></div></div>
+                `;
+                legendDiv.appendChild(item);
+            });
+
+            // Vnútorný výrez (donut)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 40, 0, 2 * Math.PI);
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--card');
+            ctx.fill();
+        }
+
         function goHome() { location.reload(); }
-        
         function clearErrors() { 
-            if (confirm("Naozaj chcete resetovať históriu chýb? Týmto sa vynuluje zoznam otázok na opakovanie.")) { 
+            if (confirm("Naozaj chcete resetovať históriu chýb?")) { 
                 wrongQuestionIndices = []; 
                 localStorage.removeItem('kkv_errors'); 
                 updateErrorButton(); 
             } 
         }
-        
         function updateProgress() { document.getElementById('progress-fill').style.width = (currentIndex / currentQuestions.length * 100) + '%'; }
-        
         function updateErrorButton() {
             const btn = document.getElementById('error-retry-btn');
             const countSpan = document.getElementById('error-count');
