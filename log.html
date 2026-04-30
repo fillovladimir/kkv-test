@@ -7,10 +7,10 @@
     <style>
         /* Zdieľané premenné pre konzistentný vzhľad */
         :root { 
-            --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --text-dim: #94a3b8;
+            --bg: #0f172a; --card: #1e293b; --text: #f1f5f9ee; --text-dim: #94a3b8;
             --primary: #3b82f6; --border: #334155;
         }
-        body.light-mode { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --text-dim: #64748b; --border: #e2e8f0; }
+        body.light-mode { --bg: #b4b4b4; --card: #ffffffea; --text: #0f172a; --text-dim: #64748b; --border: #e2e8f0; }
         
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 20px; transition: 0.3s; margin: 0; }
         .container { max-width: 700px; margin: 0 auto; }
@@ -26,15 +26,40 @@
         li { margin-bottom: 8px; }
 
         .btn-nav { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; text-decoration: none; transition: 0.2s; }
+        
+        .btn-home { background: var(--card); color: var(--primary); border: 1.5px solid var(--border); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 1.0rem; transition: 0.2s; }
+        .btn-home:hover { border-color: var(--primary); opacity: 0.9; }    
+        
         .btn-nav:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-theme { background: var(--card); border: 1.5px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
+        .btn-theme:hover { border-color: var(--primary); }
+        
     </style>
+
+<script>
+    // Inicializácia témy: Ak nie je nič uložené, automaticky platí tmavý režim (telo nemá triedu)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        document.getElementById('theme-icon').innerText = '🌙';
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        document.getElementById('theme-icon').innerText = isLight ? '🌙' : '☀️';
+    }
+</script>
+
+
 </head>
 <body>
 
 <div class="container">
     <div class="top-nav">
-        <button class="btn-nav" onclick="toggleTheme()" id="theme-icon">☀️ </button>
-        <a href="index.html" class="btn-nav">🏠 Menu</a>
+        <button class="btn-theme" onclick="toggleTheme()" id="theme-icon">☀️ </button>
+        <a href="index.html" class="btn-home">🏠 Menu</a>
     </div>
 
     <div class="card">
@@ -42,7 +67,9 @@
 
         <h2>Verzia 1.1 (2026-04-30)</h2>
         <ul>
-            <li>Opravene odpovede pre otázky 4.b) a 40.d)</li>
+            <li>Pridanie 🗝️</li>
+            <li>Zjednotenie tlačidiel tém</li>
+            <li>Opravené odpovede pre otázky 4.b) a 40.d)</li>
             <li>Pridaná 3D štatistická vizualizácia výsledkov.</li>
             <li>Implementovaná táto stránka s históriou zmien.</li>
             <li>Opravené drobné chyby v responzivite grafu.</li>
@@ -57,21 +84,6 @@
     </div>
 </div>
 
-<script>
-    // Inicializácia témy: Ak nie je nič uložené, automaticky platí tmavý režim (telo nemá triedu)
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-mode');
-        document.getElementById('theme-icon').innerText = '🌙 Prepnuť režim';
-    }
-
-    function toggleTheme() {
-        document.body.classList.toggle('light-mode');
-        const isLight = document.body.classList.contains('light-mode');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        document.getElementById('theme-icon').innerText = isLight ? '🌙 Prepnuť režim' : '☀️ Prepnuť režim';
-    }
-</script>
 
 </body>
 </html>

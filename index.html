@@ -21,8 +21,8 @@
 
         /* Svetlý režim (ako alternatíva) */
         body.light-mode { 
-            --bg: #f8fafc; 
-            --card: #ffffff; 
+            --bg: #b4b4b4; 
+            --card: #ffffffea; 
             --text: #0f172a; 
             --text-dim: #64748b;
             --border: #e2e8f0;
@@ -76,9 +76,12 @@
         .btn-nav:hover { opacity: 0.9; }
         .btn-nav:disabled { opacity: 0.2; cursor: not-allowed; }
         
-        .btn-home { background: var(--card); color: var(--primary); border: 1.5px solid var(--primary); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; }
-        .btn-theme { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 10px; cursor: pointer; font-size: 1.2rem; }
-
+        .btn-home { background: var(--card); color: var(--primary); border: 1.5px solid var(--border); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 1.0rem; transition: 0.2s; }
+        .btn-home:hover { border-color: var(--primary); opacity: 0.9; }    
+    
+        .btn-theme { background: var(--card); border: 1.5px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
+        .btn-theme:hover { border-color: var(--primary); }
+        
         .progress-bar { height: 10px; background: var(--border); border-radius: 5px; margin-bottom: 25px; overflow: hidden; }
         #progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 0%; transition: 0.4s; }
         
@@ -114,6 +117,10 @@
 
         .q-image { display: none; max-width: 100%; height: auto; margin: 25px auto 0 auto; border-radius: 12px; border: 1px solid var(--border); }
         .welcome-image { max-width: 100%; height: auto; margin: 30px auto; border-radius: 15px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); border: 1px solid var(--border); }
+        
+        .link-row { display: flex;                /* Aktivuje flexbox */justify-content: space-between; /* Roztiahne prvky na kraje */  align-items: center;          /* Zarovná ich zvislo na stred */ margin: 20px 0;               /* Odsadenie od ostatného textu */ }
+        .feedback-link { font-weight: bold; color: var(--primary); text-decoration: none;        /* Odstráni podčiarknutie */  }
+        .key-link { font-size: 1.0rem;            /* Zväčší kľúč, ak treba */  text-decoration: none; }
 
         /* ŠTÝLY PRE 3D ŠTATISTIKU */
         .stats-container { margin: 20px 0; display: flex; flex-direction: column; align-items: center; }
@@ -122,7 +129,7 @@
         .stat-name { font-weight: bold; display: block; margin-bottom: 5px; font-size: 0.9rem; }
         .stat-bar-bg { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
         .stat-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease-out; }
-
+         
         @media (max-width: 600px) { .group-selection { grid-template-columns: 1fr; } .btn-main, .btn-errors { grid-column: span 1; } .stats-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -156,17 +163,27 @@
             <button class="btn-reset" onclick="clearErrors()">Reset chybných odpovedí</button>
             
             <div style="text-align: center;">
-                <img src="kkv.jpg" alt="KKV Ilustrácia" class="welcome-image">
+            <img src="kkv.jpg" alt="KKV Ilustrácia" class="welcome-image" style="max-width: 600px; width: 100%;">
             </div>
 
             <a href="mailto:fillo.vladimir@gmail.com?subject=KKV-feedback" class="feedback-link">
-                ✉️ Napísať pripomienku k aplikácii autorovi
-            </a>
-            <br>
-            <a href="log.html" class="feedback-link" style="font-weight: bold; color: var(--primary);">
-                📜 Verzia 1.1 (Zoznam zmien)
-            </a>
-        </div>
+    🔧 Napísať pripomienku k aplikácii autorovi
+        </a>
+        <br>
+        <a href="log.html" class="feedback-link" style="font-weight: bold; color: var(--primary);">
+        📜 Verzia 1.1 (Zoznam zmien)
+       </a>
+    </div>
+            
+    <div class="link-row">
+        <a href="Testy_pre_KKV-D.pdf" target="_blank" rel="noopener noreferrer" class="feedback-link">
+    📖 Otázky KKV pre Osobnú dopravu (2024) v PDF
+        </a>
+        <a href="odpovede_kkv_D.html" class="key-link">
+    🗝️
+        </a>
+    </div>
+        
 
         <div id="info-screen" class="card" style="text-align: center;">
             <h2 style="color: var(--primary); margin-bottom: 25px;">Parametre skúšobného testu</h2>
