@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História verzií</title>
+    <style>
+        /* Zdieľané premenné pre konzistentný vzhľad */
+        :root { 
+            --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --text-dim: #94a3b8;
+            --primary: #3b82f6; --border: #334155;
+        }
+        body.light-mode { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --text-dim: #64748b; --border: #e2e8f0; }
+        
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 20px; transition: 0.3s; margin: 0; }
+        .container { max-width: 700px; margin: 0 auto; }
+        
+        /* Horná navigácia */
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        
+        .card { background: var(--card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        h1 { color: var(--primary); margin-top: 0; }
+        h2 { color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-top: 25px; }
+        ul { padding-left: 20px; color: var(--text-dim); }
+        li { margin-bottom: 8px; }
+
+        .btn-nav { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; text-decoration: none; transition: 0.2s; }
+        .btn-nav:hover { border-color: var(--primary); color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-nav">
+        <button class="btn-nav" onclick="toggleTheme()" id="theme-icon">☀️ </button>
+        <a href="index.html" class="btn-nav">🏠 Menu</a>
+    </div>
+
+    <div class="card">
+        <h1>📜 História verzií (Changelog)</h1>
+
+        <h2>Verzia 1.1 (2026-04-30)</h2>
+        <ul>
+            <li>Opravene odpovede pre otázky 4.b) a 40.d)</li>
+            <li>Pridaná 3D štatistická vizualizácia výsledkov.</li>
+            <li>Implementovaná táto stránka s históriou zmien.</li>
+            <li>Opravené drobné chyby v responzivite grafu.</li>
+        </ul>
+
+        <h2>Verzia 1.0 (2026-04-29)</h2>
+        <ul>
+            <li>Spustenie základného modulu pre osobnú dopravu.</li>
+            <li>Implementácia testovacieho systému (80 otázok).</li>
+            <li>Pridanie podpory pre tmavý a svetlý režim.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Inicializácia témy: Ak nie je nič uložené, automaticky platí tmavý režim (telo nemá triedu)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        document.getElementById('theme-icon').innerText = '🌙 Prepnuť režim';
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        document.getElementById('theme-icon').innerText = isLight ? '🌙 Prepnuť režim' : '☀️ Prepnuť režim';
+    }
+</script>
+
+</body>
+</html>
