@@ -118,6 +118,9 @@
         .feedback-link { display: inline-block; margin-top: 25px; color: var(--text-dim); text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
         .feedback-link:hover { color: var(--primary); }
 
+        .note { display: inline-block; margin-top: 25px; color: #174d92; text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
+        .note:hover { color: #174d92; }
+
         .q-image { display: none; max-width: 100%; height: auto; margin: 25px auto 0 auto; border-radius: 12px; border: 1px solid var(--border); }
         .welcome-image { max-width: 100%; height: auto; margin: 30px auto; border-radius: 15px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); border: 1px solid var(--border); }
         
@@ -147,7 +150,6 @@
 
         <div id="welcome-screen" class="card">
             <h1 style="margin-bottom: 8px; color: var(--primary);">Výuka a Testy KKV (Osobná doprava)</h1>
-            <h3 style="margin-top: 0; font-weight: 400; color: var(--text-dim);">Interaktívny vzdelávací systém (Osobná doprava)</h3>
             <p style="font-style: italic; opacity: 0.6; margin-bottom: 30px;">pripravil Ing. Vladimír FILLO</p>
             
             <div class="group-selection">
@@ -170,23 +172,26 @@
             <img src="kkv.jpg" alt="KKV Ilustrácia" class="welcome-image" style="max-width: 700px; width: 100%;">
             </div>
 
-            <a href="mailto:fillo.vladimir@gmail.com?subject=KKV-feedback" class="feedback-link">
-    🔧 Napísať pripomienku k aplikácii autorovi
-        </a>
-        <br>
-        <a href="log.html" class="feedback-link" style="font-weight: bold; color: var(--primary);">
-        📜 Verzia 1.1 (Zoznam zmien)
-       </a>
-                
-    <div class="link-row">
-        <a href="Testy_pre_KKV-D.pdf" target="_blank" rel="noopener noreferrer" class="feedback-link">
-    📖 Otázky KKV pre Osobnú dopravu (2024) v PDF
-       
-</a>
-        <a href="odpovede_kkv_D.html" class="key-link">
-    🗝️
-        </a>
-    </div>
+            <a href="mailto:fillo.vladimir@gmail.com?subject=KKV-feedback" class="note">
+        🔧 Napísať pripomienku k aplikácii autorovi
+            </a>
+            <br>
+            <a href="log.html" class="note";>
+            📜 Verzia 1.1 (Zoznam zmien)
+            </a>
+            <br>    
+            <div class="link-row" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    
+    <a href="Testy_pre_KKV-D.pdf" target="_blank" rel="noopener noreferrer" class="feedback-link">
+        📖 Otázky KKV pre Osobnú dopravu (2024) v PDF
+    </a>
+
+    <a href="odpovede_kkv_D.html" class="key-link">
+        🗝️
+    </a>
+
+</div>
+            </div>
         
 
         <div id="info-screen" class="card" style="text-align: center;">
@@ -224,12 +229,6 @@
         <div id="results-screen" class="card" style="text-align: center;">
             <h2 id="result-status" style="font-size: 2rem; margin-bottom: 10px;"></h2>
             <p id="final-score" style="font-size: 3rem; font-weight: 800; margin: 15px 0;"></p>
-            
-            <div class="stats-container">
-                <canvas id="statsChart" width="220" height="220"></canvas>
-                <div id="stats-legend" class="stats-grid"></div>
-            </div>
-
             <p id="result-msg" style="font-size: 1.2rem; margin-bottom: 30px;"></p>
             <button class="btn-main btn-exam" onclick="goHome()" style="max-width: 300px;">NÁVRAT NA HLAVNÉ MENU</button>
         </div>
@@ -244,6 +243,7 @@
         let timerInterval;
         let timeLeft = 90 * 60;
 
+        // DARK MODE JE TERAZ DEFAULT
         window.onload = () => {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
@@ -489,14 +489,17 @@
         }
 
         function goHome() { location.reload(); }
+        
         function clearErrors() { 
-            if (confirm("Naozaj chcete resetovať históriu chýb?")) { 
+            if (confirm("Naozaj chcete resetovať históriu chýb? Týmto sa vynuluje zoznam otázok na opakovanie.")) { 
                 wrongQuestionIndices = []; 
                 localStorage.removeItem('kkv_errors'); 
                 updateErrorButton(); 
             } 
         }
+        
         function updateProgress() { document.getElementById('progress-fill').style.width = (currentIndex / currentQuestions.length * 100) + '%'; }
+        
         function updateErrorButton() {
             const btn = document.getElementById('error-retry-btn');
             const countSpan = document.getElementById('error-count');
@@ -3796,8 +3799,6 @@
             }
 
        ]; 
-       
-    console.log("Počet načítaných otázok:", rawquestions.length);
 
     </script>
 </body>
