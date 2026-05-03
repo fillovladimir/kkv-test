@@ -1,0 +1,3288 @@
+function getGroupName(i) {
+    const n = i + 1;
+    if (n <= 101) return "Skupina A - Zlepšenie racionálneho jazdného správania na základe bezpečnostných predpisov";
+    if (n <= 195) return "Skupina B - Vnútroštátne a medzinárodné právne predpisy vzťahujúce sa na cestnú dopravu (uplatňovanie predpisov)";
+    if (n <= 262) return "Skupina C - Zdravie, cestná a environmentálna bezpečnosť";
+    return "Skupina D - Ekonomické prostredie osobnej dopravy, organizácia trhu a služby";
+}
+
+    const rawquestions = [
+            {
+                "q": "1. Z čoho sa skladá vonkajšia prehliadka vozidla pred jazdou?",
+                "options": [
+                    "a) Celkový stav karosérie, a čistota EČV a svetiel",
+                    "b) Stav pneumatík a čistota EČV a svetiel",
+                    "c) Celkový stav karosérie, úplnosť výstroja, stav pneumatík, čistota EČV, svetiel, spätných zrkadiel a okien",
+                    "d) Celkový stav karosérie a ostatné úkony napríklad kontrola pneumatík vykonávame raz za týždeň."
+                ],
+                "correct": 2
+            },
+            {
+                "q": "2. Aké úkony má vykonať vodič pred začatím jazdy aby jazda z vozidlom, ktoré preberá na prepravu bola bezpečná?",
+                "options": [
+                    "a) Je to na vodičovi stačí aby mal doklad o školení vodičov,",
+                    "b) Nastavenie sedadla, spätných zrkadiel (resp. kontrola funkčnosti kamerového systému) a pripútane sa bezpečnostným pásom",
+                    "c) Nastavenie sedadla a pripútane sa bezpečnostným pásom,",
+                    "d) Pripútane sa bezpečnostným pásom"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "3. Keď vodič vozidla dokončí radenie prevodových stupňov čo musí urobiť?",
+                "options": [
+                    "a) Ľavú ruku po 10 sekundách vrátime na volant,",
+                    "b) Pravú ruku nemusíme vrátiť na volant a môžeme ju mať aj na riadiacej páke lebo nedochádza k zbytočnému zaťaženiu mechanizmu radenia a jeho zbytočnému opotrebovaniu u nových vozidiel,",
+                    "c) Je to na vodičoví, stačí aby mal doklad o školení vodičov a príslušný vodičský preukaz,",
+                    "d) Pravú ruku vrátime na volant a nenechávame ju na riadiacej páke lebo dochádza k zbytočnému zaťaženiu mechanizmu radenia a jeho zbytočnému opotrebovaniu"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "4. Aké sú hlavné zásady vedenia vozidla na rovnej ceste?",
+                "options": [
+                    "a) Zamerať sa na vozidlo idúce pred nami a držať sa od neho odstup",
+                    "b) Viest' vozidlo v pravej polovici vozovky a pokiaľ tomu nebránia osobitné okolnosti, pri pravom okraji vozovky; pozorne sledovať premávku pred vozidlom aj za vozidlom aj vedľa vozidla; podľa možnosti sleduje premávku ďalej pred vozidlo a snažíme sa správne odhadovať vývoj dopravnej situácie a podľa toho včas a správne reagovať",
+                    "c) Viesť vozidlo v pravej polovici vozovky a pokiaľ tomu nebránia osobitné okolnosti, pri pravom okraji vozovky; pozorne sledovať premávku pred vozidlom;",
+                    "d) Viesť vozidlo v pravej polovici jazdného pruhu; pozorne sledovať vozidlo pred sebou; podľa možnosti sleduje premávku aj za vozidlom a snažíme sa správne odhadovať vývoj dopravnej situácie a podľa toho včas a správne reagovať."
+                ],
+                "correct": 1
+            },
+            {
+                "q": "5. Aké sú hlavné zásady vedenia vozidla v zákrute?",
+                "options": [
+                    "a) Stačí zamerať sa na vozidlo idúce pred nami a nebrzdiť v zákrute",
+                    "b) Pred zákrutou včas znížime rýchlosť jazdy, pripadne preradíme na nižší prevodový systém; pri vchádzaní do zákruty a počas jej prechádzania už nebrzdíme ak nemáme vozidlo vybavené ABS",
+                    "c) Pred zákrutou včas znížime rýchlosť jazdy, prípadne preradíme na nižší prevodový systém; pri vchádzaní do zákruty a počas jej prechádzania už nebrzdime; volantom je potrebné natáčať plynulo aby dráha vozidla zostávala v pravej polovici vozovky a v neprehľadných zákrutách byť pripravený aj na možnú prekážku napr. odstavené vozidlo, cyklistu, chodca a pod.",
+                    "d) Pred zákrutou včas znížime rýchlosť jazdy podľa dopravnej značky a pripadne preradíme na nižší prevodový systém; volantom je potrebné natáčať plynulo aby dráha vozidla zostávala v pravej polovici vozovky a v neprehľadných zákrutách byt' pripravený aj na možnú prekážku napr. odstavené vozidlo a pod."
+                ],
+                "correct": 2
+            },
+            {
+                "q": "6. Aké sú hlavné zásady vedenia autobusu v meste alebo obci?",
+                "options": [
+                    "a) Stačí zamerať sa na vozidlo idúce pred nami a neprechádzať z pruhu do pruhu",
+                    "b) Podľa možnosti sa prispôsobíme najmä vozidlám idúcim pred nami v našom jazdnom pruhu a zbytočne neprechádzame z pruhu do pruhu; využívame jazdné pruhy pre autobusy; pred priechodom pre chodcov alebo cyklistov dodržiavame dostatočný odstup od vozidiel aby sme mohli pri vstúpení chodcov a cyklistov na priechod pred ním plynule a bezpečne zastaviť vozidlo",
+                    "c) Podľa možnosti sa prispôsobíme najmä vozidlám idúcim pred nami v našom jazdnom pruhu a podľa potreby prechádzame z pruhu do pruhu; pred priechodom pre chodcov alebo cyklistov zvýšime opatrnosť",
+                    "d) Podľa možnosti sa prispôsobíme najmä vozidlám idúcim pred nami v našom jazdnom pruhu; pred priechodom pre chodcov alebo cyklistov dodržiavame dostatočný odstup najmenej 30 metrov od vozidiel aby sme mohli pri vstúpení chodcov a cyklistov na priechod pred ním plynule a bezpečne zastaviť vozidlo"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "7. Aké má hlavné nároky na vedenia vozidla v meste aby bolo bezpečné?",
+                "options": [
+                    "a) Stačí zamerať sa na vozidlo idúce pred nami a neprechádzať z pruhu do pruhu a vedenie je podobné ako mimo mesta",
+                    "b) V meste musíme sledovať svetelné signály, pokyny oprávnených osôb, dopravné značenie, pohyb chodcov, vozidiel, smerové tabule; preto vedenie vozidla v meste si vyžaduje určité sústredenie vodiča",
+                    "c) V meste musíme sledovať svetelné signály, pokyny oprávnených osôb, dopravné značenie, pohyb chodcov, cyklistov, kolobežkárov, vozidiel, smerové tabule atď.; preto vedenie vozidla v meste si vyžaduje veľké sústredenie, predvídavosť, rozhodnosť a určitú zručnosť vodiča",
+                    "d) Nároky sú hlavne na zručnosť ovládania vozidla pri jazde cez križovatky a ovládanie predpisov cestnej premávky"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "8. Ktoré informačné systémy sa nepoužívajú na optimalizáciu trasy prepravy v cestnej doprave?",
+                "options": [
+                    "a) Elektronický navigačný systém",
+                    "b) Mobilný telefón používaný vodičom vybavený aj modulom GPS",
+                    "c) Palubná jednotka na platbu mýtneho",
+                    "d) Softvér na trasovanie prepravy (napr. Route 66, Waze, Google maps a pod.)"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "9. Ktorú alternatívu musí zvoliť vodič, pri trasovaní prepravy v nepravidelnej autobusovej doprave pomocou elektronického navigačného systému, aby trasa viedla prevažne po tranzitných cestách vyššej triedy najmä diaľniciach a rýchlostných cestách?",
+                "options": [
+                    "a) Najkratšia cesta",
+                    "b) Najrýchlejšia cesta",
+                    "c) Trasovanie mimo cestnej siete",
+                    "d) Trasovanie - priama cesta"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "10. Je možné nastavovať elektronický navigačný systém vodičom počas jazdy?",
+                "options": [
+                    "a) Vodič počas jazdy nemôže nastavovať elektronický navigačný systém",
+                    "b) Vodič môže nastavovať elektronický navigačný systém počas jazdy iba v obci",
+                    "c) Vodič môže nastavovať elektronický navigačný systém počas jazdy iba mimo obce",
+                    "d) Vodič počas jazdy môže nastavovať elektronický navigačný systém"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "11. Umožňuje elektronický navigačný systém aj hlasovú navigáciu?",
+                "options": [
+                    "a) Nie neumožňuje",
+                    "b) Umožňuje, ale iba mimo miest a obci",
+                    "c) Umožňuje, ale iba v území miest a obcí",
+                    "d) Áno, niektoré umožňujú aj hlasovú navigáciu"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "12. K pretočeniu motora (prekročeniu maximálnych otáčok motora) môže dôjsť v dôsledku preradenia na",
+                "options": [
+                    "a) Vyšší prevodový stupeň",
+                    "b) Nižší prevodový stupeň",
+                    "c) Pri moderných motoroch sa to nemôže stať",
+                    "d) Je to len teoretická možnosť"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "13. Pri prekročení maximálnych otáčok motora",
+                "options": [
+                    "a) Hrozí poškodenie motora v dôsledku zrážky dna piesta s ventilom",
+                    "b) Hrozí poškodenie motora v dôsledku zlomenia ojnice",
+                    "c) Mazací systém motora nedokáže vytvoriť mazací film na valcoch motora, v dôsledku čoho dôjde k zadretiu piesta",
+                    "d) Nehrozí poškodenie motora, dôjde len k prekročeniu maximálnych otáčok"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "14. Optimálna prevádzková teplota vodou chladeného motora je",
+                "options": [
+                    "a) 80-90 °C",
+                    "b) 90-105 °C",
+                    "c) Nesmie prekročiť bod varu",
+                    "d) Nie je stanovená"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "15. Nesprávna geometria riadiacej nápravy",
+                "options": [
+                    "a) Má vplyv na ovládateľnosť vozidla a opotrebenie pneumatík",
+                    "b) Nie je rozhodujúca",
+                    "c) Má napomôcť len návratu kolies do priameho smeru po uvoľnení volantu",
+                    "d) Sa prejaví zvýšenou hlučnosťou odvaľovania kolies"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "16. Ako je dovolené vlečenie autobusu po jeho poruche resp. nespôsobilosti pokračovať v ďalšej jazde?",
+                "options": [
+                    "a) Nie je to v Slovenskej republike špeciálne upravené,",
+                    "b) Autobus sa smie vliecť len bez prepravovaných osôb,",
+                    "c) Autobus sa smie vliecť len zo sediacimi cestujúcimi,",
+                    "d) Autobus a môže vliecť aj s prepravovanými cestujúcimi na pravidelnej autobusovej linke maximálne do koncovej zastávky na linke."
+                ],
+                "correct": 1
+            },
+            {
+                "q": "17. Kapacita akumulátora s klesajúcou teplotou okolia",
+                "options": [
+                    "a) Sa nemení",
+                    "b) Zvyšuje sa",
+                    "c) Klesá",
+                    "d) Záleží od jeho nabitia"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "18. Nepravidelne opotrebený behúň pneumatiky upozorňuje na",
+                "options": [
+                    "a) Chybu v zavesení kolies a v geometrii náprav",
+                    "b) Potrebu výmeny zavesenia kolesa",
+                    "c) Chybný tlmič",
+                    "d) Nesprávnu zbiehavosť kolies"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "19. Zanesený filter vzduchu",
+                "options": [
+                    "a) Zhoršuje plnenie valcov a zvyšuje spotrebu paliva",
+                    "b) Nemá vplyv na výkon motora",
+                    "c) Síce spôsobuje zníženie výkonu motora, ale neovplyvňuje spotrebu paliva",
+                    "d) Filter vzduchu je samočistiaci a nie je potrebné sa oň starať"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "20. Pri prehriati vodou chladeného motora v dôsledku nedostatočného množstva chladiacej kvapaliny",
+                "options": [
+                    "a) Opatrne necháme uniknúť pretlak v chladiacom systéme a vodu dolievame až po vychladnutí motora",
+                    "b) Vodu dolejeme a môžeme pokračovať v jazde",
+                    "c) Nízka hladina chladiacej kvapaliny neprekáža v ďalšej jazde",
+                    "d) Pokiaľ je nedostatok chladiacej kvapaliny, v chladiacom systéme nemôže byť pretlak"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "21. Úlohou oleja v motore je",
+                "options": [
+                    "a) Len mazať pohybujúce sa časti motora",
+                    "b) Mazať, tesniť, chladiť, odplavovať nečistoty, chrániť proti korózii, tlmiť hluk",
+                    "c) Len mazať pohybujúce sa časti a chladiť dno piesta",
+                    "d) Nemá zvlášť dôležité poslanie"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "22. Pri výmene oleja v motore",
+                "options": [
+                    "a) Môžeme použiť akýkoľvek druh motorového oleja",
+                    "b) Musíme použiť aditivovaný olej",
+                    "c) Musím použiť celosezónny olej",
+                    "d) Musíme použiť olej v súlade s odporúčaniami výrobcu"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "23. Pri dopĺňaní morového oleja môžeme použiť",
+                "options": [
+                    "a) Len aditivovaný olej",
+                    "b) Akýkoľvek olej",
+                    "c) Len aditivovaný motorový olej",
+                    "d) Len olej rovnakého druhu a kvality aký je v motore použitý"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "24. Na motorovom vozidle sa používajú",
+                "options": [
+                    "a) Len motorové oleje, ktoré možno použiť aj na mazanie prevodových skríň a diferenciálov",
+                    "b) Prevodové a motorové oleje, pričom ich vlastnosti sú si tak podobné, že ich možno zamieňať pri dopĺňaní stavu",
+                    "c) Len prevodové oleje, ale musia byť celoročné",
+                    "d) Prevodové a motorové oleje, prípadne hydraulické"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "25. Pred zimnou prevádzkou",
+                "options": [
+                    "a) Skontrolujeme či je vozidlo pripravené na zimnú prevádzku (množstvo, stav a kvalitu prevádzkových kvapalín, výstroj a výzbroj vozidla)",
+                    "b) Skontrolujeme nabitie akumulátora",
+                    "c) Pokiaľ je vozidlo v dobrom technickom stave, je pripravené aj na zimné podmienky",
+                    "d) Skontrolujeme bod mrznutia chladiacej kvapaliny a viskozitu oleja"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "26. Pri výmene kolesa",
+                "options": [
+                    "a) Používame náhradné koleso predpísané výrobcom",
+                    "b) Použijeme akékoľvek náhradné koleso bez ohľadu na rozmer",
+                    "c) Použijeme akékoľvek koleso, pokiaľ je schopné preniesť okamžité zaťaženie nápravy",
+                    "d) Použijeme akékoľvek koleso, ktoré je nahustené na predpísaný tlak"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "27. Pri výmene kolesa",
+                "options": [
+                    "a) Nie je potrebné zaistiť vozidlo proti samovoľnému pohybu. Toto zaistenie preberá na seba zdvihák vozidla",
+                    "b) Musíme zaistiť vozidlo proti samovoľnému pohybu. Matice kolies povoľujeme až keď je koleso vozidla zodvihnuté tak, že stratilo kontakt s podkladom",
+                    "c) Musíme zaistiť vozidlo proti samovoľnému pohybu zabrzdením a zakladacími klinmi; matice kolies povolíme; odstránime ich až keď je koleso vozidla zodvihnuté tak, že stratilo kontakt s podkladom",
+                    "d) Musíme zaistiť vozidlo proti samovoľnému pohybu. Matice kolies odstránime už keď je pod kolesom podložený zdvihák"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "28. Pri výmene kolies",
+                "options": [
+                    "a) Použijeme zdvihák akejkoľvej nosnosti",
+                    "b) Použijeme zdvihák nosnosti rovnajúcej sa najmenej zaťaženiu kolesa ktoré chceme vymeniť",
+                    "c) Použijeme zdvihák nosnosti rovnajúcej sa najmenej zaťaženiu kolesa ktoré chceme vymeniť, pričom nie je na závadu, ak zdvihák pomaly klesá",
+                    "d) Nosnosť zdviháku musí byť o 100 kg väčšia ako je zaťaženie kolesa"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "29. Ak pri výmene kolies treba dohustiť pneumatiku",
+                "options": [
+                    "a) Pneumatiku dohustíme na tlak, aký poskytuje kompresor vozidla",
+                    "b) Pneumatiku dohustíme na tlak , ktorý poskytuje kompresor na čerpacej stanici",
+                    "c) Nemeníme tlak hustenia, rezervné koleso má byť nahustené na najvyšší tlak hustenia",
+                    "d) Na tlak predpísaný pre nápravu na ktorú sme koleso namontovali"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "30. Snehové reťaze zlepšia adhéziu kolesa",
+                "options": [
+                    "a) Na akomkoľvek povrchu, pretože reťaze sa zatlačia do podkladu",
+                    "b) Len na hlinenej a štrkovej ceste",
+                    "c) Len na asfaltovom a betónovom povrchu",
+                    "d) Len na ceste pokrytej dostatočnou vrstvou snehu"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "31. Po výmene kolesa matice kolies",
+                "options": [
+                    "a) Dotiahneme len čiastočne, plne ich dotiahneme až po prejdení vzdialenosti cca 50 km",
+                    "b) Matice kolies dotiahneme kľúčom a po spustení nápravy ich dotiahneme podľa pokynov výrobcu a použijeme aj momentový kľúč; ich dotiahnutie po prejdení vzdialenosti cca 50 km skontrolujeme",
+                    "c) Matice kolies dotiahneme kľúčom a po spustení nápravy ich dotiahneme podľa pokynov výrobcu. Ak sme postupovali podľa pokynov výrobcu, kontrolu ich dotiahnutia po prejdení vzdialenosti cca 50 km už nemusíme vykonať",
+                    "d) Dotiahneme až po spustení nápravy na zem"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "32. Pri výmene kolesa na ceste",
+                "options": [
+                    "a) Si oblečieme reflexnú vestu a umiestnime za vozidlom výstražný trojuholník; pokiaľ vo vozidle prepravujeme iné osoby zabezpečíme, aby sa nepohybovali po ceste",
+                    "b) Si oblečieme reflexnú vestu a umiestnime za vozidlom výstražný trojuholník. Pokiaľ vo vozidle prepravujeme iné osoby nestaráme sa o ne. Máme už dosť práce s výmenou kolesa",
+                    "c) Vymeníme koleso čo najrýchlejšie, aby sme netvorili prekážku cestnej premávky",
+                    "d) Vymeníme koleso, pričom dbáme na zásady práce s ťažkými bremenami"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "33. Hĺbka drážky dezénu pneumatiky",
+                "options": [
+                    "a) Je rozhodujúca pre životnosť pneumatiky v ubehnutých kilometroch",
+                    "b) Nie je rozhodujúca",
+                    "c) Je rozhodujúca pre odvod vody z kontaktnej plochy s vozovkou",
+                    "d) Ovplyvňuje hlučnosť pneumatiky"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "34. Pokiaľ poškodenie pneumatiky odhaľuje jej kostru, pneumatika",
+                "options": [
+                    "a) Sa môže ďalej používať pokiaľ hĺbka drážky dezénu je viac ako 1,6 mm",
+                    "b) Sa môže používať len ak rýchlosť vozidla neprekročí 60 km/h",
+                    "c) Sa môže používať len ak je použitá na zadnej náprave v dvojmontáži",
+                    "d) Sa nesmie používať"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "35. Podhustená pneumatika",
+                "options": [
+                    "a) Skracuje životnosť pneumatiky v ubehnutých kilometroch, ale nemá vplyv na jazdné vlastnosti vozidla",
+                    "b) Zhoršuje jazdné vlastnosti vozidla, ale nemá vplyv na životnosť pneumatiky",
+                    "c) Zhoršuje prenos síl medzi pneumatikou a podkladom, ale nemá vplyv na jej životnosť v ubehnutých kilometroch",
+                    "d) Znižuje životnosť pneumatiky v ubehnutých kilometroch a zhoršuje aj prenos síl medzi pneumatikou a podkladom"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "36. Rozdielny polomer pneumatík na dvojmontáži",
+                "options": [
+                    "a) Nie je dôležitý",
+                    "b) Spôsobuje, že pneumatika s menším polomerom prenáša väčšie zaťaženie",
+                    "c) Spôsobuje, že pneumatika s väčším polomerom prenáša menšie zaťaženie",
+                    "d) Pneumatika s väčším polomerom prenáša väčšie zaťaženie"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "37. Pneumatiky sú zhodné",
+                "options": [
+                    "a) Ak majú rovnaký rozmer",
+                    "b) Ak majú rovnaký rozmer a konštrukciu",
+                    "c) Ak majú rovnaký rozmer, konštrukciu a druh dezénu",
+                    "d) Ak majú rovnaký rozmer, konštrukciu, druh dezénu a značku"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "38. Pneumatiky rovnakého rozmeru, konštrukcie (diagonálna - radiálna) od rôznych výrobcov",
+                "options": [
+                    "a) Majú rovnaké vlastnosti",
+                    "b) Majú rôzne vlastnosti",
+                    "c) Majú rovnaké vlastnosti na mokrej vozovke",
+                    "d) Majú rovnaký odpor valenia"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "39. Pneumatiky rôzneho druhu a konštrukcie na tej istej náprave",
+                "options": [
+                    "a) Neovplyvňujú jazdné vlastnosti vozidla",
+                    "b) Ovplyvňujú jazdné vlastností vozidla",
+                    "c) Spôsobujú vyššiu spotrebu paliva",
+                    "d) Spôsobujú nižšiu spotrebu paliva"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "40. Ak sme opravovali defekt na pneumatike namontovanej na delenom ráfiku",
+                "options": [
+                    "a) Musíme dať pozor na tlak hustenia pneumatiky",
+                    "b) Pneumatiku nahustíme na predpísaný tlak až keď ju namontujeme na koleso",
+                    "c) Nahustíme ju na tlak, ktorý je vylisovaný na jej boku",
+                    "d) Musíme pri jej hustení mechanicky zaistiť, aby uvoľnený záverný kruh nemohol spôsobiť úraz"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "41. Vozidlo vybavené systémom bŕzd ABS",
+                "options": [
+                    "a) Má zaručenú riaditeľnosť smeru aj pri intenzívnom brzdení",
+                    "b) Má zaručenú riaditeľnosť smeru iba pri intenzívnom brzdení",
+                    "c) ABS nemá vplyv na riaditeľnosť vozidla pri intenzívnom brzdení",
+                    "d) Je určené len pre vodičov začiatočníkov"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "42. Odľahčovacia brzda pri jazde za zhoršených adhéznych podmienok",
+                "options": [
+                    "a) Môže spôsobiť šmyk vozidla, prípadne zalomenie súpravy",
+                    "b) Nemôže spôsobiť šmyk vozidla, prípadne zalomenie súpravy",
+                    "c) Slúži len na udržanie rýchlosti jazdy dolu svahom a nemá vplyv na šmyk vozidla",
+                    "d) Zvyšuje hluk vozidla, ale nemá vplyv na jeho jazdné vlastnosti"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "43. Dráha na zastavenie vozidla",
+                "options": [
+                    "a) Je totožná s brzdnou dráhou",
+                    "b) Sa mení s dĺžkou reakcie vodiča a rýchlosťou vozidla",
+                    "c) Sa nemení s dĺžkou reakcie vodiča ale s rýchlosťou vozidla",
+                    "d) Závisí len od súčiniteľa priľnavosti"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "44. Elektronický stabilizačný systém (ESP)",
+                "options": [
+                    "a) Zabráni vozidlu a jazdnej súprave dostať sa do šmyku",
+                    "b) Porovnáva skutočný pohyb vozidla s natočením riadiacich kolies a zabráni zalomeniu súpravy",
+                    "c) Napomáha vodičovi udržať vozidlo v želanom smere jazdy v rámci fyzikálnych zákonov",
+                    "d) Napomáha vodičovi udržať vozidlo v želanom smere jazdy"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "45. Vzduchojemy je potrebné odvodňovať, aby kondenzačná voda",
+                "options": [
+                    "a) Nespôsobila koróziu brzdového systému",
+                    "b) Neznižovala svojim objemom potrebnú zásobu tlakového vzduchu",
+                    "c) Nespôsobila nefunkčnosť brzdového systému, najmä v zime v dôsledku zamrznutia",
+                    "d) Aby zbytočne nezvyšovala hmotnosť vozidla"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "46. Pokles tlaku vzduchu vo vzduchojemoch pri vzduchových brzdách",
+                "options": [
+                    "a) Nemá vplyv na účinnosť brzdenia",
+                    "b) Spôsobí, že budú brzdiť len kolesá prednej nápravy",
+                    "c) Spôsobí, že budú brzdiť len kolesá zadnej nápravy",
+                    "d) Spôsobí zhoršenú účinnosť brzdenia"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "47. Ako je definovaný autobus podľa zákona o cestnej premávke, ktorý upravuje pravidlá cestnej premávky v Slovenskej republike?",
+                "options": [
+                    "a) Autobus je motorové vozidlo na prepravu osôb, ktoré má okrem miesta pre vodiča viac ako 45 miest na sedenie",
+                    "b) Autobus je motorové vozidlo na prepravu osôb, ktoré má okrem miesta pre vodiča viac ako osem miest na sedenie",
+                    "c) Autobus je motorové vozidlo na prepravu osôb, ktoré má okrem miesta pre vodiča viac ako 15 miest na sedenie",
+                    "d) Autobus je motorové vozidlo na prepravu osôb, ktoré má okrem miesta pre vodiča viac ako šesť miest na sedenie"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "48. Ak porovnáme brzdnú dráhu vozidiel, tak",
+                "options": [
+                    "a) Autobus brzdi účinnejšie ako osobné vozidlo, pretože má väčšiu hmotnosť a je pritláčané k vozovke väčšou silou",
+                    "b) Autobus má rovnako účinné brzdy ako osobné vozidlo",
+                    "c) Autobus brzdi účinnejšie, pretože brzdný účinok vyvoláva tlakový vzduch, zatiaľ čo pri osobných vozidlách len svalová sila vodiča",
+                    "d) Osobné vozidlo brzdí účinnejšie"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "49. Pri hľadaní poruchy na vozidle",
+                "options": [
+                    "a) Postupujeme na základe znalosti konštrukcie vozidla od najzložitejších časti k jednoduchším",
+                    "b) Postupujeme na základe znalosti konštrukcie vozidla od jednoduchších k zložitejších častiam",
+                    "c) Počkáme na servis",
+                    "d) Požiadame o pomoc okoloidúcich vodičov"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "50. Ak pri zošliapnutí prevádzkovej brzdy počuť unikať vzduch",
+                "options": [
+                    "a) Je to normálny stav",
+                    "b) Je to signál, že brzdový systém je netesný",
+                    "c) Znamená to, že kompresor dodáva vysoký tlak vzduchu",
+                    "d) Kompresor pracuje na plný výkon"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "51. Veľká vôľa brzdových kľúčov",
+                "options": [
+                    "a) Znamená, že brzdy pri jazde koleso nepribrzďujú. Je to ideálny stav",
+                    "b) Spotreba tlakového vzduchu je nižšia",
+                    "c) Pri brzdení sa zväčšuje spotreba tlakového vzduchu a predlžuje sa čas nábeh brzdného účinku",
+                    "d) Nič nesignalizuje"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "52. Ak pri brzdení blokuje jedno koleso",
+                "options": [
+                    "a) Nič sa nedeje",
+                    "b) Je to dôvod na dočasné vyradenie vozidla z prevádzky",
+                    "c) Nie je považované za závadu, ak blokuje koleso zadnej nápravy",
+                    "d) Vodič smie jazdiť len rýchlosťou do 60 km/h"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "53. Ak štartér nedokáže pretočiť motor príčinou je",
+                "options": [
+                    "a) Vždy vybitý akumulátor",
+                    "b) Vždy zlý kontakt na svorkách akumulátora",
+                    "c) Zlý kontakt na ukostrení štartéra a akumulátora",
+                    "d) Vybitý akumulátor, zlý kontakt na svorkách akumulátora, chyba v ukostrení akumulátora alebo štartéra, zlý štartér, alebo kombinácia týchto závad"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "54. Ak nesvieti žiarovka",
+                "options": [
+                    "a) Príčinou je vždy nefunkčná žiarovka",
+                    "b) Príčinou môže byť nefunkčná žiarovka, pripade porušená poistka v príslušnom obvode",
+                    "c) Skrat vo vedení, vypálená poistka, zlý kontakt na kostru vozidla, porucha vo vedení, zlá žiarovka",
+                    "d) Ak po výmene žiarovky táto nezačne svietiť, zavolám servis"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "55. Vôľu riadenia zisťujeme",
+                "options": [
+                    "a) Na volante",
+                    "b) Na kolesách",
+                    "c) V prevodke riadenia",
+                    "d) V uložené kolesa"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "56. Akumulátor neudrží kapacitu a ihneď po pripojení na nabíjačku prudko vrie",
+                "options": [
+                    "a) Nabíjací prúd je nízky a treba ho zvýšiť",
+                    "b) Nabíjacie napätie je nízke a treba ho zvýšiť",
+                    "c) Akumulátor sme skratovali",
+                    "d) Akumulátor je potrebné vymeniť"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "57. Príčinou rozsvietenia kontrolky dobíjania",
+                "options": [
+                    "a) Je vysoký odber prúdu",
+                    "b) Je uvoľnený alebo poškodený klinový remeň, prípadne je poškodený alternátor",
+                    "c) Potvrdzuje správnu činnosť alternátora",
+                    "d) Nemá vplyv na ďalšie použitie vozidla"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "58. Ak stierač čelného skla zanecháva nezotreté plochy",
+                "options": [
+                    "a) Okamžite vymením stierač",
+                    "b) Počkám s výmenou stieračov do najbližšej kontroly technického stavu",
+                    "c) Ak mi nezotreté časti nebránia vo výhľade, nemusím sa týmto problémom zaoberať",
+                    "d) Pravdepodobnou príčinou je mastná stieracia lišta stačí ju odmastiť"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "59. Emisné kontroly motorových vozidiel",
+                "options": [
+                    "a) Sú povinné",
+                    "b) Nie sú povinné, pokiaľ vozidlo je vybavené katalyzátorom",
+                    "c) Sú povinné len pre vozidlá s benzínovým motorom",
+                    "d) Sú povinné len kontroly technického stavu"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "60. Intervaly údržby vozidla stanovené výrobcom",
+                "options": [
+                    "a) Sú len orientačné, výrobca nemôže obmedziť záručné podmienky pravidelným vykonávaním údržby a dodržiavaním ich intervalov",
+                    "b) Sú stanovené s ohľadom na technickú a prevádzkovú životnosť jednotlivých častí a náplní a sú potrebné pre dodržanie životnosti vozidla a bezpečnosti jeho prevádzky",
+                    "c) Sú len orientačné a údržba sa vykoná podľa potreby",
+                    "d) Sú dôležité len pokiaľ ide o prevádzkové kvapaliny"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "61. Pravidelná kontrola tlaku hustenia pneumatík",
+                "options": [
+                    "a) Neovplyvňuje bezpečnosť jazdy",
+                    "b) Má vplyv len na životnosť pneumatík v kilometroch",
+                    "c) Ovplyvňuje bezpečnosť cestnej premávky, pretože správne nahustené pneumatiky lepšie prenášajú sily na vozovku",
+                    "d) Stačí vykonať vizuálnu kontrolu"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "62. Vytekajúci olej z tlmiča",
+                "options": [
+                    "a) Nie je prekážkou v ďalšom využívaní vozidla na jazdu v cestnej premávke",
+                    "b) Má za následok zmenu jazdných vlastností vozidla ale dôvodom na dočasné vyradenie vozidla z cestnej premávky",
+                    "c) Znečisťuje životné prostredie ale nemá vplyv na bezpečnosť jazdy",
+                    "d) Netreba sa znepokojovať, zásoba oleja v tlmiči je dostatočne veľká"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "63. Pri prekonávaní stúpaní by mal vodič",
+                "options": [
+                    "a) Udržiavať motor pri najnižších otáčkach",
+                    "b) Udržiavať motor pri najvyšších otáčkach",
+                    "c) Udržiavať motor v nestabilnej oblasti otáčok",
+                    "d) Udržiavať motor v stabilnej oblasti otáčok"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "64. Pri jazde ustálenou rýchlosťou, aby dosiahol najnižšiu spotrebu paliva by mal vodič",
+                "options": [
+                    "a) Zaradením prevodového stupňa udržovať motor v otáčkach blízkych maximálnemu točivému momentu motoru",
+                    "b) Zaradením prevodového stupňa udržovať motor v otáčkach blízkych maximálnemu výkonu motora",
+                    "c) Zaradiť najvyšší možný prevodový stupeň tak, aby motor pracoval pravidelne a bez známok preťaženia",
+                    "d) Jazdiť s takým prevodovým stupňom, ktorý umožňuje najdynamickejšiu jazdu"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "65. Spotreba vozidla sa zvyšuje",
+                "options": [
+                    "a) Ak vozidlo prekonáva stúpanie",
+                    "b) Ak vozidlo ťahá príves",
+                    "c) Ak vodič použil nevhodné palivo",
+                    "d) Ak vozidlo prekonáva stúpanie, zvyšuje rýchlosť jazdy, od celkovej hmotnosti vozidla, má podhustené pneumatiky"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "66. Najšetrnejší k životnému prostrediu je motor spĺňajúci emisné limity",
+                "options": [
+                    "a) EURO 3",
+                    "b) EURO 4",
+                    "c) EURO 5",
+                    "d) EURO 6"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "67. Defenzívny spôsob jazdy",
+                "options": [
+                    "a) Zaisťuje minimálnu spotrebu paliva a prispieva k bezpečnosti cestnej premávky",
+                    "b) Defenzívne jazdia len neskúsení vodiči, ti ktorí majú určité skúsenosti, môžu jazdiť dynamicky",
+                    "c) Defenzívna jazda znamená veľké zdržanie, preto netreba dbať na spotrebu úspora času je predsa dôležitejšia",
+                    "d) Defenzívna jazda znamená, že vodič bude tvoriť prekážku rýchlejším a dravším"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "68. Ak začne na vozidlo pôsobiť bočná sila (bočný vietor), neutrálne vozidlo",
+                "options": [
+                    "a) Nezmení svoj smer pohybu, posunie sa len v smere pôsobenia bočnej sily",
+                    "b) Predná náprava bude vybočovať viac ako zadná a vozidlo sa začne správať ako nedotáčavé",
+                    "c) Zadná náprava bude vybočovať viac ako predná náprava a vozidlo sa začne správať ako pretáčavé",
+                    "d) Zadná náprava bude vybočovať viac ako predná a vozidlo sa bude správať ako nedotáčavé"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "69. Ak má vozidlo s neutrálnou charakteristikou podhustené pneumatiky na prednej náprave, bude sa správať ako vozidlo",
+                "options": [
+                    "a) Nedotáčavé",
+                    "b) Pretáčavé",
+                    "c) Neutrálne",
+                    "d) Bude lepšie brzdiť"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "70. Stopový a obrysový polomer zatáčania vozidla",
+                "options": [
+                    "a) Sú rôzne polomery, pričom vonkajší obrysový polomer je vždy väčší ako stopový polomer",
+                    "b) Vnútorný stopový polomer je väčší ako vonkajší stopový polomer",
+                    "c) Sú to tie isté polomery, len inak pomenované",
+                    "d) Stopový polomer zatáčania je dôležitý, aby vozidlo svojim predným nárazníkom nezachytilo nejakú prekážku"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "71. Ak iný účastník cestnej premávky svojim správaním vyvolá nebezpečnú situáciu na ceste",
+                "options": [
+                    "a) Ostatní účastníci cestnej premávky musia svojim správaním odvrátiť hroziace nebezpečenstvo, ak je to v ich silách",
+                    "b) Nebezpečnú situáciu nevyvolali, preto nemusia vykonať žiadne opatrenia na odvrátenie hroziaceho nebezpečenstva. Prípadné následky dopravnej nehody v plnej miere znáša ten, kto nebezpečnú situáciu vyvolal",
+                    "c) Musí odvrátiť vzniknuté nebezpečenstvo len pokiaľ nemusí náhle meniť smer jazdy ani rýchlosť jazdy",
+                    "d) Musí vinníka upozorniť zvukovým výstražným znamením, musí sa však zdržať hanlivých gest"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "72. Dynamická agresívna jazda na hranici technických možností je prejavom",
+                "options": [
+                    "a) Toho, že vodič plne zvláda svoje vozidlo",
+                    "b) Toho, že vodič je nebezpečný sebe aj ostatným účastníkom dopravy, pretože mu neostáva rezerva na zvládnutie kritických situácii",
+                    "c) Šetrí spotrebu paliva",
+                    "d) Zvyšuje opotrebenie vozidla, nemá ale vplyv na bezpečnosť jazdy"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "73. Vodiči smú jazdiť len takou rýchlosťou",
+                "options": [
+                    "a) Aby mohli na ich správanie reagovať aj ostatní účastníci cestnej premávky",
+                    "b) Jazdia len tak rýchlo, aby boli schopní sami zastaviť",
+                    "c) Môžu jazdiť vždy takou rýchlosťou aká je v danom úseku povolená",
+                    "d) Môžu jazdiť o 10 km/h rýchlejšie ako je v danom úseku povolená, pretože polícia takéto prekročenie rýchlosti jazdy toleruje"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "74. Pri náhlej zmene smeru a rýchlosti jazdy a pri intenzívnom brzdení v autobusovej doprave",
+                "options": [
+                    "a) Sa nič nedeje. Sediaci aj stojaci cestujúci, ktorí sa držia túto situáciu zvládnu",
+                    "b) Niektorí stojaci cestujúci spadnú aj napriek tomu, že sa držia, môžu spadnúť aj cestujúci na predných sedadlách, ktorí nie sú pripútaní",
+                    "c) Sa zvyšuje opotrebenie vozidla, nemá vplyv na cestujúcich",
+                    "d) Aby nemuseli náhle brzdiť, náhlu zmenu smeru a rýchlosti jazdy legislatíva zakazuje"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "75. Deti nachádzajúce sa pri okraji cesty",
+                "options": [
+                    "a) Nič neznamenajú, pokiaľ v danom úseku nie je vyznačený priechod pre chodcov, nesmú vstúpiť do vozovky vzhľadom na rýchlosť a vzdialenosť prichádzajúcich vozidiel",
+                    "b) Znamenajú, že vodič musí zvýšiť opatrnosť, pretože dieťa nie vždy vie správne vyhodnotiť situáciu",
+                    "c) Znamenajú, že vodič nemusí dbať na túto skutočnosť, pokiaľ v danom úseku nie je použitá dopravná značka A15 Deti",
+                    "d) Znamenajú, že vodič je povinný pripraviť sa brzdiť a znížiť rýchlosť jazdy na polovicu oproti rýchlosti, ktorou chcel úsek prejsť"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "76. Ak je na vozovke vyznačený vyhradený jazdný pruh, ostatní vodiči vozidiel, pre ktorých nie je vyhradený jazdný pruh určený,",
+                "options": [
+                    "a) Smú naň vojsť len pri obchádzaní, predchádzaní, odbočovaní, otáčaní, vchádzaní na cestu, alebo ak to dovoľuje dopravná značka alebo ak to vyžadujú mimoriadne okolnosti, najmä ak nie je medzi vyznačeným jazdným pruhom a okrajom vozovky dostatok miesta a vodiči taxislužby",
+                    "b) Smú naň vojsť ak to vyžaduje hustota premávky, najmä ak vozidlá môžu jazdiť len takou rýchlosťou ak vozidlá jazdiace vpredu a v okolitých jazdných pruhoch",
+                    "c) Smú vojsť keď to považujú za potrebné",
+                    "d) Smú vojsť, ak neobmedzia vozidlá už vo vyhradenom jazdnom pruhu jazdiace"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "77. Ktoré vozidlá v Slovenskej republike môžu jazdiť vo vyznačenom jazdnom pruhu pre autobusy alebo trolejbusy?",
+                "options": [
+                    "a) Žiadne,",
+                    "b) Vozidlo taxislužby, ktoré je riadne označené; pritom nesie obmedzovať plynulosť jazdy autobusov alebo trolejbusov",
+                    "c) Vozidlo taxislužby, ktoré nemusí byť riadne označené; pritom nesie obmedzovať plynulosť jazdy autobusov alebo trolejbusov",
+                    "d) Vozidlo taxislužby, ktoré je riadne označené a vozidlá mestského úradu, tiež riadne označené; pritom nesie obmedzovať plynulosť jazdy autobusov alebo trolejbusov"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "78. Ak vodič autobusu alebo trolejbusu vychádza z vyhradeného jazdného pruhu do priľahlého jazdného pruhu",
+                "options": [
+                    "a) Vodič jazdiaci v tomto pruhu je povinný mu dať prednosť v jazde len ak nemusí meniť rýchlosť jazdy",
+                    "b) Vodič jazdiaci v tomto pruhu je povinný mu dať prednosť v jazde; vodič autobusu alebo trolejbusu je pritom povinný dávať znamenie o zmene smeru jazdy a nesmie ohroziť vodičov ostatných vozidiel",
+                    "c) Vodič vychádzajúci z vyhradeného jazdného pruhu musí dať prednosť vozidlám jazdiacim v pruhu do ktorého chce vojsť",
+                    "d) Nemá právo opúšťať vyhradený jazdný pruh a tým zvyšovať hustotu premávky v ostatných jazdných pruhoch"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "79. Ak vozidlo spomaľuje, pôsobia na prepravované osoby zotrvačné sily, ktoré",
+                "options": [
+                    "a) Narastajú s veľkosťou zmeny spomalenia (brzdenia)",
+                    "b) Nemenia sa s veľkosťou zmeny spomalenia (brzdenia)",
+                    "c) Čím je zmena spomalenia prudšia, tým menšie sily pôsobia",
+                    "d) Ťažšie osoby majú väčšiu schopnosť zachovať svoj polohu"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "80. Schopnosť pneumatík prenášať brzdné sily",
+                "options": [
+                    "a) Sa s rýchlosťou mení - vyššia rýchlosť horšia schopnosť prenášať sily",
+                    "b) Sa s rýchlosťou nemení",
+                    "c) Pri vyššej rýchlosti pneumatiky lepšie brzdia",
+                    "d) Ak sú zahriate na prevádzkovú teplotu, ich schopnosť prenášať brzdné a bočné sily sa s rýchlosťou nemení"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "81. Ak pri brzdení pôsobia na vozidlo súčasne aj bočné sily",
+                "options": [
+                    "a) Schopnosť pneumatík viesť vozidlo nie je dotknutá",
+                    "b) Schopnosť pneumatík viesť vozidlo nie je dotknutá len na ceste s dobrou priľnavosťou",
+                    "c) Schopnosť pneumatík prenášať bočné sily sa znižuje a pri zablokovaní kolesa dôjde k úplnej strate schopnosti prenášať bočné sily",
+                    "d) Schopnosť pneumatiky prenášať bočné sily sa zvyšuje"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "82. Vodič vozidla, ktoré nie vybavené systémom ABS",
+                "options": [
+                    "a) By mal počítať s tým, že pri intenzívnom brzdení môže stratiť možnosť ovládať smer pohybu vozidla",
+                    "b) Nemusí sa ničoho obávať, ich brzdné dráhy vozidiel s ABS a bez ABS sú rovnaké",
+                    "c) Má síce dlhšiu brzdnú dráhu ako vozidlo vybavené ABS, ale dráha na zastavenie vozidla je rovnaká",
+                    "d) Vozidlo bez ABS má kratšiu brzdnú dráhu a ovládanie smeru pohybu vozidla pri brzdení nie je dôležité"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "83. Použitie zimných pneumatík na suchom povrchu pri teplote pod 7 °C",
+                "options": [
+                    "a) Skráti brzdnú dráhu",
+                    "b) Nemá vplyv na brzdnú dráhu. Zimné pneumatiky sa prejavia len na snehu a ľade",
+                    "c) Na suchom povrchu aj pri teplote pod 7 °C má vozidlo s letnými pneumatikami kratšiu brzdnú dráhu",
+                    "d) Zimná pneumatika zvyšuje hluk vozidla a preto je nevhodné ju používať"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "84. Vodič je povinný prispôsobiť rýchlosť jazdy",
+                "options": [
+                    "a) Svojim schopnostiam a doby trvanie praxe,",
+                    "b) Svojim schopnostiam, vlastnostiam vozidla a obsadeniu autobusu cestujúcimi, poveternostným podmienkam, stavu a povahe vozovky a iným okolnostiam, ktoré možno predvídať",
+                    "c) Svojim schopnostiam. Ak je autobus plne obsadený cestujúcimi a prepravuje aj stojacich cestujúcich nemusí brať na to ohľad",
+                    "d) Nemá sa čomu prispôsobiť. Moderné autobusy neovplyvňuje počasie."
+                ],
+                "correct": 1
+            },
+            {
+                "q": "85. Vodič vozidla, ktoré je povinne vybavené prenosným výstražným trojuholníkom",
+                "options": [
+                    "a) Je povinný tento trojuholník použiť počas núdzového státia, najmä pri prerušení jazdy pre chybu na vozidle alebo v dôsledku dopravnej nehody, ak také vozidlo tvorí prekážku cestnej premávky",
+                    "b) Výstražný trojuholník použije len ak je znížená viditeľnosť",
+                    "c) Výstražný trojuholník umiestni len vo vzdialenosti, aby naň stále videl",
+                    "d) Výstražný trojuholník sa podľa nových predpisov nepoužíva"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "86. Vodič nesmie zastaviť na vyhradenom parkovisku",
+                "options": [
+                    "a) Ak nejde o vozidlo, pre ktoré je parkovisko vyhradené",
+                    "b) Ak doba státia nepresiahne 5 minút",
+                    "c) Ak doba zastavenia nepresiahne 5 minút",
+                    "d) Ak toto zastavenie nepresiahne 3 minúty"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "87. Vodič, ktorý sa chce vzdialiť od vozidla tak, že nebude môcť okamžite zasiahnuť",
+                "options": [
+                    "a) Je povinný urobiť také opatrenia, aby vozidlo nemohlo ohroziť bezpečnosť a plynulosť cestnej premávky a aby ho nemohla neoprávnene použiť iná osoba",
+                    "b) Je povinný urobiť také opatrenia, aby vozidlo nemohlo ohroziť plynulosť cestnej premávky. Vozidlo nemusí zamknúť, pokiaľ je vybavené imobilizérom",
+                    "c) Je povinný urobiť také opatrenia, aby vozidlo nemohlo ohroziť bezpečnosť cestnej premávky a aby ho nemohla neoprávnene použiť iná osoba. Vozidlo nemusí zamykať, ak použije zakladacie kliny",
+                    "d) Je povinný urobiť také opatrenia, aby vozidlo nemohlo ohroziť bezpečnosť a plynulosť cestnej premávky."
+                ],
+                "correct": 0
+            },
+            {
+                "q": "88. Ako sa má správať vodič pred železničným priecestím?",
+                "options": [
+                    "a) Vodič je povinný počínať si mimoriadne opatrne, najmä sa presvedčiť, či môže bezpečne prejsť cez železničné priecestie",
+                    "b) Vodič je povinný počínať si mimoriadne opatrne, najmä sa presvedčiť, či môže bezpečne prejsť cez železničné priecestie. Ak už vidieť alebo počuť prichádzajúci vlak, smie prejsť cez železničné priecestie len ak tento úkon stihne spoľahlivo a bezpečne vykonať",
+                    "c) Vodič je povinný počínať si zvlášť opatrne a nesmie vojsť na železničné priecestie ani ak osoba pribratá na zaistenie bezpečnej prevádzky železničného priecestia dáva pokyn na jazdu cez železničné priecestie vodorovným kývaním ruky s červenou alebo so žltou zástavkou a za zníženej viditeľnosti bielym svetlom cez stred tela",
+                    "d) Vodič si musí počínať zvlášť opatrne a vždy pred železničným priecestím zastaviť a dôkladne sa presvedčiť, či nevidieť alebo nepočuť prichádzajúci vlak"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "89. Aké povinnosti má vodič vo vzťahu k počtu prepravovaných osôb?",
+                "options": [
+                    "a) Aby sa prekročil povolený počet prepravovaných osôb, a podľa svojich možností nesmie pripustiť ani porušenie povinností ustanovených týmto osobám",
+                    "b) Aby sa prepravované osoby vo vozidle hlučne zabávali, a to aj v prípade, že sa jedná o ucelenú skupinu",
+                    "c) Aby sa na sedadlách vybavených bezpečnostnými pásmi prepravovali nepripútané osoby",
+                    "d) Nemá starosť o prepravované osoby, pokiaľ mu nebránia v ovládaní vozidla"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "90. Prepravovať osoby v motorovom vozidle alebo jeho prípojnom vozidle, ktoré je určené na prepravu osôb",
+                "options": [
+                    "a) Je dovolené len na miestach na to vyhradených a len do prípustnej užitočnej hmotnosti vozidla, pritom počet prepravovaných osôb nesmie byť vyšší, ako je počet miest uvedených v osvedčení o evidencii alebo v technickom osvedčení vozidla",
+                    "b) Je dovolené len do prípustnej užitočnej hmotnosti vozidla, pritom počet prepravovaných osôb smie byť vyšší, ako je počet miest uvedených v osvedčení o evidencii alebo v technickom osvedčení vozidla",
+                    "c) Je dovolené len na miestach na to vyhradených a len do prípustnej užitočnej hmotnosti vozidla, pritom počet prepravovaných osôb smie byť vyšší, ako je počet miest uvedených v osvedčení o evidencii alebo v technickom osvedčení vozidla ak jazda s takto obsadeným vozidlo nepresiahne vzdialenosť 50 km",
+                    "d) Počet osôb do 12 rokov nie je obmedzený. Nesmie byť prekročená prípustná užitočná hmotnosť"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "91. Vodič autobusu nesmie za jazdy hovoriť s cestujúcimi",
+                "options": [
+                    "a) Pretože to predlžuje jeho reakčnú dobu a zároveň dráhu na zastavenie vozidla",
+                    "b) Aby nezabudol zastaviť na plánovanej zastávke",
+                    "c) Rozhovor s vodičom nemá vplyv na jeho reakčné časy",
+                    "d) Rozhovor s cestujúcimi mu pomôže odbúrať stres z dlhej a únavnej jazdy najmä v noci a za zníženej viditeľnosti"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "92. Vodič autobusu v Slovenskej republike smie jazdiť akou rýchlosťou mimo obce?",
+                "options": [
+                    "a) Smie jazdiť rýchlosťou najviac 90 km/h, na diaľnici a na rýchlostnej ceste najviac 100 km/h",
+                    "b) Smie jazdiť rýchlosťou najviac 90 km/h, na diaľnici a na rýchlostnej ceste najviac 100 km/h; túto rýchlosť smie prekročiť maximálne na dve minúty",
+                    "c) Smie jazdiť rýchlosťou najviac 90 km/h, na diaľnici a na rýchlostnej ceste najviac 100 km/h; túto rýchlosť smie prekročiť počas predbiehania",
+                    "d) Smie jazdiť rýchlosťou najviac 80 km/h, na diaľnici a na rýchlostnej ceste vodič najviac 100 km/h. Túto rýchlosť smie prekročiť iba ak je to nevyhnutné na dobehnutie časového sklzu z hľadiska cestovného poriadku."
+                ],
+                "correct": 0
+            },
+            {
+                "q": "93. Defenzívny spôsob jazdy",
+                "options": [
+                    "a) Spôsobuje zvýšené opotrebenie bŕzd pretože vodič často brzdi a tým zvyšuje náklady na opravu",
+                    "b) Spôsobuje, že vodič menej často brzdí, zrýchľuje a preraďuje. To znižuje spotrebu paliva, opotrebenie bŕzd, pneumatík a celého vozidla",
+                    "c) Spôsobuje vyššie namáhanie podvozku vozidla",
+                    "d) Neovplyvňuje opotrebenie vozidla"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "94. Náklady na spotrebované pohonné hmoty prepočítané na jeden ubehnutý kilometer",
+                "options": [
+                    "a) Patria k najvýznamnejším variabilným (premenlivým) nákladom na ubehnutý kilometer",
+                    "b) Sú zanedbateľnou položkou, prevyšujú ich náklady na mzdy",
+                    "c) Sú zanedbateľné, prevyšujú ich odpisy vozidla",
+                    "d) Sú zanedbateľnou položkou, prevyšujú ich dane a odvody"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "95. Ovplyvňuje rýchlosť jazdy spotrebu paliva vozidla?",
+                "options": [
+                    "a) Nie, spotreba paliva závisí iba od ubehnutej vzdialenosti",
+                    "b) Nie, spotreba paliva závisí iba od prepravovanej hmotnosti",
+                    "c) Áno, rýchlosť vozidla ovplyvňuje spotrebu paliva",
+                    "d) Čím vyššia je rýchlosť, tým je nižšia spotreba vozidla"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "96. Ako vplýva podhustená pneumatika na spotrebu paliva?",
+                "options": [
+                    "a) Hustenie pneumatík nemá vplyv na spotrebu paliva",
+                    "b) Znižuje spotrebu paliva, pri rýchlostiach nad 60 km/hod.",
+                    "c) Znižuje spotrebu paliva, pri rýchlostiach pod 60 km/hod.",
+                    "d) Zvyšuje spotrebu paliva"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "97. Ako vplýva prehustená pneumatika na opotrebovanie plášťa?",
+                "options": [
+                    "a) Hustenie pneumatík nemá vplyv na opotrebovanie plášťa",
+                    "b) Zvyšuje opotrebovanie plášťa",
+                    "c) Znižuje opotrebovanie plášťa, pri rýchlostiach nad 60 km/hod.",
+                    "d) Znižuje opotrebovanie plášťa, pri rýchlostiach pod 60 km/hod."
+                ],
+                "correct": 1
+            },
+            {
+                "q": "98. Ako vplýva podhustená pneumatika na opotrebovanie plášťa?",
+                "options": [
+                    "a) Hustenie pneumatík nemá vplyv na opotrebovanie plášťa",
+                    "b) Zvyšuje opotrebovanie plášťa",
+                    "c) Znižuje opotrebovanie plášťa, pri rýchlostiach nad 60 km/hod.",
+                    "d) Znižuje opotrebovanie plášťa, pri rýchlostiach pod 60 km/hod."
+                ],
+                "correct": 1
+            },
+            {
+                "q": "99. Ak vodič počas jazdy zistí, že vozidlo nespĺňa ustanovené podmienky",
+                "options": [
+                    "a) Môže pokračovať podľa potreby do miesta, kde je možné chybu odstrániť, počas jazdy nemusí urobiť žiadne opatrenia",
+                    "b) Môže pokračovať ďalej v jazde primeranou rýchlosťou avšak musí urobiť také opatrenia, aby sa počas jazdy neohrozila bezpečnosť ani plynulosť cestnej premávky a aby sa nepoškodila cesta",
+                    "c) Je povinný chybu odstrániť na najbližšom mieste čerpania denného odpočinku, pričom do tohto miesta smie pokračovať primeranou rýchlosťou avšak musí urobiť také opatrenia, aby sa počas jazdy neohrozila bezpečnosť ani plynulosť cestnej premávky a aby sa nepoškodila cesta",
+                    "d) Je povinný chybu odstrániť na mieste; ak to nemôže urobiť, smie v jazde pokračovať primeranou rýchlosťou len do najbližšieho miesta, kde možno chybu odstrániť; pritom musí urobiť také opatrenia, aby sa počas jazdy na takéto miesto neohrozila bezpečnosť ani plynulosť cestnej premávky a aby sa nepoškodila cesta"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "100. Kde má uložiť vodič lyže, ktoré cestujúci prepravuje v diaľkovej autobusovej doprave, aby nebola ohrozená bezpečnosť cestujúcich?",
+                "options": [
+                    "a) Lyže je potrebné uložiť do úložného priestoru nad sedadlami cestujúcich",
+                    "b) Lyže musí cestujúci držať v ruke vedľa sedadla, aby v prípade potreby neprekážali v uličke vozidla",
+                    "c) Vodič je povinný lyže uložiť do úložného priestoru určeného na prepravu cestovnej batožiny",
+                    "d) Vodič nesmie vziať na prepravu cestujúceho s lyžami"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "101. Ako má postupovať vodič v prípade, ak v autobuse s kapacitou 45 cestujúcich, prepravuje 24 cestujúcich, z ktorých všetci obsadia sedadla na jednej strane vozidla?",
+                "options": [
+                    "a) Vodič nemá právo požadovať rozmiestnenie cestujúcich vo vozidle, preto je povinný pokračovať opatrne v preprave; zaťažením iba jednej strany vozidla je znížená stabilita vozidla",
+                    "b) Pokračovať v preprave, rozloženie cestujúcich nemá vplyv na stabilitu autobusu",
+                    "c) Požiadať cestujúcich o rovnomerné obsadenie sedadiel na obidvoch stranách vozidla,",
+                    "d) Nepokračovať v preprave až do okamihu skontrolovania záťaže na nápravy pomocou úradne overeného meradla"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "102. Je povinný dopravca pri tvorbe harmonogramu prepravy rešpektovať požiadavky sociálnych predpisov na jazdu, prestávky a odpočinky vodiča?",
+                "options": [
+                    "a) Áno, pri tvorbe harmonogramu prepravy je dopravca povinný rešpektovať požiadavky sociálnych predpisov (napr. Nariadenie (ES) č. 561/2006 a Dohody AETR)",
+                    "b) Áno, pri tvorbe harmonogramu prepravy je dopravca povinný rešpektovať požiadavky sociálnych predpisov, ale iba pri vnútroštátnej doprave",
+                    "c) Áno, pri tvorbe harmonogramu prepravy je dopravca povinný rešpektovať požiadavky sociálnych predpisov, ale iba pri medzinárodnej doprave",
+                    "d) Nie, pri tvorbe harmonogramu prepravy nie je dopravca povinný rešpektovať požiadavky sociálnych predpisov; za dodržiavanie požiadaviek sociálnych predpisov je zodpovedný výlučne vodič"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "103. Vo všetkých štátoch Európy sa jazdi vpravo?",
+                "options": [
+                    "a) Áno",
+                    "b) Nie, vľavo sa jazdí vo Fínsku",
+                    "c) Nie, vľavo sa jazdi vo Veľkej Británii a Malte",
+                    "d) Nie, len v štátoch Európskej únie"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "104. Akú infraštruktúru je potrebné použiť na prepravu do Veľkej Británie?",
+                "options": [
+                    "a) Diaľničnú sieť Európy",
+                    "b) Okrem diaľnic je potrebné využiť trajekt alebo Eurotunel pod Lamanšským prieplavom, ktorý prepravuje nákladné automobily a autobusy po železnici",
+                    "c) Okrem diaľnic je možné využiť trajekty z prístavu Hamburg",
+                    "d) Okrem diaľnic je možné využiť len podmorský tunel pre cestnú dopravu"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "105. Aký je maximálny nepretržitý čas jazdy vodiča v príležitostnej autobusovej doprave?",
+                "options": [
+                    "a) 3 hodiny",
+                    "b) 4 hodiny",
+                    "c) 4,5 hodiny",
+                    "d) 5 hodín"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "106. Aká je minimálna doba prestávky v práci v príležitostnej autobusovej doprave, ktorú musí vodič čerpať po nepretržitom čase jazdy 4,5 hodiny, ak nezačína čerpať denný čas odpočinku alebo týždenný čas odpočinku?",
+                "options": [
+                    "a) Najmenej 10 minút",
+                    "b) Najmenej 15 minút",
+                    "c) Najmenej 30 minút",
+                    "d) Najmenej 45 minút"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "107. Ktorá z nasledujúcich možností čerpania prestávok v práci vodiča nespĺňa požiadavky právnych predpisov pre pravidelnú autobusovú dopravu s dĺžkou linky nad 50 km?",
+                "options": [
+                    "a) 45 minút prestávky čerpanej po 4,5 hodinách času jazdy",
+                    "b) Dve prestávky po 30 minút, čerpané pred prekročením 4,5 hodinového času jazdy",
+                    "c) Tri prestávky po 15 minút, čerpané pred prekročením 4,5 hodinového času jazdy",
+                    "d) Prestávka 20 minút, po ktorej nasleduje druhá prestávka v trvaní 30 minút, čerpaná pred prekročením 4,5 hodinového času jazdy"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "108. Po akom dlhom nepretržitom čase jazdy vodiča s autobusom príležitostnej autobusovej dopravy musí vodič jazdu prerušiť a čerpať prestávku v práci?",
+                "options": [
+                    "a) Nepretržitý čas jazdy vodiča nesmie trvať dlhšie ako 4 hodiny",
+                    "b) Nepretržitý čas jazdy vodiča nesmie trvať dlhšie ako 4,5 hodiny",
+                    "c) Nepretržitý čas jazdy vodiča nesmie trvať dlhšie ako 3 hodiny",
+                    "d) Nepretržitý čas jazdy vodiča nesmie trvať dlhšie ako 5 hodín"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "109. Kde môže vodič čerpať denný čas odpočinku?",
+                "options": [
+                    "a) Len v ubytovacom zariadení, vo vozidle nemôže čerpať denný odpočinok ani v prípade, ak je vozidlo vybavené ležadlom",
+                    "b) Vo vozidle, ak je vybavené vhodným ležadlom, môže čerpať vodič odpočinok aj za jazdy",
+                    "c) V zaparkovanom vozidle vtedy ak je vozidlo vybavené ležadlom",
+                    "d) V zaparkovanom vozidle aj vtedy, ak nie je vozidlo vybavené ležadlom za podmienky, že vodič bude čerpať skrátený čas denného odpočinku"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "110. Aká je minimálna doba prestávky v práci v medzinárodnej autobusovej doprave, ktorú musí vodič čerpať po nepretržitom čase jazdy 4,5 hodiny, ak nezačína čerpať denný čas odpočinku alebo týždenný čas odpočinku?",
+                "options": [
+                    "a) Najmenej 10minút",
+                    "b) Najmenej 15 minút",
+                    "c) Najmenej 30 minút",
+                    "d) Najmenej 45 minút"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "111. Za aké obdobie je vodič autobusovej dopravy povinný predložiť záznamy o svojej činnosti v prípade kontroly práce vodiča formou cestnej kontroly Inšpektorátom práce SR?",
+                "options": [
+                    "a) Za posledný deň prechádzajúceho týždňa a všetky dni týždňa, v ktorom vykonáva vodič prepravu",
+                    "b) Za posledný deň prechádzajúceho týždňa v ktorom vodič viedol vozidlo a všetky dni týždňa, v ktorom vykonáva vodič prepravu",
+                    "c) Za predchádzajúcich 15 dní",
+                    "d) Za bežný deň a predchádzajúcich 28 kalendárnych dní"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "112. Ako dlho musí slovenský dopravca vykonávajúci medzinárodnú autobusovú dopravu uchovávať tachografové záznamy?",
+                "options": [
+                    "a) Najmenej po dobu 24 mesiacov",
+                    "b) Najmenej po dobu 12 mesiacov",
+                    "c) Najmenej po dobu 10 mesiacov",
+                    "d) Najmenej po dobu 6 mesiacov"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "113. Na koľko rokov sa vydáva karta vodiča do digitálneho tachografu (akú má karta vodiča do digitálneho tachografu platnosť)?",
+                "options": [
+                    "a) 3 roky",
+                    "b) 4 roky",
+                    "c) 5 rokov",
+                    "d) 6 rokov"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "114. Ktorý údaj musí vodič potvrdiť v digitálnom tachografe bezprostredne po prekročení štátnej hranice?",
+                "options": [
+                    "a) Krajinu výjazdu",
+                    "b) Čas prekročenia štátnej hranice",
+                    "c) Čisto karty vodiča",
+                    "d) Stav počítadla vzdialenosti (stav ODO metra)"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "115. Ako má postupovať vodič, ak dôjde k poruche digitálneho tachografu?",
+                "options": [
+                    "a) Vodič nemôže pokračovať v preprave, musí okamžite odstaviť vozidlo a privolať servis na opravu tachografu",
+                    "b) Vodič môže pokračovať s vozidlom iba do, najbližšieho servisu, kde musí byť tachograf opravený",
+                    "c) Vodič, ak zistí poruchu tachografu, je povinný vykonávať ďalej záznam ručne na zadnej strane pásky do digitálneho tachografu až do dojazdu do sídla dopravcu, maximálne však 7 dní.",
+                    "d) V prípade poruchy vodič môže pokračovať v jazde do sídla firmy bez zaznamenávania svojej činnosti v prípade, ak je schopný kontrolnému orgánu preukázať, že k poruche tachografu došlo počas prepravy"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "116. Akým spôsobom je možné rozdeliť denný čas odpočinku pri medzinárodnej autobusovej doprave vykonávanej v členských krajinách EÚ?",
+                "options": [
+                    "a) Denný odpočinok je možné rozdeliť na dve alebo tri časti, z ktorých jedná musí byť minimálne 8 nepretržitých hodín",
+                    "b) Denný odpočinok je možné rozdeliť na dve alebo tri časti, z ktorých jedná musí byť minimálne 8 nepretržitých hodín, pričom odpočinok sa predlžuje na 12 hodín",
+                    "c) Denný odpočinok je možné rozdeliť iba na dve časti za požiadavky, že prvá časť odpočinku musí byť minimálne 3 hodiny, po ktorej nasleduje druhá časť odpočinku v trvaní minimálne 8 hodín",
+                    "d) Denný odpočinok je možné rozdeliť iba na dve časti za požiadavky, že prvá časť odpočinku musí byť minimálne 3 hodiny, po ktorej nasleduje druhá časť odpočinku v trvaní minimálne 9 hodín"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "117. Ako je definovaný pracovný týždeň pre stanovenie režimov práce v medzinárodnej autobusovej doprave?",
+                "options": [
+                    "a) Akékoľvek obdobie siedmich za sebou nasledujúcich dni, počas ktorého vodič pracuje",
+                    "b) Týždeň, začínajúci sa o polnoci zo soboty na nedeľu a trvajúci do polnoci zo soboty na nedeľu v nasledujúcom týždni",
+                    "c) Akékoľvek obdobie siedmich dni, začínajúce sa o polnoci a trvajúce do polnoci toho istého dňa v nasledujúcom týždni",
+                    "d) Týždeň, začínajúci sa o polnoci z nedele na pondelok a trvajúci do nasledujúcej polnoci z nedele na pondelok"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "118. Ktorá z nasledujúcich možností vyhovuje požiadavkám na denný odpočinok pri viacčlennej osádke autobusu pri medzinárodnej autobusovej doprave?",
+                "options": [
+                    "a) Denný odpočinok 8 hodín čerpaný v priebehu 30-tich po sebe nasledujúcich hodín",
+                    "b) Denný odpočinok 9 hodín čerpaný v priebehu 30-tich po sebe nasledujúcich hodín",
+                    "c) Denný odpočinok 8 hodín čerpaný v priebehu 24-roch po sebe nasledujúcich hodín",
+                    "d) Denný odpočinok 9 hodín čerpaný v priebehu 24-roch po sebe nasledujúcich hodín"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "119. Ktorá z nasledujúcich možností čerpania prestávok v práci vodiča nespĺňa požiadavky právnych predpisov pre príležitostnú autobusovú dopravu?",
+                "options": [
+                    "a) 45 minút prestávky čerpanej po 4,5 hodinách času jazdy",
+                    "b) Dve prestávky po 30 minút, čerpané pred prekročením 4,5 hodinového času jazdy",
+                    "c) Tri prestávky po 15 minút, čerpané pred prekročením 4,5 hodinového času jazdy",
+                    "d) Prestávka 20 minút, po ktorej nasleduje druhá prestávka v trvaní 30 minút, čerpaná pred prekročením 4,5 hodinového času jazdy"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "120. Koľko musí trvať minimálne druhá časť rozdeleného pravidelného denného času odpočinku pri pravidelnej autobusovej dopravy s dĺžkou linky nad 50 km?",
+                "options": [
+                    "a) 11 nepretržitých hodín",
+                    "b) 9 nepretržitých hodín",
+                    "c) 8 nepretržitých hodín",
+                    "d) 6 nepretržitých hodín"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "121. Koľko musí trvať minimálne prvá časť rozdeleného pravidelného denného času odpočinku pri pravidelnej autobusovej dopravy s dĺžkou linky nad 50 km?",
+                "options": [
+                    "a) 1 nepretržitá hodina",
+                    "b) 3 nepretržité hodiny",
+                    "c) 6 nepretržitých hodín",
+                    "d) 9 nepretržitých hodín"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "122. Najneskôr po koľkých dňoch od posledného stiahnutia karty je potrebné znova stiahnuť údaje z karty vodiča do digitálneho tachografu?",
+                "options": [
+                    "a) Najneskôr po 20 dňoch",
+                    "b) Najneskôr po 25 dňoch",
+                    "c) Najneskôr po 28 dňoch",
+                    "d) Najneskôr po 3 mesiacoch"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "123. Akú farbu má karta vodiča do digitálneho tachografu?",
+                "options": [
+                    "a) Zelenú",
+                    "b) Červenú",
+                    "c) Modrú",
+                    "d) Bielu"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "124. Ako má postupovať vodič, ak z dôvodu zdržania spôsobeného dopravnou nehodou sa odklonil od požiadaviek sociálnych predpisov (napr. prekročil nepretržitý čas jazdy)?",
+                "options": [
+                    "a) Do siedmich dni musí upozorniť inšpektorát práce miestne príslušný sídlu zamestnávateľa",
+                    "b) Uvedie dôvod na osobitnom čistom papieri, ktorý odovzdá zamestnávateľovi pri sťahovaní karty vodiča",
+                    "c) Vodič vypíše tlačivo: Potvrdenie činnosti vodiča, v ktorom uvedie dôvody odklonu od požiadaviek sociálneho práva",
+                    "d) Na zadnú stranu pásky do digitálneho tachografu, vodič uvedie meno a priezvisko, číslo karty vodiča, čas, dôvod odchýlky a podpis"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "125. Koľko krát za týždeň môže vodič pri medzinárodnej autobusovej doprave vykonávanej v rámci krajín EÚ predĺžiť denný čas jazdy na 10 hodín?",
+                "options": [
+                    "a) Raz do týždňa",
+                    "b) Dvakrát do týždňa",
+                    "c) Trikrát do týždňa",
+                    "d) Nikdy"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "126. Koľko hodín musí vodič príležitostnej autobusovej dopravy čerpať odpočinok, ak bude čerpať pravidelný denný odpočinok?",
+                "options": [
+                    "a) Min. 8 za sebou nasledujúcich hodín",
+                    "b) Min. 9 za sebou nasledujúcich hodín",
+                    "c) Min. 11 za sebou nasledujúcich hodín",
+                    "d) Min. 24 za sebou nasledujúcich hodín"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "127. Vodič vykonávajúci príležitostnú autobusovú dopravu v aktuálnom týždni jazdil s autobusom 48 hodín. Aký maximálny čas jazdy môže vodič realizovať nasledujúci týždeň?",
+                "options": [
+                    "a) 40",
+                    "b) 42",
+                    "c) 44",
+                    "d) 56"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "128. V ktorých prípadoch musí zamestnávateľ vodičovi poskytnúť kópie dát stiahnutých z digitálneho tachografu?",
+                "options": [
+                    "a) Zamestnávateľ je povinný poskytnúť kópie záznamov vodičovi, ktorý o to požiada a potrebuje ich napr. pri súdnom konaní",
+                    "b) Zamestnávateľ je povinný poskytnúť kópie záznamov každému vodičovi bez požiadania",
+                    "c) Zamestnávateľ nie je povinný vodičom poskytnúť záznamy za žiadnych okolností",
+                    "d) Zo stiahnutých dát z digitálneho tachografu nie je dovolené vyrábať kópie bez povolenia Inšpektorátu práce príslušnému k sídlu dopravcu"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "129. Ktorá z nasledovných foriem odpočinku čerpaná v priebehu 24 hodín je v súlade s požiadavkami na pravidelný denný odpočinok pri medzinárodnej príležitostnej autobusovej doprave vykonávanej v členských krajinách EÚ?",
+                "options": [
+                    "a) 3 hodiny+ 8 hodín",
+                    "b) 3,5 hodiny+ 9 hodín",
+                    "c) 8 hodín + 3,5 hodiny+ 0,5 hodiny",
+                    "d) 6 hodín + 6 hodín"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "130. Na aký najkratší čas je možné skrátiť týždenný odpočinok v medzinárodnej autobusovej doprave vykonávanej v rámci členských krajín EÚ?",
+                "options": [
+                    "a) 24 hodín",
+                    "b) 29 hodín",
+                    "c) 36 hodín",
+                    "d) 42 hodín"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "131. Aký je podľa sociálnych predpisov maximálny čas jazdy jedného vodiča v medzinárodnej autobusovej doprave v priebehu jedného týždňa?",
+                "options": [
+                    "a) 30 hodín",
+                    "b) 56 hodín",
+                    "c) 60 hodín",
+                    "d) 90 hodín"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "132. Aký je maximálny čas jazdy jedného vodiča v pravidelnej autobusovej doprave s dĺžkou linky nad 50 km v priebehu dvoch po sebe nasledujúcich týždňov?",
+                "options": [
+                    "a) 90 hodín",
+                    "b) 92 hodín",
+                    "c) 96 hodín",
+                    "d) 112 hodín"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "133. V ktorom prípade môže vodič čerpať predĺžený týždenný odpočinok až na konci druhého týždňa od ostatného týždenného odpočinku (po 288 hodinách od skončenia predchádzajúceho týždenného odpočinku)?",
+                "options": [
+                    "a) pri pravidelnej autobusovej doprave s dĺžkou linky do 50 km",
+                    "b) pri pravidelnej autobusovej doprave s dĺžkou linky nad 50 km",
+                    "c) pri príležitostnej vnútroštátnej autobusovej doprave",
+                    "d) pri príležitostnej medzinárodnej autobusovej doprave"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "134. Kedy najneskôr od skončenia predošlého denného času odpočinku musí vodič príležitostnej autobusovej dopravy začať čerpať nový odpočinok, ak plánuje čerpať pravidelný denný čas odpočinku v trvaní 11 hodín?",
+                "options": [
+                    "a) po 9 hodinách od skončenia predchádzajúceho denného času odpočinku",
+                    "b) po 10 hodinách od skončenia predchádzajúceho denného času odpočinku",
+                    "c) po 13 hodinách od skončenia predchádzajúceho denného času odpočinku",
+                    "d) po 20 hodinách od skončenia predchádzajúceho denného času odpočinku"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "135. Ktorý odpočinok nie je možné prerušiť pri preprave autobusu na trajekte?",
+                "options": [
+                    "a) pravidelný týždenný odpočinok",
+                    "b) skrátený týždenný odpočinok",
+                    "c) skrátený denný odpočinok",
+                    "d) pravidelný denný odpočinok"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "136. V prípade straty tachografovej karty vodiča musí vodič vykonávať ručný záznam o priebehu svojej práce. V akom dokumente sa vykonáva ručný záznam?",
+                "options": [
+                    "a) na zadnej strane pásky určenej na tlač výtlačkov z digitálneho tachografu",
+                    "b) na samostatný list papiera, ktorý je priložený k dokladom o vedení vozidla",
+                    "c) formou manuálneho dodatku v digitálnom tachografe po každej zmene režimu práce",
+                    "d) na dokumente: .,Potvrdenie činnosti vodiča\""
+                ],
+                "correct": 0
+            },
+            {
+                "q": "137. Koľko dní môže vodič pokračovať v preprave s pokazeným digitálnym tachografom?",
+                "options": [
+                    "a) maximálne 7 dní do návratu do sídla dopravcu",
+                    "b) maximálne 10 dní do návratu do sídla dopravcu",
+                    "c) maximálne 14 dní do návratu do sídla dopravcu",
+                    "d) maximálne 28 dní do návratu do sídla dopravcu"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "138. Ktorý režim činnosti sa neoznačuje obrázkom postele (lôžka) pri zaznamenávaní práce vodiča v príležitostnej autobusovej doprave?",
+                "options": [
+                    "a) odpočinok",
+                    "b) dovolenka",
+                    "c) práceneschopnosť",
+                    "d) pohotovosť"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "139. Aké údaje obsahuje „Výtlačok aktivity“ z digitálneho tachografu?",
+                "options": [
+                    "a) graficky znázornené údaje o aktivitách vodiča za 7 predchádzajúcich dní od zvoleného dátumu",
+                    "b) graficky znázornené údaje o aktivitách vozidla za 7 predchádzajúcich dní od zvoleného dátumu",
+                    "c) graficky znázornené údaje o otáčkach vozidla za 7 predchádzajúcich dní od zvoleného dátumu",
+                    "d) graficky znázornené údaje o rýchlosti vozidla za 7 predchádzajúcich dní od zvoleného dátumu"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "140. Za aké obdobie je garantované uchovanie údajov v pamäti digitálneho tachografu?",
+                "options": [
+                    "a) minimálne 28 dni",
+                    "b) minimálne 90 dní",
+                    "c) minimálne 365 dní",
+                    "d) minimálne 5 rokov"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "141. čo znamená, ak sa pri preskúmaní viacerých záznamov rýchlosti na výtlačku priebehu rýchlosti z digitálneho tachografu objaví mnoho strmých stúpaní a klesaní tesne vedľa seba?",
+                "options": [
+                    "a) nehospodárne vedenie vozidla",
+                    "b) hospodárne vedenie vozidla",
+                    "c) normálne akceptovateľné vedenie vozidla",
+                    "d) normálne vedenie vozidla, ktoré je treba ešte zlepšiť"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "142. V ktorom prípade vodič dvojčlennej osádky má povolené absolvovať denný odpočinok vo vozidle, ak je autobus vybavený lôžkom na spanie?",
+                "options": [
+                    "a) ak je autobus zaparkovaný",
+                    "b) ak sa vodič nachádza mimo svojho stanovišťa",
+                    "c) ak osádku autobusu tvoria dvaja vodiči",
+                    "d) ak sa v blízkom okolí nenachádza žiadna vhodnejšia alternatíva"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "143. Aké sú intervaly kontroly tachografov cestných motorových vozidiel?",
+                "options": [
+                    "a) kontrola tachografov musí byť vykonávaná najmenej raz rok",
+                    "b) kontrola tachografov musí byť vykonávaná najmenej raz za dva roky",
+                    "c) kontrola tachografov musí byť vykonávaná najmenej raz za 4 roky",
+                    "d) kontrola tachografov musí byť vykonávaná najmenej dva razy za rok"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "144. Ak dopravca vykonáva viac druhov cestnej dopravy, je potrebné vydať pre každý druh cestnej dopravy osobitne prepravný poriadok?",
+                "options": [
+                    "a) dopravca, ktorý vykonáva viac druhov cestnej dopravy, vydá prepravný poriadok osobitne pre každý z nich",
+                    "b) dopravca, ktorý vykonáva viac druhov cestnej dopravy, vydá spoločný prepravný poriadok pre dopravnú firmu ako celok",
+                    "c) dopravca, ktorý vykonáva viac druhov cestnej dopravy, vydá prepravný poriadok osobitne len pre vnútroštátnu a medzinárodnú cestnú dopravu",
+                    "d) dopravca, ktorý vykonáva viac druhov cestnej dopravy, vydá prepravný poriadok osobitne pre každý z nich, ak to uzná za vhodné"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "145. Akým dokladom sa preukazuje technická spôsobilosť vozidla?",
+                "options": [
+                    "a) osvedčením o evidencii vozidla",
+                    "b) osvedčením o technickej kontrole vozidla",
+                    "c) osvedčením o emisnej kontrole",
+                    "d) osvedčením o schválení vozidla na prepravu"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "146. Akým dokladom sa preukazuje emisná spôsobilosť vozidla?",
+                "options": [
+                    "a) osvedčením o evidencii vozidla",
+                    "b) osvedčením o technickej kontrole vozidla",
+                    "c) osvedčením o emisnej kontrole",
+                    "d) osvedčením o schválení vozidla na prepravu"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "147. Môže vodič dostať opakovane pokutu za ten istý priestupok proti požiadavkám sociálnych predpisov pri kontrole na ceste, ak mu za daný priestupok už bola uložená pokuta pri predchádzajúcej kontrole?",
+                "options": [
+                    "a) áno",
+                    "b) áno, ak kontrola je v inom štáte ako štát, v ktorom už bola uložená pokuta",
+                    "c) nie, zoznam pokút sa eviduje v systéme Tachonet, inšpektor je povinný skontrolovať, či za dané porušenie už nebola uložená pokuta",
+                    "d) nie v prípade, ak vodič predloží doklad o uložení pokuty resp. začatí konania"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "148. Ktoré z uvedených porušení predpisov týkajúce sa režimu práce vodičov a používania záznamových zariadení (tachografov) je považované za najzávažnejšie?",
+                "options": [
+                    "a) prekročenie nepretržitej doby jazdy viac ako o 10%",
+                    "b) prekročenie dennej doby jazdy viac ako o 10 %",
+                    "c) skrátenie denného odpočinku o 15 %",
+                    "d) neoprávnené zásahy do záznamového zariadenia (tachografu)"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "149. Ako je definovaný denný čas jazdy v príležitostnej autobusovej doprave?",
+                "options": [
+                    "a) je celkový súhrn času jazdy medzi začiatkom a koncom doby denného odpočinku",
+                    "b) je celkový súhrn času jazdy medzi koncom jednej doby denného odpočinku a začiatkom nasledujúcej doby denného odpočinku",
+                    "c) je súhrnný čas jazdy konkrétny kalendárny deň",
+                    "d) je súhrnný čas jazdy od 00,00 do 24,00 pri analógových tachografoch a od 01,00 do 01,00 nasledujúceho dňa pri digitálnych tachografoch (UTC posunutie)"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "150. Kedy najneskôr musí vodič v pravidelnej autobusovej doprave s dĺžkou linky nad 50 km začať čerpať nový týždenný odpočinok?",
+                "options": [
+                    "a) po 90 hodinách od skončenia predchádzajúceho týždenného odpočinku",
+                    "b) po 144 hodinách od skončenia predchádzajúceho týždenného odpočinku",
+                    "c) po 160 hodinách od skončenia predchádzajúceho týždenného odpočinku",
+                    "d) po 184 hodinách od skončenia predchádzajúceho týždenného odpočinku"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "151. Ako sa zaznamenáva na tachografe čas strávený druhým vodičom sedením na mieste spolujazdca počas vedenia autobusu prvým vodičom?",
+                "options": [
+                    "a) ako jazda",
+                    "b) ako pohotovosť",
+                    "c) ako odpočinok",
+                    "d) ako iná práca"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "152. Ktorý výtlačok z digitálneho tachografu nie je možné vytlačiť z prvej generácie digitálnych tachografov?",
+                "options": [
+                    "a) denný výtlačok z karty vodiča",
+                    "b) výtlačok- priebeh rýchlosti",
+                    "c) výtlačok prekročenia rýchlosti",
+                    "d) výtlačok technických údajov"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "153. Kto podpisuje Potvrdenie činnosti vodiča vydané vodičovi v prípade, ak bol vodič práceneschopný?",
+                "options": [
+                    "a) obvodný lekár a vodič",
+                    "b) dispečer dopravcu a vodič",
+                    "c) obvodný lekár a dispečer dopravcu",
+                    "d) iba dispečer dopravcu"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "154. Akú farbu má karta kontrolóra, prostredníctvom ktorej môže kontrolór stiahnuť údaje z digitálneho tachografu autobusu?",
+                "options": [
+                    "a) bielu",
+                    "b) červenú",
+                    "c) modrú",
+                    "d) žltú"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "155. Vodič v prvom týždni pri medzinárodnej príležitostnej autobusovej doprave jazdil s autobusom 30 hodín. Na koľko hodín je obmedzení čaj jazdy nasledujúci týždeň?",
+                "options": [
+                    "a) maximálne 45 hodín",
+                    "b) maximálne 56 hodín",
+                    "c) maximálne 60 hodín",
+                    "d) maximálne 90 hodín"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "156. Vodič príležitostnej autobusovej dopravy začal pracovnú zmenu v pondelok o 6:00 po pravidelnom týždennom odpočinku. Kedy najneskôr musí ukončiť prácu a začať čerpať skrátený denný odpočinok?",
+                "options": [
+                    "a) v pondelok o 18,00",
+                    "b) v pondelok o 21,00",
+                    "c) v pondelok o 22,00",
+                    "d) v utorok o 5,00"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "157. Ktorý z nasledujúcich súborov je stiahnutý z pamäte digitálneho tachografu?",
+                "options": [
+                    "a) C_20090224_1116_RA-004AX-YV2AS02A77B462158.DDD",
+                    "b) M_20090224_1116_RA-004AX-YV2AS02A77B462158.DDD",
+                    "c) M_20090224_1116_J_Strbian_A00000000045X0.DDD",
+                    "d) C_20090224_1116_J_Strbian_A00000000045X0.DDD"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "158. Ktorý z nasledujúcich súborov je stiahnutý z karty vodiča?",
+                "options": [
+                    "a) C_20090224_1116_RA-004AX-YV2AS02A77B462158.DDD",
+                    "b) M_20090224_1116_RA-004AX-YV2AS02A77B462158.DDD",
+                    "c) M_20090224_1116_J_Strbian_A00000000045X0.DDD",
+                    "d) C_20090224_1116_J_Strbian_A00000000045X0.DDD"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "159. Ak je miestny čas na Slovensku na digitálnom tachografe dňa 20. januára (zimný čas) zobrazený 10:00, aký UTC čas bude uvedený na výtlačkoch z tohto digitálneho tachografu?",
+                "options": [
+                    "a) 10:00",
+                    "b) 12:00",
+                    "c) 9:00",
+                    "d) 8:00"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "160. Ak je miestny čas na Slovensku na digitálnom tachografe dňa 20. júla (letný čas) zobrazený 10:00, aký UTC čas bude uvedený na výtlačkoch z tohto digitálneho tachografu?",
+                "options": [
+                    "a) 10:00",
+                    "b) 12:00",
+                    "c) 9:00",
+                    "d) 8:00"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "161. Čo znamená čierna bodka na displeji digitálneho tachografu zobrazená vedľa času 16:00?",
+                "options": [
+                    "a) 16:00 je UTC čas",
+                    "b) 16:00 je miestny čas",
+                    "c) 16:00 je čas karty vloženej do prvého otvoru tachografu",
+                    "d) 16:00 je čas vloženie manuálneho dodatku do digitálneho tachografu"
+                ],
+                "correct": 1,
+                "image": "161.jpg"
+            },
+            {
+                "q": "162. Čo znamená nasledujúce zobrazenie na digitálnom tachografe?",
+                "options": [
+                    "a) vodič môže jazdiť ešte 28 minút, následne musí čerpať odpočinok 3 h a 50 minút; v týždni už mal 3 krát 9 hodinový denný odpočinok, nasledujúci denný odpočinok musí byť minimálne 11 hodín",
+                    "b) vodič môže jazdiť ešte 3 hodiny 50 minút, následne musí čerpať prestávku 28 minút; v týždni už mal 3 krát 9 hodinový denný odpočinok, nasledujúci denný odpočinok musí byť minimálne 11 hodín",
+                    "c) vodič môže jazdiť ešte 28 minút, následne musí čerpať odpočinok 11 hodln; od posledného odpočinku má vyčerpané prestávky v práce celkovo 3 hodiny a 50 minút",
+                    "d) vodič môže jazdiť ešte 28 minút, následne musí čerpať odpočinok 11 hodín; odpočinok musí začať čerpať najneskôr o 3 hodiny a 50 minút"
+                ],
+                "correct": 3,
+                "image": "162.jpg"
+            },
+            {
+                "q": "163. Aký druh výtlačku je uvedený na obrázku nižšie?",
+                "options": [
+                    "a) denný výtlačok prekročenia rýchlosti vozidla",
+                    "b) denný výtlačok- aktivity vodiča",
+                    "c) denný výtlačok z karty vodiča",
+                    "d) denný výtlačok z pamäte tachografu"
+                ],
+                "correct": 2,
+                "image": "163.jpg"
+            },
+            {
+                "q": "164. Aký druh výtlačku je uvedený na obrázku nižšie?",
+                "options": [
+                    "a) denný výtlačok prekročenia rýchlosti vozidla",
+                    "b) denný výtlačok- aktivity vodiča",
+                    "c) denný výtlačok z karty vodiča",
+                    "d) denný výtlačok z pamäte tachografu"
+                ],
+                "correct": 3,
+                "image": "164.jpg"
+            },
+            {
+                "q": "165. Aký druh výtlačku je uvedený na obrázku nižšie?",
+                "options": [
+                    "a) výtlačok - aktivity vodiča",
+                    "b) výtlačok - prekročenia rýchlosti",
+                    "c) výtlačok - percentil otáčok vozidla",
+                    "d) výtlačok - technické údaje vozidla"
+                ],
+                "correct": 3,
+                "image": "165.jpg"
+            },
+            {
+                "q": "166. Aký druh výtlačku je uvedený na obrázku nižšie?",
+                "options": [
+                    "a) výtlačok- aktivity vodiča",
+                    "b) výtlačok- prekročenia rýchlosti",
+                    "c) výtlačok- percentil otáčok vozidla",
+                    "d) výtlačok - technické údaje vozidla"
+                ],
+                "correct": 1,
+                "image": "166.jpg"
+            },
+            {
+                "q": "167. Aký druh výtlačku je uvedený na obrázku nižšie?",
+                "options": [
+                    "a) výtlačok - aktivity vodiča",
+                    "b) výtlačok - prekročenia rýchlosti",
+                    "c) výtlačok- percentil otáčok vozidla",
+                    "d) výtlačok - technické údaje vozidla"
+                ],
+                "correct": 0,
+                "image": "167.jpg"
+            },
+            {
+                "q": "168. Koľko krát v priebehu týždňa môže byť predlžený denný čas jazdy vodiča v príležitostnej autobusovej doprave na 10 hodín?",
+                "options": [
+                    "a) jeden raz",
+                    "b) dva razy",
+                    "c) tri razy",
+                    "d) štyri razy"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "169. Vodič v príležitostnej autobusovej doprave po pracovnej zmene, ktorá trvala 13 hodín a 30 minút čerpal odpočinok v trvaní 10 hodín a 30 minút. O aký odpočinok ide?",
+                "options": [
+                    "a) pravidelný týždenný odpočinok",
+                    "b) skrátený týždenný odpočinok",
+                    "c) pravidelný denný odpočinok",
+                    "d) skrátený denný odpočinok"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "170. Koľko krát je možné prerušiť pravidelný denný odpočinok v prípade, ak vodič bude časť odpočinku čerpať počas prepravy autobusov na trajekte?",
+                "options": [
+                    "a) pravidelný denný odpočinok nie je možné prerušovať",
+                    "b) odpočinok môže prerušiť maximálne 1 raz",
+                    "c) odpočinok môže prerušiť maximálne 2 razy",
+                    "d) odpočinok môže prerušiť maximálne 3 razy"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "171. Koľko môže maximálne trvať prerušenie pravidelného denného odpočinku v prípade, ak vodič bude časť odpočinku čerpať počas prepravy autobusu na trajekte?",
+                "options": [
+                    "a) max. 30 minút",
+                    "b) max. 1 hodinu",
+                    "c) max. 75 minút",
+                    "d) max. 2 hodiny"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "172. Vodič príležitostnej autobusovej dopravy čerpal skrátený týždenný odpočinok 30 hodín. Koľko hodín kompenzácie za skrátený týždenný odpočinok musí vodič čerpať spolu s iným denným alebo týždenným odpočinkom?",
+                "options": [
+                    "a) 9 hodín",
+                    "b) 15 hodín",
+                    "c) 21 hodín",
+                    "d) 24 hodín"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "173. V prípade ak vodič čerpal skrátený týždenný odpočinok, dokedy musí vyčerpať kompenzáciu za skrátenie týždenného odpočinku?",
+                "options": [
+                    "a) najneskôr do konca nasledujúceho týždňa po týždni, v ktorom došlo ku skráteniu odpočinku",
+                    "b) najneskôr do konca druhého nasledujúceho týždňa po týždni, v ktorom došlo ku skráteniu odpočinku",
+                    "c) najneskôr do konca tretieho nasledujúceho týždňa po týždni, v ktorom došlo ku skráteniu odpočinku",
+                    "d) najneskôr do konca štvrtého nasledujúceho týždňa po týždni, v ktorom došlo ku skráteniu odpočinku"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "174. O aký čas je možné mimoriadne prekročiť denný čas jazdy v prípade, ak vodič príležitostnej autobusovej dopravy realizuje dojazd do sídla spoločnosti a následne bude čerpať skrátený týždenný odpočinok?",
+                "options": [
+                    "a) o 30 minút",
+                    "b) o 1 hodinu",
+                    "c) o 1 hodinu a 30 minút",
+                    "d) o 2 hodiny"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "175. O aký čas je možné mimoriadne prekročiť denný čas jazdy v prípade, ak vodič príležitostnej autobusovej dopravy realizuje dojazd do sídla spoločnosti a následne bude čerpať pravidelný týždenný odpočinok?",
+                "options": [
+                    "a) o 30 minút",
+                    "b) o 1 hodinu",
+                    "c) o 1 hodinu a 30 minút",
+                    "d) o 2 hodiny"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "176. Aký údaj musí zadať na digitálnom tachografe vodič medzinárodnej autobusovej dopravy bezprostredne po prekročení štátnej hranice?",
+                "options": [
+                    "a) krajinu výjazdu",
+                    "b) krajinu príjazdu",
+                    "c) čas prekročenia štátnej hranice",
+                    "d) znak režimu OUT (prekročenie štátnej hranice)"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "177. Ako sa nastavuje miestny čas na digitálnom tachografe?",
+                "options": [
+                    "a) miestny čas si môže nastaviť vodič v menu tachografu",
+                    "b) miestny čas je možné nastaviť v menu tachografu iba po načítaní podnikovej karty",
+                    "c) miestny čas je možné nastaviť v menu tachografu iba po načítaní dielenskej karty",
+                    "d) miestny čas sa automaticky mení bez zásahu vodiča pri prekročení časového pásma s vozidlom"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "178. V prípade straty karty vodiča do digitálneho tachografu môže vodič pokračovať v jazde v prípade, ak bude vykonávať ručný záznam. Na ktorom z výtlačkov je povinný vodič príležitostnej autobusovej dopravy ručný záznam zapisovať?",
+                "options": [
+                    "a) denný výtlačok prekročenia rýchlosti vozidla",
+                    "b) denný výtlačok - aktivity vodiča",
+                    "c) denný výtlačok z karty vodiča",
+                    "d) výtlačok - technické údaje"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "179. Akú pokutu môže dostať vodič v Slovenskej republike ak vedie autobus so záznamovým zariadením (tachografom), ktoré nemá platnú periodickú prehliadku alebo záznamové zariadenia (tachograf) nesprávne používa?",
+                "options": [
+                    "a) možno uložiť pokutu do 1 659 EUR,",
+                    "b) možno uložiť pokutu do 169 EUR a zákaz činnosti do jedného roka",
+                    "c) možno uložiť pokutu do 1 700 EUR a zákaz činnosti do dvoch rokov",
+                    "d) možno uložiť pokutu do 1 000 EUR a zákaz činnosti do jedného roka"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "180. Akú pokutu môže dostať vodič v Slovenskej republike ak vedie autobus a nemá pri sebe kartu vodiča k záznamovému zariadeniu (tachografu) ani potvrdenie o jej strate alebo odcudzení?",
+                "options": [
+                    "a) možno uložiť pokutu do 1000 EUR,",
+                    "b) možno uložiť pokutu do 169 EUR a zákaz činnosti do jedného roka",
+                    "c) možno uložiť pokutu do 1400 EUR a zákaz činnosti do jedného roka",
+                    "d) možno uložiť pokutu do 1000 EUR a zákaz činnosti do jedného roka"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "181. Akú pokutu môže dostať vodič v Slovenskej republike ak vedie autobus a používa kartu vodiča k záznamovému zariadeniu (tachografu), ktorá je kartou iného vodiča alebo je držiteľom viac ako jednej karty vodiča k záznamovému zariadeniu (tachografu)?",
+                "options": [
+                    "a) možno uložiť pokutu do 1 659 EUR,",
+                    "b) možno uložiť pokutu do 169 EUR a zákaz činnosti do jedného roka",
+                    "c) možno uložiť pokutu do 1 700 EUR a zákaz činnosti do dvoch rokov",
+                    "d) možno uložiť pokutu do 1 000 EUR a zákaz činnosti do dvoch rokov"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "182. Ako sa realizuje zákaz činnosti vodiča autobusovej dopravy podľa zákona o organizácii pracovného času v doprave v Slovenskej republike?",
+                "options": [
+                    "a) na čas zákazu činnosti sa vodičovi odoberie karta vodiča a vodičské oprávnenie; odobratú kartu vodiča a vodičské oprávnenie kontrolný orgán bezodkladne odovzdá Ministerstvu dopravy SR.",
+                    "b) na čas zákazu činnosti sa vodičovi odoberie karta vodiča k záznamovému zariadeniu (tachografu); odobratú kartu vodiča kontrolný orgán bezodkladne odovzdá Ministerstvu dopravy SR",
+                    "c) na čas zákazu činnosti sa vodičovi odoberie kvalifikačná karta vodiča; odobratú kvalifikačnú kartu vodiča kontrolný orgán bezodkladne odovzdá Ministerstvu dopravy SR",
+                    "d) na čas zákazu činnosti sa vodičovi odoberie vodičské oprávnenie; odobraté vodičské oprávnenia odovzdá bezodkladne odovzdá Ministerstvu vnútra SR"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "183. Ktorí vodiči autobusovej (osobnej) dopravy sú povinní absolvovať kurz základnej kvalifikácie?",
+                "options": [
+                    "a) všetci vodiči autobusovej dopravy v SR",
+                    "b) ktorí získali vodičské oprávnenie na vedenie vozidiel skupín C, C+E alebo C1+E alebo podskupiny C1 alebo vodičské oprávnenie uznané ako rovnocenné po 10.09.2008",
+                    "c) ktorí získali vodičské oprávnenie na vedenie vozidiel skupín D, D+E alebo D1+E alebo podskupiny D1 alebo vodičské oprávnenie uznané ako rovnocenné po 10.09.2008",
+                    "d) ktorí získali vodičské oprávnenie na vedenie vozidiel skupín D, D+E alebo D1+E alebo podskupiny D1 alebo vodičské oprávnenie pred vstupom Slovenska do Európskej únie"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "184. Ako často vodiči autobusovej (osobnej) dopravy sú povinní absolvovať kurz pravidelného výcviku a v akom rozsahu?",
+                "options": [
+                    "a) vodiči autobusovej (osobnej dopravy), ktorí získali vodičské oprávnenie na vedenie vozidiel skupín D, D+E alebo D1+E alebo podskupiny D1 alebo vodičské oprávnenie uznané ako rovnocenné sú povinný absolvovať kurz pravidelného výcviku raz za 5 rokov v rozsahu 35 hodín",
+                    "b) vodiči autobusovej (osobnej dopravy), ktorí získali vodičské oprávnenie na vedenie vozidiel skupín D, D+E alebo D1+E alebo podskupiny D1 alebo vodičské oprávnenie uznané ako rovnocenné sú povinný absolvovať kurz pravidelného výcviku raz za 3 roky v rozsahu 30 hodín",
+                    "c) vodiči autobusovej (osobnej dopravy), ktorí získali vodičské oprávnenie na vedenie vozidiel skupín D, D+E alebo D1+E alebo podskupiny 01 alebo vodičské oprávnenie uznané ako rovnocenné sú povinný absolvovať kurz pravidelného výcviku raz za 10 rokov v rozsahu 35 hodín",
+                    "d) vodiči autobusovej (osobnej dopravy), ktorí získali vodičské oprávnenie na vedenie vozidiel skupín D, D+E alebo D1+E alebo podskupiny 01 alebo vodičské oprávnenie uznané ako rovnocenné sú povinný absolvovať kurz pravidelného výcviku raz za 6 rokov v rozsahu 25 hodín"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "185. Kde v Slovenskej republike vodiči autobusovej (osobnej) dopravy musia absolvovať kurzy základnej kvalifikácie a pravidelného výcviku?",
+                "options": [
+                    "a) v autoškolách, kde získali vodičské oprávnenie na vedenie vozidiel skupín O, O+E alebo D1+E alebo podskupiny D1 alebo vodičské oprávnenie uznané ako rovnocenné",
+                    "b) v školiacich strediskách schválených Ministerstvom dopravy SR, ktoré sú uvedené na webovom sídle: kkv.sk",
+                    "c) vo všetkých autoškolách, ktoré môžu pripravovať vodičov na získanie vodičského oprávnenia na vedenie vozidiel skupín D, D+E alebo D1+E alebo podskupiny D1",
+                    "d) v školiacich strediskách schválených Slovenskou komorou výcvikových zariadenl autoškôl (SKVZA)"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "186. Dokedy, po ukončení kurzu základnej kvalifikácie v predpísanom rozsahu, je vodič povinný vykonať záverečnú skúšku?",
+                "options": [
+                    "a) nie je to stanovené",
+                    "b) vodič musí absolvovať skúšku najneskôr do piatich rokov odo dňa ukončenia kurzu",
+                    "c) vodič musí absolvovať skúšku najneskôr do dvoch rokov odo dňa ukončenia kurzu",
+                    "d) vodič musí absolvovať skúšku najneskôr do jedného roka odo dňa ukončenia kurzu"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "187. Aké doklady musí pripojiť vodič autobusovej dopravy k žiadosti na vydanie kvalifikačnej karty vodiča (KKV)?",
+                "options": [
+                    "a) vyplnenú žiadosť o vydanie KKV, potvrdenie o ukončení predpísaného kurzu resp. protokol o vykonaní skúšky a kolok v predpísanej hodnote na uhradenie správneho poplatku za vydanie KKV,",
+                    "b) vyplnenú žiadosť o vydanie KKV a kolok v predpísanej hodnote na uhradenie správneho poplatku za vydanie KKV,",
+                    "c) vyplnenú žiadosť o vydanie KKV, potvrdenie o skúške z autoškoly,",
+                    "d) vyplnenú žiadosť o vydanie KKV, potvrdenie o ukončení predpísaného kurzu resp. protokol o vykonaní skúšky a vodičské oprávnenie"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "188. Inšpektorát práce uloží zamestnávateľovi alebo dopravnému podniku, ak neuzatvoril s vodičom, ktorý vykonáva pre neho dopravné činnosti v cestnej doprave, pracovný pomer, ak nejde o samostatne zárobkovo činného vodiča?",
+                "options": [
+                    "a) odobratie dopravnej licencie na jeden rok,",
+                    "b) pokutu od 1659 EUR do 16 596 EUR",
+                    "c) pokutu do 1659 EUR",
+                    "d) pokutu od 3000 EUR"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "189. Je vodič zodpovedný za pripútanie cestujúcich bezpečnostnými pásmi v autobuse v prípade, ak je vozidlo vybavené bezpečnostnými pásmi?",
+                "options": [
+                    "a) áno, pred začiatkom jazdy je vodič povinný skontrolovať každého cestujúceho, či je pripútaný bezpečnostnými pásmi, ak v priebehu prepravy zisti, že cestujúci nie je pripútaný, je povinné bezodkladne zastaviť vozidlo",
+                    "b) áno, je povinný upozorniť cestujúcich na pripútanie sa bezpečnostnými pásmi; ak v priebehu prepravy zisti, že cestujúci nie je pripútaný, je povinné bezodkladne zastaviť vozidlo",
+                    "c) nie, cestujúci sú sami zodpovední za pripútanie sa bezpečnostnými pásmi ale je možné aby ich na to upozornil v rámci interných predpisov dopravcu s cieľom zvýšiť bezpečnosť cestnej dopravy",
+                    "d) v autobusoch sa vôbec nepoužívajú bezpečnostné pásy"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "190. Vodič autobusu prepravujúceho deti alebo osoby so zdravotným postihnutím",
+                "options": [
+                    "a) je povinný počas ich nastupovania a vystupovania použiť osobitné zariadenie umožňujúce výstražnú funkciu smerových svietidiel",
+                    "b) nemusí dodržovať niektoré ustanovenia zákona, najmä zákaz vjazdu a zákaz státia",
+                    "c) nemusí rešpektovať zákaz vjazdu",
+                    "d) nemusí rešpektovať zákaz státia a ostatní vodiči sú povinný dbať zvýšenú opatrnosť pri jazde za takýmto vozidlom"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "191. Osobitné označenie na autobuse, ktorým sa prepravujú deti",
+                "options": [
+                    "a) sa môže používať",
+                    "b) sa musí používať",
+                    "c) nesmie používať, pokiaľ neprepravuje telesne postihnuté osoby",
+                    "d) sa môže používať ak sa prepravujú telesne a duševne postihnuté deti"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "192. Vodič autobusu, ktorý je vybavený zariadením na nakladanie a manipuláciu s vozíkmi pre telesne postihnuté osoby",
+                "options": [
+                    "a) je povinný na požiadanie použiť toto špeciálne zariadene",
+                    "b) použije toto zariadenie, ak to nespôsobí časovú stratu",
+                    "c) použije toto zariadenie iba ak takáto osoba nemá sprievodcu",
+                    "d) použije tomto zariadenie za úplatu"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "193. Je možné vykonávať kontroly celkovej hmotnosti pripadajúcej na nápravu aj v prípade autobusov prímestskej autobusovej dopravy?",
+                "options": [
+                    "a) nie",
+                    "b) nie, pretože vodič nemá právo požadovať od cestujúcich konkrétne rozmiestnenie vo vozidle",
+                    "c) áno, ale nie je možné uložiť dopravcovi pokutu",
+                    "d) áno"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "194. Vodič autobusu nepravidelnej zájazdovej dopravy by mal zvýšiť pozornosť na dodržanie?",
+                "options": [
+                    "a) na neprekročenie pohotovostnej hmotnosti autobusu",
+                    "b) na neprekročenie užitočnej hmotnosti autobusu a zároveň predpísanej celkovej hmotnosti autobusu najmä pri plnej obsadenosti autobusu a veľkej hmotnosti cestovnej batožiny",
+                    "c) na neprekročenie pohotovostnej hmotnosti autobusu a zároveň predpísanej celkovej hmotnosti autobusu najmä pri plnej obsadenosti autobusu a veľkej hmotnosti príručnej batožiny",
+                    "d) na neprekročenie užitočnej hmotnosti autobusu alebo predpísanej celkovej hmotnosti autobusu najmä pri plnej obsadenosti autobusu a veľkej hmotnosti príručnej batožiny"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "195. Kontrola hmotnosti autobusov sa týka?",
+                "options": [
+                    "a) len medzinárodnej autobusovej nepravidelnej zájazdovej dopravy",
+                    "b) vnútroštátnej autobusovej dopravy, pričom sa kontroluje okrem celkovej hmotnosti aj podiel z celkovej hmotnosti na nápravy",
+                    "c) len medzinárodnej autobusovej pravidelnej dopravy",
+                    "d) vnútroštátnej aj medzinárodnej autobusovej dopravy, pričom sa kontroluje okrem celkovej hmotnosti aj podiel z celkovej hmotnosti na nápravy"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "196. Aká sú najčastejšie hlavné príčiny vzniku dopravných nehôd v Slovenskej republike, na základe údajov Prezídia Policajného zboru?",
+                "options": [
+                    "a) nedovolená rýchlosť jazdy",
+                    "b) porušenie povinnosti vodiča a to najmä nevenovanie sa plne vedeniu vozidla a nesledovanie situácie v cestnej premávke",
+                    "c) nesprávne predchádzanie",
+                    "d) nesprávna jazda cez križovatku"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "197. Aká sú najčastejšie hlavné príčiny vzniku dopravných nehôd v Slovenskej republike, pri ktorých bola usmrtená osoba, na základe údajov Prezídia Policajného zboru?",
+                "options": [
+                    "a) nedovolená rýchlosť jazdy",
+                    "b) porušenie povinnosti vodiča a to najmä nevenovania sa plne vedeniu vozidla a nesledovanie situácie v cestnej premávke, nedanie prednosti chodcovi, ktorý vstúpil na vozovku a prechádza cez priechod pre chodcov",
+                    "c) nesprávne predchádzanie",
+                    "d) nesprávna jazda cez križovatku"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "198. Na ktorých cestách v Slovenskej republike, je najväčší počet usmrtených pri dopravných nehodách, na základe údajov Prezídia Policajného zboru?",
+                "options": [
+                    "a) diaľnice",
+                    "b) cesty III. triedy",
+                    "c) cesty I. a II. triedy",
+                    "d) ostatné cesty"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "199. V ktorom dni v týždni je v Slovenskej republike, je najväčší počet dopravných nehôd, na základe údajov Prezídia Policajného zboru?",
+                "options": [
+                    "a) utorok",
+                    "b) streda",
+                    "c) nedeľa",
+                    "d) piatok"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "200. Mení sa v priebehu dňa intenzita pozornosti vodiča?",
+                "options": [
+                    "a) nie, vodič je pozorný celý čas s rovnakou intenzitou",
+                    "b) áno, najvyššia miera pozornosti je od polnoci do rána 6 hodiny ráno",
+                    "c) áno, najnižšia miera pozornosti je od polnoci do rána 6 hodiny ráno",
+                    "d) áno, najnižšia miera pozornosti je od 8 hodiny do 12 hodiny v priebehu dňa"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "201. Kedy musí vodič okamžite zastaviť vozidlo?",
+                "options": [
+                    "a) v prípade rozsvietenia kontrolného svetla nedostatok paliva v palivovej nádrži",
+                    "b) v prípade nepretržitého času vedenia vozidla 3,5 hodiny",
+                    "c) v prípade, že vodičovi sa z dôvodu únavy znižuje reakčný čas, zužuje zorné pole vnímania a hrozí zaspanie vodiča",
+                    "d) v prípade nepretržitého vedenia vozidla 2,5 hodiny"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "202. Ako sa u vodiča prejaví požitie alkoholu?",
+                "options": [
+                    "a) požitie alkoholu nemení čas reakcie vodiča",
+                    "b) požitie alkoholu znižuje čas reakcie vodiča",
+                    "c) požitie alkoholu znižuje čas reakcie vodiča, avšak znižuje kvalitu prepravnej služby, preto je pre dopravu neprípustné",
+                    "d) požitie alkoholu zvyšuje čas reakcie vodiča"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "203. Ako sa u vodiča prejaví požitie drog?",
+                "options": [
+                    "a) požitie drog nemení čas reakcie vodiča",
+                    "b) požitie drog znižuje čas reakcie vodiča",
+                    "c) požitie drog zvyšuje čas reakcie vodiča",
+                    "d) požitie drog znižuje čas reakcie vodiča, avšak znižuje kvalitu prepravnej služby, preto je pre dopravu neprípustné"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "204. Dĺžka reakčného času vodiča",
+                "options": [
+                    "a) sa nemení",
+                    "b) sa mení len s vekom vodiča",
+                    "c) sa mení s fyzickým a duševným stavom vodiča",
+                    "d) sa nemení s fyzickým stavom vodiča"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "205. Vodič nesmie počas vedenia vozidla držať v ruke alebo iným spôsobom obsluhovať?",
+                "options": [
+                    "a) telefónny pristroj alebo iné telekomunikačné, audiovizuálne alebo obdobné zariadenie vrátane použitia systému „voľné ruky\"",
+                    "b) telefónny prístroj alebo iné telekomunikačné, audiovizuálne alebo obdobné zariadenie okrem použitia systému „voľné ruky\" alebo vykonávať inú obdobnú činnosť, ktorá nesúvisí s vedením vozidla",
+                    "c) telefónny pristroj okrem použitia systému „voľné ruky\" alebo vykonávať inú obdobnú činnosť, ktorá nesúvisí s vedením vozidla",
+                    "d) mobilný telefón okrem použitia systému „voľné ruky'' alebo vykonávať inú obdobnú činnosť, ktorá nesúvisí s vedením vozidla"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "206. Vodič autobusu prepravujúceho deti alebo osoby so zdravotným postihnutím",
+                "options": [
+                    "a) je povinný len počas len ich nastupovania použiť osobitné zariadenie umožňujúce výstražnú funkciu smerových svietidiel",
+                    "b) je povinný počas ich nastupovania a vystupovania použiť osobitné zariadenie umožňujúce výstražnú funkciu smerových svietidiel alebo výstražný trojuholník",
+                    "c) nie je povinný počas ich nastupovania a vystupovania použiť osobitné zariadenie umožňujúce výstražnú funkciu smerových svietidiel",
+                    "d) je povinný počas ich nastupovania a vystupovania použiť osobitné zariadenie umožňujúce výstražnú funkciu smerových svietidiel"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "207. Aká je povinnosť vodiča pri nastupovaní cestujúceho na invalidnom vozíku?",
+                "options": [
+                    "a) vyzvať ostatných cestujúcich, aby pomohli invalidnému cestujúcemu pri nastupovaní do vozidla",
+                    "b) upozorniť invalidného cestujúceho na možné riziká prepravy hromadnou osobnou dopravou",
+                    "c) pomôcť cestujúcemu pri nastupovaní do vozidla",
+                    "d) vyzvať cestujúcich na uvoľnenie miesta pre invalidného cestujúceho; v prípade, že vozidlo je plne obsadené, vodič je povinný požiadať cestujúceho s prepravou na najbližšiu zastávku, aby vystúpil z vozidla a uvoľnil miesto invalidnému cestujúcemu"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "208. Na akom telefónnom čísle v rámci celej EÚ je možné požadovať pomoc v prípade poranenia osôb pri dopravnej nehode?",
+                "options": [
+                    "a) 129",
+                    "b) 150",
+                    "c) 112",
+                    "d) 999"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "209. Akým spôsobom sa v prípade dopravnej nehody zabezpečuje bezpečnosť ostatných osôb cestnej premávky?",
+                "options": [
+                    "a) zasvieti sa v dostatočnej vzdialenosti pred dopravnou nehodou žlté svetlo",
+                    "b) v dostatočnej vzdialenosti pred dopravnou nehodou sa umiestni oranžová tabuľa s čiernym orámovaním",
+                    "c) v dostatočnej vzdialenosti pred miestom dopravnej nehody sa umiestni výstražný trojuholník",
+                    "d) v dostatočnej vzdialenosti pred dopravnou nehodou sa umiestni dopravná značka: stop, daj prednosť v jazde"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "210. Je možné si zhotoviť fotodokumentáciu v prípade, že vodič je účastníkom dopravnej nehody?",
+                "options": [
+                    "a) nie, oprávnenie fotografovať dopravnú nehodu má jedine polícia",
+                    "b) áno, ale fotodokumentácia nemôže byť zverejnená ani nijako ďalej použitá",
+                    "c) áno, fotodokumentácia môže pomôcť účastníkovi nehody v prípade prípadných súdnych sporov",
+                    "d) áno, ale nemôže byť fotodokumentácia vykonaná mobilným telefónom"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "211. Aké poslanie má predpísaný odpočinok vodiča?",
+                "options": [
+                    "a) zvýšenie bezpečnosti cestnej premávky znížením únavy vodičov a podobný režim práce ako ostatní zamestnanci",
+                    "b) zníženie bezpečnosti cestnej premávky zvýšením únavy vodičov",
+                    "c) zvýšenie bezpečnosti cestnej premávky zvýšením podielu jazdy vodičov",
+                    "d) zníženie bezpečnosti cestnej premávky zvýšením podielu jazdy vodičov"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "212. Aké činnosti nesmie vykonávať vodič, ktorý je účastníkom dopravnej nehody?",
+                "options": [
+                    "a) nesmie používať mobilný telefón",
+                    "b) nesmie vykonávať nijaké opatrenia v súvislosti s dopravnou nehodou (posúvanie vozidiel, vyprosťovanie osôb a pod.) až do príchodu polície",
+                    "c) nesmie požívať alkoholické nápoje alebo iné návykové látky",
+                    "d) nesie komunikovať so svedkami dopravnej nehody z dôvodu ovplyvňovania svedkov"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "213. V prípade, že v dôsledku dopravnej nehody došlo k zraneniu osôb, vodič je povinný:",
+                "options": [
+                    "a) zavolať odbornú zdravotnícku pomoc a zotrvať na mieste nehody",
+                    "b) poskytnúť podľa svojich schopností a možností zranenej osobe potrebnú prvú pomoc a bezodkladne privolať odbornú zdravotnícku pomoc a políciu",
+                    "c) zavolať odbornú zdravotnícku pomoc, po splnení tejto povinnosti vodič nemusí zotrvať na mieste nehody",
+                    "d) bezodkladne o dopravnej nehode informovať správcu pozemnej komunikácie"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "214. Kto je účastníkom dopravnej nehody?",
+                "options": [
+                    "a) osoba, ktorá sa priamo aktívne alebo pasívne zúčastnila na dopravnej nehode",
+                    "b) iba osoba, ktorá sa aktívne zúčastnila na dopravnej nehode",
+                    "c) iba osoba, ktorá sa pasívne zúčastnila na dopravnej nehode",
+                    "d) osoba, ktorá utrpela v dôsledku dopravnej nehody zranenie alebo smrť"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "215. Komu je povinný účastník dopravnej nehody preukázať svoju totožnosť?",
+                "options": [
+                    "a) iba príslušníkovi Policajného zboru SR",
+                    "b) iba príslušníkom Policajného zboru SR alebo Hasičského zboru SR",
+                    "c) účastník dopravnej nehody je povinný preukázať svoju totožnosť na požiadanie iného účastníka dopravnej nehody",
+                    "d) účastník dopravnej nehody je povinný preukázať svoju totožnosť na požiadanie iného účastníka dopravnej nehody, ale len v prípade zranenia resp. úmrtia osôb"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "216. V ktorých prípadoch je potrebné bezodkladne dopravnú nehodu ohlásiť polícii?",
+                "options": [
+                    "a) v prípade, ak došlo k usmrteniu osoby",
+                    "b) v prípade, ak došlo k usmrteniu alebo zraneniu osoby",
+                    "c) v prípade, ak došlo k usmrteniu alebo zraneniu osoby, alebo došlo k poškodeniu všeobecne prospešného zariadenia alebo unikli nebezpečné veci",
+                    "d) v prípade, ak došlo k usmrteniu alebo zraneniu osoby, alebo došlo k poškodeniu všeobecne prospešného zariadenia alebo unikli nebezpečné veci, alebo ak na niektorom zo zúčastnených vozidiel, vrátane prepravovaných vecí alebo na inom majetku vznikne hmotná škoda zrejme prevyšujúca jedenapolnásobok väčšej škody podľa Trestného zákona"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "217. Kde sa majú zdržiavať cestujúci v prípade dopravnej nehody na diaľnici?",
+                "options": [
+                    "a) pred vozidlami, na ktorých bola v dôsledku dopravnej nehody spôsobená škoda",
+                    "b) za vozidlami, na ktorých bola v dôsledku dopravnej nehody spôsobená škoda",
+                    "c) v odstavnom pruhu vedľa vozidiel, na ktorých bola v dôsledku dopravnej nehody spôsobená škoda",
+                    "d) za zvodidlami mimo diaľnice"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "218. Ktoré poistenie je povinné pri prevádzke vozidla používaného na podnikanie v cestnej doprave?",
+                "options": [
+                    "a) povinné zmluvné poistenie zodpovednosti za škodu spôsobenú prevádzkou motorového vozidla",
+                    "b) havarijné poistenie motorového vozidla",
+                    "c) poistenie motorového vozidla proti krádeži",
+                    "d) poistenie motorového vozidla proti živelným pohromám"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "219. Môže byť účastníkovi dopravnej nehody v trestnom konaní z poistenia zodpovednosti dopravcu dohodnutý obhajca?",
+                "options": [
+                    "a) nie",
+                    "b) na území SR nie, ale je možné dohodnúť obhajcu v prípade, že dopravná nehoda vznikla v zahraničí",
+                    "c) áno, ale len v prípade, že dopravná nehoda vznikla na území SR",
+                    "d) áno"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "220. Z akého dokladu je možné zistiť, kde je účastník dopravnej nehody poistený na zodpovednosť za škodu spôsobenú prevádzkou motorového vozidla?",
+                "options": [
+                    "a) z vodičského preukazu",
+                    "b) z technického preukazu vozidla",
+                    "c) z tzv. zelenej karty (v súčasnosti je farba biela)",
+                    "d) len zo zmluvy o poistení, ktorú má dopravca v svojej prevádzke"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "221. Pravidelným lekárskym prehliadkam sa musí podrobiť vodič autobusu",
+                "options": [
+                    "a) každé dva roky",
+                    "b) každých päť rokov a po dosiahnutí veku 65 rokov každé dva roky",
+                    "c) každých päť rokov a po dosiahnutí veku 50 rokov každé dva roky",
+                    "d) každých dva roky a po dosiahnutí veku 65 rokov každý rok"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "222. Pravidelnému psychologickému vyšetreniu sa musí podrobiť vodič autobusu",
+                "options": [
+                    "a) každé dva roky",
+                    "b) každých päť rokov a po dosiahnutí veku 65 rokov každé dva roky",
+                    "c) každých päť rokov a po dosiahnutí veku 50 rokov každé dva roky",
+                    "d) každých päť rokov a po dosiahnutí veku 65 rokov každý rok"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "223. Ktorý z nižšie uvedených dokladov musí mať vodič, ktorý vedie autobus pri sebe?",
+                "options": [
+                    "a) len doklad o psychickej spôsobilosti a na výzvu policajta sú povinní takýmto dokladom sa preukázať",
+                    "b) doklad o zdravotnej spôsobilosti a aj doklad o psychickej spôsobilosti a na výzvu policajta nie sú povinní takýmto dokladom sa preukázať",
+                    "c) doklad o zdravotnej spôsobilosti a aj doklad o psychickej spôsobilosti a na výzvu policajta sú povinní takýmto dokladom sa preukázať",
+                    "d) len doklad o zdravotnej spôsobilosti na výzvu policajta sú povinní takýmto dokladom sa preukázať"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "224. Ktoré druhy poistenia vyplývajú zo zákonov pre dopravcu?",
+                "options": [
+                    "a) havarijné poistenie",
+                    "b) poistenie zodpovednosti za škodu spôsobenú prevádzkou motorových vozidiel a pri vodičov medzinárodnej cestnej dopravy poistenie liečebných nákladov v zahraničí",
+                    "c) poistenie proti škode na vozidle a krádeži vozidla",
+                    "d) poistenie osobnej batožiny osádky vozidla"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "225. Komu je možné hradiť škodu zavinenú vlastným vozidlom z poistenia zodpovednosti za škodu spôsobenú prevádzkou motorového vozidla?",
+                "options": [
+                    "a) škodu na vlastnom vozidle",
+                    "b) každému účastníkovi cestnej premávky pri vzniku dopravnej nehody",
+                    "c) inému účastníkovi cestnej premávky, ktorý nezavinil dopravnú nehodu alebo majiteľovi poškodeného dopravného značenia, plota a pod.",
+                    "d) škodu na vlastnom aj cudzom vozidle"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "226. Je možné dopisovať alebo meniť údaje na tzv. ,,Zelenej karte\" zo strany vodiča?",
+                "options": [
+                    "a) dopisovanie alebo menenie údajov má za následok neplatnosť Zelenej karty",
+                    "b) vodič môže dopisovať a meniť údaje, ale iba strojopisom",
+                    "c) vodič môže dopisovať a meniť údaje v prípade aktualizácie údajov na karte",
+                    "d) vodič môže iba dopisovať údaje, nie je prípustné meniť údaje"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "227. Vodič, ktorý sa zúčastnil dopravnej nehody:",
+                "options": [
+                    "a) je povinný bezodkladne zastaviť vozidlo",
+                    "b) je povinný bezodkladne zastaviť vozidlo iba v prípade, ak došlo k hmotnej škode na majetku vyššej ako 500 EUR",
+                    "c) je povinný bezodkladne zastaviť vozidlo iba v prípade, ak došlo k zraneniu alebo usmrteniu osôb",
+                    "d) nie je povinný bezodkladne zastaviť vozidlo"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "228. Aké úkony je vodič povinný okamžite vykonať v prípade, ak je prvý, kto dorazil na miesto dopravnej nehody?",
+                "options": [
+                    "a) okamžite poskytnúť zraneným prvú pomoc bez ohľadu na rozsah ich zranení",
+                    "b) okamžite poskytnúť zraneným prvú pomoc, pričom jeho bezpečnosť je v tomto prípade druhoradá",
+                    "c) najskôr zaistiť vlastnú bezpečnosť, následne posúdiť rozsah zranení a vykonať opatrenia súvisiace s bezpečnosťou zranených",
+                    "d) nemôže vykonať žiadne úkony okrem privolania polície"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "229. Je povolená hranica koncentrácie alkoholu v krvi vodiča v rámci EÚ jednotná?",
+                "options": [
+                    "a) nie, nie je jednotná",
+                    "b) áno, je jednotná",
+                    "c) áno, je jednotná, ale len pre vodičov osobných automobilov",
+                    "d) áno, je jednotná, každá krajina EÚ má implementovanú nulovú toleranciu alkoholu v krvi vodiča"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "230. Ktorí účastníci cestnej premávky sú najzraniteľnejší?",
+                "options": [
+                    "a) chodci a cyklisti",
+                    "b) vodiči osobných automobilov",
+                    "c) spolucestujúci v osobnom automobile",
+                    "d) vodiči vozidiel cestnej nákladnej dopravy"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "231. So zvyšujúcou sa rýchlosťou motorového vozidla sa dráha potrebná pre zastavenie vozidla:",
+                "options": [
+                    "a) skracuje",
+                    "b) predlžuje",
+                    "c) nemení, pretože rýchlosť vozidla nemá vplyv na brzdnú dráhu",
+                    "d) predlžuje len u vozidiel cestnej nákladnej dopravy, u osobných automobilov má rýchlosť vozidla zanedbateľný vplyv na jeho brzdnú dráhu"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "232. Čo je najčastejšou príčinou vzniku dopravnej nehody?",
+                "options": [
+                    "a) ľudský faktor",
+                    "b) technický stav vozidla",
+                    "c) preprava nevhodnej tovarovej skupiny vo vzťahu k použitému vozidlu",
+                    "d) lesná zver"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "233. So zvyšujúcou sa rýchlosťou motorového vozidla sa pravdepodobnosť usmrtenia chodca pri zrážke s vozidlom:",
+                "options": [
+                    "a) znižuje",
+                    "b) zvyšuje",
+                    "c) nemení, pretože rýchlosť vozidla nesúvisí s rozsahom poranení chodca pri dopravnej nehode",
+                    "d) zvyšuje, len ak k dopravnej nehode došlo na diaľnici alebo rýchlostnej ceste"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "234. Musí byť správa o dopravnej nehode medzi dvomi vozidlami podpísaná oboma vodičmi?",
+                "options": [
+                    "a) áno musí",
+                    "b) áno musí, ale len v prípade, ak ich výpovede o dopravnej nehode nie sú protichodné",
+                    "c) nie nemusí",
+                    "d) nie nemusí, ak ich výpovede o dopravnej nehode sú rovnaké"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "235. Môžu byť v správe o dopravnej nehode uvedené aj protichodné výpovede jej účastníkov?",
+                "options": [
+                    "a) áno môžu, ale len v prípade, ak ich každý z účastníkov podloží svedectvami minimálne 10 svedkov",
+                    "b) áno môžu, ale len ak ide o nehodu medzi štátnymi príslušníkmi iných štátov a protichodnosť výpovedí vznikla z dôvodu používania rôznych cudzích jazykov účastníkmi dopravnej nehody",
+                    "c) áno môžu",
+                    "d) nie nemôžu"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "236. Aké úkony môže uskutočniť poisťovňa po odovzdaní správy o dopravnej nehode účastníkom nehody?",
+                "options": [
+                    "a) môže obhliadnuť vozidlo priamo odborníkom z poisťovne alebo zmluvnou spoločnosťou do 24 hodín od dopravnej nehody a len v prítomnosti polície",
+                    "b) môže obhliadnuť vozidlo priamo odborníkom z poisťovne alebo zmluvnou spoločnosťou",
+                    "c) poisťovňa nemôže podniknúť žiadne kroky okrem náhrady škody majiteľovi poškodeného vozidla",
+                    "d) poisťovňa nemôže podniknúť žiadne kroky"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "237. Je Slovenská republika členským štátom medzinárodného poisťovacieho systému zelenej karty?",
+                "options": [
+                    "a) áno, je členským štátom systému zelenej karty",
+                    "b) nie, nie je členským štátom systému zelenej karty",
+                    "c) nie, ale je v štádiu prístupových rokovaní pre vstup do systému zelenej karty",
+                    "d) nie, nie je členským štátom systému zelenej karty, pretože vstupom SR do EÚ systém zelenej karty v SR zanikol"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "238. Čo je úlohou Schengenského informačného systému?",
+                "options": [
+                    "a) získavanie informácií o platcoch DPH v rámci EÚ",
+                    "b) podávanie hlásení v systéme Intrastat",
+                    "c) získavanie a spracovávanie informácií o výkonoch jednotlivých druhov dopráv od národných štatistických úradov",
+                    "d) riadenie kontroly vonkajších hraníc EÚ"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "239. Ktorá hranica je z hľadiska nelegálnej imigrácie do SR najrizikovejšia?",
+                "options": [
+                    "a) medzi SR a ČR",
+                    "b) medzi SR a Ukrajinou",
+                    "c) medzi SR a Maďarskom",
+                    "d) medzi SR a Rakúskom"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "240. Čo hrozí vodičovi cestnej nákladnej dopravy alebo autobusovej dopravy, ak by mu bolo preukázané zapojenie do pašovania ilegálnych prisťahovalcov?",
+                "options": [
+                    "a) pokuta vo výške 3500 EUR",
+                    "b) odňatie kvalifikačnej karty vodiča na 2 roky",
+                    "c) väzenie",
+                    "d) odňatie kvalifikačnej karty vodiča na 2 roky a pokuta vo výške 3500 EUR"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "241. Môžu pracovníci Colnej správy v uniforme zastavovať nákladné vozidla a autobusy?",
+                "options": [
+                    "a) len autobusy v blízkosti hraničných priechodov",
+                    "b) len nákladné vozidlá s celkovou hmotnosťou nad 12 ton",
+                    "c) nemôžu autobusy na pravidelných autobusových linkách",
+                    "d) áno môžu na celom území SR"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "242. Čo pomáha znižovať možnosť mikrospánku pri monotónnej jazde po diaľnici?",
+                "options": [
+                    "a) pred jazdou sa dosýta najesť",
+                    "b) žuvať žuvačky alebo sušené ovocie a podobne",
+                    "c) počúvať nehlasitú ukľudňujúcu hudbu",
+                    "d) robiť si prestávky pod 4,5 hodinách nepretržitej jazdy, v trvaní najmenej 10 minút"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "243. Po nepretržitej 4,5 hod. jazde pri čerpaní bezpečnostnej prestávky, po ktorej bude nasledovať jazda toho istého vodiča sa odporúča?",
+                "options": [
+                    "a) celú prestávku stráviť na ležadle",
+                    "b) počas prestávky odstrániť drobné poruchy na vozidle",
+                    "c) opustiť sedadlo vodiča a vykonať cviky, ktoré uvoľnia napríklad chrbticu a pomôžu predchádzať únave a vplyvu na zdravie vodiča",
+                    "d) opustiť sedadlo vodiča a dobre sa najesť a požiť energetický nápoj"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "244. Hasiace prístroje a autolekárničky, ak sú zabezpečené proti odcudzeniu a vandalizmu, napríklad umiestnením vo vnútornej uzamykateľnej skrinke alebo za rozbitným sklom?",
+                "options": [
+                    "a) musia byľ jasne označené, pričom musia byť zabezpečené prostriedky, ktoré umožnia ľahký prístup k nim v prípade havarijnej alebo mimoriadnej situácie",
+                    "b) musia byť označené červeným krížom, pričom musia byť zabezpečené prostriedky, ktoré umožnia ľahký prístup k nim v prípade havarijnej situácie",
+                    "c) nemusia byť označené, ale musia byť zabezpečené prostriedky, ktoré umožnia ľahký prístup k nim v prípade havarijnej situácie",
+                    "d) musia byť jasne označené zeleným krížom, pričom nemusia byť zabezpečené prostriedky, ktoré umožnia ľahký prístup k nim v prípade havarijnej situácie"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "245. Kde musí byť bezpečnostný reflexný odev napríklad vesta, overal, nohavice, bunda alebo pláštenka?",
+                "options": [
+                    "a) bezpečnostný reflexný odev sa umiestňuje vo vozidle, je to na vodičovi",
+                    "b) nie je to predpísané",
+                    "c) bezpečnostný reflexný odev sa umiestňuje v uzamykateľnej skrine, ktorá nemusí byť v dosahu zo sedadla vodiča vozidla",
+                    "d) bezpečnostný reflexný odev sa umiestňuje v dosahu zo sedadla vodiča vozidla"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "246. Povinnou výbavou motorového vozidla kategórie M2 a M3 s počtom do 22 miest na sedenie okrem miesta pre vodiča?",
+                "options": [
+                    "a) len jeden hasiaci prístroj, ktorého celková hmotnosť náplne je najmenej 10 kg",
+                    "b) nie je predpísaná hmotnosť hasiacich prístrojov",
+                    "c) jeden alebo viac hasiacich prístrojov, ktorých celková hmotnosť náplni je najmenej 6 kg",
+                    "d) len jeden hasiaci prístroj, ktorého celková hmotnosť náplne je najmenej 6 kg"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "247. Povinnou výbavou motorového vozidla kategórie M2 a M3 s počtom nad 22 miest na sedenie okrem miesta pre vodiča?",
+                "options": [
+                    "a) len jeden hasiaci pristroj, ktorého celková hmotnosť náplne je najmenej 10 kg",
+                    "b) jeden alebo viac hasiacich prístrojov, ktorých celková hmotnosť náplní je najmenej 6 kg",
+                    "c) jeden alebo viac hasiacich prístrojov, ktorých celková hmotnosť náplní je najmenej 12 kg",
+                    "d) len jeden hasiaci prístroj, ktorého celková hmotnosť náplne je najmenej 12 kg"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "248. Hasiace prístroje musia byť umiestnené na dobre viditeľnom a ľahko prístupnom mieste",
+                "options": [
+                    "a) pričom musia byť chránené proti krádeži zámkom",
+                    "b) pričom umiestnenie nie je to predpísané",
+                    "c) pričom jeden musí byť v dosahu zo sedadla vodiča vozidla",
+                    "d) pričom všetky musia byť v dosahu zo sedadla vodiča vozidla"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "249. Pokiaľ cúvanie zabezpečuje iná osoba",
+                "options": [
+                    "a) vodič môže cúvanie dokončiť, ak vie správne odhadnúť vzdialenosť",
+                    "b) vodič musí načúvať k miestu nakládky alebo vykládky s presnosťou 5 cm",
+                    "c) vodič musí vozidlo okamžite zastaviť, pokiaľ sa mu táto osoba stratí z výhľadu",
+                    "d) musí dávať pozor na iné zaparkované vozidlá"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "250. Rýchlosť odbúravania alkoholu v krvi",
+                "options": [
+                    "a) sa dá ovplyvniť množstvom vypitej kávy",
+                    "b) sa dá ovplyvniť spánkom",
+                    "c) sa dá ovplyvniť jedením",
+                    "d) sa nedá ovplyvniť"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "251. Reakčnú dobu vodiča predlžuje",
+                "options": [
+                    "a) alkohol v krvi",
+                    "b) alkohol v krvi a rovnako aj únava vodiča",
+                    "c) únava vodiča, alkohol v krvi a jeho sústredenosť",
+                    "d) len vek vodiča"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "252. Čo sa považuje za vybavenie potrebné na starostlivosť o cestujúcich a ich batožinu pripadne domáce zvieratá?",
+                "options": [
+                    "a) sú to autobusové stanice",
+                    "b) sú to čakárne a kultúrne strediská",
+                    "c) sú to najmä čakárne a kultúrne strediská, hygienické a sociálne zariadenia, informačné miesta, úschovne batožín, stravovacie miesta na autobusových staniciach, prístrešky, lavičky, odpadové koše a informačné tabule na zastávkach a pod.",
+                    "d) sú to bufety"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "253. Môže vodič vylúčiť z prepravy osobu, ktorá svojim správaním narúša bezpečnú, pokojnú a pohodlnú prepravu?",
+                "options": [
+                    "a) Áno, môže, ale len so súhlasom prepravovanej osoby",
+                    "b) Áno, môže",
+                    "c) Áno, môže, ale len v sprievode príslušníka policajného zboru",
+                    "d) Nie, nemôže"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "254. Ako má postupovať vodič v prípade, ak na zastávke na autobusový spoj čaká viacej cestujúcich ako je kapacita vozidla?",
+                "options": [
+                    "a) musí sa snažiť prepraviť čo najviac cestujúcich, toleruje sa prekročenie kapacity autobusu a prekročenie celkovej hmotnosti autobusu o 20 %",
+                    "b) nesmie pokračovať v preprave až do príchodu posilového spoja, z dôvodu zabezpečenia rovnoprávnosti medzi cestujúcimi",
+                    "c) na prepravu uprednostní cestujúcich s miestenkou a zraniteľné skupiny cestujúcich (matky s deťmi, Invalidov a pod.), vozidlo môže byt' obsadené maximálne do kapacity vozidla, bez prekročenia celkovej hmotnosti vozidla",
+                    "d) na prepravu zoberie iba cestujúcich s predplatenou miestenkou"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "255. Je vodič povinný odpovedať na otázky cestujúceho ohľadne ceny cestovného pred vydaním cestovného dokladu?",
+                "options": [
+                    "a) vodič je povinný poskytnúť na požiadanie cestujúceho informácie o cene cestovného lístka",
+                    "b) vodič nemusí poskytovať informácie o tarife, pretože je zverejnená vo vozidle",
+                    "c) vodič nesmie poskytovať informácie o cene cestovných dokladov, s výnimkou prípadov, keď sa cestujúci preukáže dopravnou kartou dopravcu",
+                    "d) vodič nesmie poskytovať informácie o cene cestovných dokladov"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "256. Ako má postupovať vodič v prípade, ak cestujúci pod vplyvom alkoholu v autobuse obťažuje svojim spevom a správaním ostatných cestujúcich?",
+                "options": [
+                    "a) vodič je povinný upozorniť cestujúceho na jeho správanie, v prípade neuposlúchnutia výzvy cestujúceho je vodič povinný posadiť cestujúceho na sedadlo vedľa vodiča a zabezpečiť jeho vhodné správanie,",
+                    "b) vodič nie je povinný riešiť konflikty medzi cestujúcimi; v prípade, že cestujúci sú obťažovaní, musia o tom informovať políciu",
+                    "c) vodič je povinný upozorniť cestujúceho, v prípade, že neuposlúchne vodičovej výzve, vodič je oprávnený cestujúceho vysadiť z vozidla na najbližšej zastávke",
+                    "d) vodič je povinný upozorniť cestujúceho, v prípade, že neuposlúchne vodičovej výzve, vodič je oprávnený cestujúceho vysadiť z vozidla na najbližšej zastávke s podmienkou, že vráti cestujúcemu cestovné, ktoré zaplatil za prepravu"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "257. Má cestujúci v pravidelnej autobusovej doprave právo na prepravu cestovnej batožiny a domácich zvierat tým istým autobusom?",
+                "options": [
+                    "a) Áno, ak to umožňujú prepravné podmienky alebo zmluva o preprave osôb",
+                    "b) Áno, vždy, bez ohľadu na prepravné podmienky alebo zmluvu o preprave osôb",
+                    "c) Nie, nikdy",
+                    "d) Nie, má právo len na prepravu príručnej batožiny"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "258. Aké oprávnenia má vodič v pravidelnej autobusovej doprave v prípade, že zistí, že domáce zviera cestujúceho ohrozuje zdravie ostatných cestujúcich?",
+                "options": [
+                    "a) Nemôže vylúčiť domáce zviera z prepravy, môže len upozorniť jeho majiteľa",
+                    "b) Môže vylúčiť domáce zviera z prepravy len so súhlasom jeho majiteľa",
+                    "c) Môže vylúčiť domáce zviera z prepravy",
+                    "d) Môže vylúčiť domáce zviera z prepravy len ak ide o psa, ktorý uhryzol niektorého z cestujúcich"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "259. Aké práva má cestujúci v pravidelnej autobusovej doprave, ak sa jeho preprava neuskutočnila?",
+                "options": [
+                    "a) Má právo na vrátenie cestovného a úhrad za batožinu a domáce zvieratá, ale len do výšky 50 % cestovného",
+                    "b) Nemá právo na vrátenie cestovného a úhrad za batožinu a domáce zvieratá",
+                    "c) Má právo len na vrátenie cestovného, na úhradu za batožinu a domáce zvieratá nemá nárok",
+                    "d) Má právo na vrátenie cestovného a úhrad za batožinu a domáce zvieratá"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "260. Aké povinnosti majú prepravované osoby",
+                "options": [
+                    "a) nesmú znečisťovať autobus, ostatné povinnosti sú na vodiča",
+                    "b) nesmú svojím správaním ohrozovať bezpečnosť cestnej premávky najmä obmedzovaním vodiča v bezpečnom ovládaní vozidla, zotrvaním na miestach, kde by boli ohrozené, a vyhadzovaním predmetov z vozidla",
+                    "c) smú svojim správaním ohrozovať bezpečnosť cestnej premávky najmä obmedzovaním vodiča v bezpečnom ovládaní vozidla,",
+                    "d) nesmú svojím správaním ohrozovať bezpečnosť cestnej premávky najmä obmedzovaním vodiča v bezpečnom ovládaní vozidla a môžu zotrvať na miestach aj kde by boli ohrozené napríklad pri núdzovom prudkom brzdení a vyhadzovaním predmetov z vozidla"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "261. Za príručnú batožinu, ktorú si cestujúci berie do priestoru pre cestujúcich zodpovedá?",
+                "options": [
+                    "a) dopravca",
+                    "b) vodič",
+                    "c) dopravca s vodičom do výšky 500 EUR",
+                    "d) cestujúci"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "262. Akú informáciu musí obsahovať cestovný poriadok v pravidelnej autobusovej doprave o dopravcovi, ktorý prevádzkuje danú autobusovú linku?",
+                "options": [
+                    "a) názov a adresu dopravcu a telefónne číslo dispečera alebo informátora",
+                    "b) obchodný názov dopravcu",
+                    "c) obchodný názov dopravcu a meno zodpovednej osoby, ktorá cestovný poriadok zostavila",
+                    "d) len telefónne číslo dispečera alebo informátora"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "263. V každom prevádzkovanom vozidle osobnej (autobusovej) dopravy musí byť?",
+                "options": [
+                    "a) doklad o udelenom povolení živnostenského úradu",
+                    "b) doklad o udelenom povolení vykonávať prevádzkovateľa vnútroštátnej autobusovej dopravy",
+                    "c) doklad o udelenom povolení vykonávať prevádzkovateľa vnútroštátnej autobusovej dopravy a vždy aj licencii Spoločenstva aj keď vykonáva vnútroštátnu autobusovú dopravu",
+                    "d) doklad o udelenom povolení vykonávať prevádzkovateľa vnútroštátnej autobusovej dopravy alebo o licencii Spoločenstva"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "264. Čo je Dohovor CVR?",
+                "options": [
+                    "a) Dohovor o prepravnej zmluve v medzinárodnej cestnej preprave cestujúcich a batožiny",
+                    "b) Dohovor o prepravnej zmluve vo vnútroštátnej cestnej preprave cestujúcich a batožiny",
+                    "c) Dohovor o prepravnej zmluve v medzinárodnej cestnej nákladnej doprave",
+                    "d) Dohovor o prepravnej zmluve vo vnútroštátnej cestnej nákladnej doprave"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "265. Čoho sa týka Dohoda lnterbus?",
+                "options": [
+                    "a) Medzinárodnej príležitostnej prepravy cestujúcich autokarmi a autobusmi",
+                    "b) Medzinárodnej pravidelnej autobusovej dopravy",
+                    "c) Vnútroštátnej príležitostnej prepravy cestujúcich autokarmi a autobusmi",
+                    "d) Vnútroštátnej pravidelnej autobusovej dopravy"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "266. Akú informáciu musí podľa Dohody lnterbus obsahovať jazdný list lnterbus?",
+                "options": [
+                    "a) Hmotnosť autobusu",
+                    "b) Zoznam cestujúcich",
+                    "c) Hmotnosť batožiny cestujúcich",
+                    "d) Počet autobusov prevádzkovaných dopravcom"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "267. Čo je kabotážna príležitostná autobusová doprava?",
+                "options": [
+                    "a) vykonávanie pravidelnej vnútroštátnej prepravy cestujúcich na území štátu kde dopravca (prevádzkovateľ) autobusovej dopravy nie je registrovaný",
+                    "b) vykonávanie tranzitnej prepravy cestujúcich na území štátu kde dopravca (prevádzkovateľ) autobusovej dopravy nie je registrovaný",
+                    "c) vykonávanie príležitostnej vnútroštátnej prepravy cestujúcich na území štátu, kde dopravca (prevádzkovateľ) autobusovej dopravy nie je registrovaný",
+                    "d) vykonávanie kyvadlovej medzinárodnej prepravy cestujúcich na územie štátu kde dopravca (prevádzkovateľ) autobusovej dopravy nie je registrovaný"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "268. Čo je neoddeliteľnou súčasťou jazdných listov pre medzinárodnú príležitostnú dopravu alebo kabotážnu príležitostnú dopravu?",
+                "options": [
+                    "a) zoznam zastávok na preprave",
+                    "b) zoznam cestujúcich",
+                    "c) zoznam hraničných priechodov cez ktoré bude vykonávaná autobusová preprava,",
+                    "d) doklady o školení vodičov a skúške."
+                ],
+                "correct": 1
+            },
+            {
+                "q": "269. Kde sa nachádza počas jazdy originál jazdného listu pre medzinárodnú príležitostnú dopravu alebo kabotážnu príležitostnú dopravu?",
+                "options": [
+                    "a) vo vozidle",
+                    "b) u cestovnej kancelárie alebo objednávateľa prepravy",
+                    "c) na príslušnom okresnom úrade podľa miesta evidencie vozidla",
+                    "d) u dispečera v mieste sídla dopravcu"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "270. Ako musia byť označené používané autobusy a autokary popri označení obchodným menom dopravcu pri príležitostnej autobusovej doprave?",
+                "options": [
+                    "a) vzadu nápisom Zájazd",
+                    "b) vpredu a vzadu nápisom Zájazd",
+                    "c) vpredu nápisom Zájazd",
+                    "d) nemusia byť označené nápisom Zájazd je to na rozhodnutí dopravcu"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "271. Aká preprava je vylúčená z príležitostnej autobusovej dopravy?",
+                "options": [
+                    "a) len preprava stojacich cestujúcich",
+                    "b) preprava autobusových zásielok a stojacich cestujúcich mimo obce",
+                    "c) preprava autobusových zásielok a stojacich cestujúcich",
+                    "d) preprava autobusových zásielok"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "272. Aký doklad je potrebný podľa nariadenia (EHS) č. 684/92 pre vykonávanie medzinárodnej autobusovej dopravy pre vlastnú potrebu?",
+                "options": [
+                    "a) Povolenie pre vykonávanie medzinárodnej autobusovej dopravy pre vlastnú potrebu",
+                    "b) Osvedčenie pre vykonávanie medzinárodnej autobusovej dopravy pre vlastnú potrebu",
+                    "c) Nie je potrebný doklad",
+                    "d) Príslušné vodičské oprávnenie"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "273. K čomu oprávňuje podľa nariadenia (EHS) č. 684/92 osvedčenie pre vykonávanie medzinárodnej autobusovej dopravy pre vlastnú potrebu jeho držiteľa?",
+                "options": [
+                    "a) Oprávňuje držiteľa na vykonávanie vnútroštátnej dopravy autokarmi a autobusmi na vlastný účet",
+                    "b) Oprávňuje držiteľa na vykonávanie medzinárodnej dopravy autokarmi a autobusmi na cudzí účet",
+                    "c) Oprávňuje držiteľa na vykonávanie medzinárodnej dopravy autokarmi a autobusmi na vlastný účet",
+                    "d) Oprávňuje držiteľa na vykonávanie vnútroštátnej dopravy autokarmi a autobusmi na cudzí účet"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "274. K čomu oprávňuje licencia Spoločenstva jej držiteľa?",
+                "options": [
+                    "a) Na vykonávanie medzinárodnej osobnej dopravy autokarom a autobusom",
+                    "b) Len na vykonávanie medzinárodnej osobnej dopravy autokarom",
+                    "c) Len na vykonávanie medzinárodnej osobnej dopravy autobusom",
+                    "d) Na vykonávanie vnútroštátnej osobnej dopravy autokarom a autobusom"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "275. Na akú dobu sa v súčasnosti vydáva licencia spoločenstva v SR?",
+                "options": [
+                    "a) Na obdobie 1 roka",
+                    "b) Na obdobie 10 rokov",
+                    "c) Na obdobie 8 rokov",
+                    "d) Na obdobie 5 rokov"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "276. Aký doklad v súvislosti s licenciou spoločenstva sa musí nachádzať vo vozidle?",
+                "options": [
+                    "a) Zoznam dôchodcov v autobuse",
+                    "b) Nákladný list CMR",
+                    "c) overená kópia licencie spoločenstva",
+                    "d) Doklad o hmotnosti batožiny"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "277. Na akú dobu sa udeľuje dopravná licencia vo vnútroštátnej pravidelnej autobusovej doprave?",
+                "options": [
+                    "a) Na 1 rok",
+                    "b) Na 5 rokov",
+                    "c) Na 8 rokov",
+                    "d) Na 10 rokov, ak dopravca nepožiadal na kratší čas"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "278. Na splnenie akej podmienky zo strany dopravcu môže správny orgán viazať vydanie dopravnej licencie v prímestskej autobusovej doprave?",
+                "options": [
+                    "a) Na vhodné správanie dopravcu voči svojim zamestnancom",
+                    "b) Na prijateľné odmeňovanie vodičov dopravcu",
+                    "c) Na zamestnanie istého počtu telesne postihnutých vodičov",
+                    "d) Na službu vo verejnom záujme realizovanú na základe zmluvy s dopravcom"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "279. Pri nepravidelne autobusovej doprave je možná preprava stojacich cestujúcich?",
+                "options": [
+                    "a) áno, aj pri preprave mimo obce",
+                    "b) áno, len pri preprave v obci",
+                    "c) nie",
+                    "d) nie, u žiakov do 15 rokov je to dovolené"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "280. Vodič autobusu pri preprave osôb",
+                "options": [
+                    "a) nesmie dovoliť, aby sa prekročil povolený počet prepravovaných osôb",
+                    "b) smie dovoliť, aby sa prekročil povolený počet prepravovaných osôb",
+                    "c) smie dovoliť, aby sa prekročil povolený počet prepravovaných osôb len pri prímestskej autobusovej doprave",
+                    "d) nesmie dovoliť, aby sa prekročil povolený počet prepravovaných osôb s toleranciou 5 osôb"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "281. Čo patrí do budovania imidžu podniku z hľadiska vodiča?",
+                "options": [
+                    "a) dodržiavanie pracovného manuálu vodiča a napr. nosenie predpísaného firemného oblečenia pri styku so zákazníkmi",
+                    "b) dodržiavanie legislatívy a napr. nosenie pevnej obuvi pri styku so zákazníkmi",
+                    "c) čistota v kabíne vozidla",
+                    "d) čistota vozidla a vystupovanie vodiča; na oblečení vodiča nezáleží"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "282. Za prímestskú pravidelnú autobusovú dopravu sa považuje",
+                "options": [
+                    "a) autobusová doprava na autobusovej linke pri ktorej je maximálna vzdialenosť východiskovej a cieľovej zastávky 50 km",
+                    "b) autobusová doprava na autobusovej linke pri ktorej je maximálna vzdialenosť východiskovej a cieľovej zastávky 150 km",
+                    "c) autobusová doprava na autobusovej linke, ktorá nepresahuje hranice okresu",
+                    "d) autobusová doprava na autobusovej linke pri ktorej je maximálna vzdialenosť východiskovej a cieľovej zastávky 100 km"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "283. Za diaľkovú pravidelnú autobusovú dopravu sa považuje",
+                "options": [
+                    "a) autobusová doprava na autobusovej linke pri ktorej je vzdialenosť východiskovej a cieľovej zastávky je viac ako 100 km a menej ako 300 km",
+                    "b) autobusová doprava na autobusovej linke pri ktorej je vzdialenosť východiskovej a cieľovej zastávky viac ako 100 km",
+                    "c) autobusová doprava na autobusovej linke, ktorá presahuje hranice okresu",
+                    "d) autobusová doprava na autobusovej linke pri ktorej je vzdialenosť východiskovej a cieľovej zastávky viac ako 50km"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "284. Cestovný lístok vydaný cestujúcemu v pravidelnej autobusovej doprave",
+                "options": [
+                    "a) je len daňovým dokladom pre cestujúceho",
+                    "b) je len dokladom pre vyúčtovanie pracovnej cesty",
+                    "c) je dokladom o uzavretí prepravnej zmluvy a zároveň daňovým dokladom",
+                    "d) je len dokladom o zaplatení cestovného"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "285. Cestovný lístok v pravidelnej prímestskej autobusovej doprave",
+                "options": [
+                    "a) je potrebné vydať cestujúcemu len na požiadanie",
+                    "b) je len dokladom pre vyúčtovanie pracovnej cesty a preto pri súkromných cestách nie je potrebný pre cestujúceho",
+                    "c) nie povinnosťou vodiča ho vydať každému cestujúcemu",
+                    "d) je povinnosťou vodiča ho vydať každému cestujúcemu"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "286. Čo by mal vyžadovať zamestnávateľ od vodiča pri kontakte so zákazníkom?",
+                "options": [
+                    "a) okamžitý výber hotovosti ako odplatu za poskytnuté prepravné služby",
+                    "b) správanie a vystupovanie v súlade s vnútropodnikovými predpismi a zásadami slušného správania",
+                    "c) používanie cudzích jazykov",
+                    "d) používanie ochranných pracovných pomôcok"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "287. Aký prínos môže mať pre podnik vhodné správanie sa vodiča voči zákazníkom, resp. okoliu podniku?",
+                "options": [
+                    "a) vhodné správanie vodiča voči zákazníkom má pre podnik zanedbateľný prínos, avšak v zmysle Etického kódexu združenia ČESMAD Slovakia sa od vodiča očakáva",
+                    "b) vhodné správanie vodiča voči zákazníkom nemá pre podnik žiadny prines",
+                    "c) vhodné správanie vodiča voči zákazníkom môže mať pre dopravcu prines v možnosti zvýšenia ceny za prepravu zo strany dopravcu",
+                    "d) vhodným správaním voči zákazníkom vodič reprezentuje podnik, buduje renomé (imidž) podniku a napomáha udržať si zákazníka"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "288. Aký je vzťah medzi dopravnými spoločnosťami zabezpečujúcimi prepravu osôb a individuálnou automobilovou dopravou?",
+                "options": [
+                    "a) konkurenčný, ide o dopravné odbory, medzi ktoré sa delí prepravná práca (počet prepravených osôb) v osobnej doprave",
+                    "b) sektor individuálnej dopravy je závislý na podnikoch hromadnej osobnej dopravy",
+                    "c) podniky hromadnej osobnej dopravy úzko spolupracujú s používateľmi osobných automobilov",
+                    "d) podniky hromadnej osobnej dopravy výhradne prepravujú cestujúcich, ktorí nie sú majiteľmi osobných automobilov"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "289. Ktorý druh dopravy je z hľadiska priestorových požiadaviek, energetickej náročnosti a environmentálnych dopadov spoločensky prijateľnejší? Individuálna automobilová alebo hromadná osobná doprava?",
+                "options": [
+                    "a) individuálna automobilová doprava",
+                    "b) individuálna automobilová doprava, ak vozidlá používajú ako pohonnú látku motorovú naftu",
+                    "c) hromadná osobná doprava",
+                    "d) hromadná osobná doprava, ak vykonáva prepravy na vzdialenosti väčšie ako 50 km"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "290. Ktorý právny predpis upravuje Zmluvu o preprave osôb v pravidelnej autobusovej doprave v SR?",
+                "options": [
+                    "a) Obchodný zákonník",
+                    "b) Občiansky zákonník",
+                    "c) Zákon o cestnej doprave",
+                    "d) Zákon o verejnej hromadnej osobnej doprave"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "291. Aké sú tendencie v ostatných rokoch v deľbe prepravnej práce (v počte prepravených osôb) medzi individuálnou automobilovou a hromadnou osobnou dopravou?",
+                "options": [
+                    "a) zvyšuje sa podiel počtu prepravených osôb hromadnou osobnou dopravou na úkor individuálnej automobilovej dopravy",
+                    "b) zvyšuje sa podiel počtu prepravených osôb individuálnou automobilovou dopravou na úkor hromadnej osobnej dopravy",
+                    "c) pomer počtu prepravených osôb hromadnou osobnou dopravou a individuálnou automobilovou dopravou sa v ostatných rokoch nemení, je konštantný",
+                    "d) výrazne klesá počet prepravených osôb individuálnou automobilovou dopravou, pričom počet prepravených osôb hromadnou osobnou dopravou sa nemení"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "292. Ktoré prepravy musí dopravca vykonávať podľa prepravného poriadku?",
+                "options": [
+                    "a) prepravy vykonávané iba v osobnej doprave, v nákladnej doprave sa prepravný poriadok nevyhotovuje",
+                    "b) prepravy vykonávané iba v medzinárodnej doprave, vo vnútroštátnej doprave sa prepravný poriadok nevyhotovuje",
+                    "c) prepravy vykonávané iba v osobnej doprave a v medzinárodnej nákladnej doprave, vo vnútroštátnej nákladnej doprave sa prepravný poriadok nevyhotovuje",
+                    "d) všetky prepravy"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "293. Akým spôsobom môže byť vyhotovené označenie vozidiel obchodným menom dopravcu?",
+                "options": [
+                    "a) označenie sa vyhotoví podľa možnosti dopravcu",
+                    "b) označenie sa vyhotoví len mechanicky pripevnenou tabuľkou",
+                    "c) označenie sa vyhotoví nezmazateľne písmomaliarsky na karosériu iný spôsob označenia nie je dovolený",
+                    "d) označenie sa vyhotoví nezmazateľne písmomaliarsky na karosériu alebo použitím samolepiacej nálepky, prípadne mechanicky pripevnenou tabuľkou"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "294. Čo je považované za priestupok na úseku cestnej dopravy?",
+                "options": [
+                    "a) priestupku na úseku cestnej dopravy sa dopusti ten, kto neuposlúchne pokyn alebo príkaz vodiča, iného člena osádky vozidla, revízora alebo dispečera na zaistenie bezpečnosti cestujúcich alebo bezpečnosti a plynulosti cestnej premávky, sa neoprávnene zdržiava v priestoroch dopravcu, ktoré nie sú určené pre cestujúcich, alebo vo vozidle, ktoré nevykonáva cestnú dopravu, a neuposlúchne výzvu na ich opustenie",
+                    "b) priestupku na úseku cestnej dopravy sa dopustí len ten, kto neuposlúchne pokyn alebo príkaz vodiča, iného člena osádky vozidla, revízora alebo dispečera",
+                    "c) za priestupok na úseku cestnej dopravy sa považuje najmä znečistenie vozidla cestujúcim",
+                    "d) za priestupok na úseku cestnej dopravy sa považuje najmä hlasné počúvanie autorádia počas jazdy, vyhadzovanie papierov a cigaretových ohorkov z okien vozidla na komunikáciu"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "295. Čo je považované za priestupok vodiča?",
+                "options": [
+                    "a) pri kontrole nevie preukázať originálom povolenia prevádzkovateľa vnútroštátnej dopravy dopravnou licenciou pri pravidelnej autobusovej doprave, jazdným listom a ak ide o prepravu na územie a z územia Slovenskej republiky do tretieho štátu a z tretieho štátu, aj platným prepravným povolením ak je potrebné,",
+                    "b) pri kontrole nevie preukázať kópiou povolenia prevádzkovateľa vnútroštátnej dopravy alebo licencie Spoločenstva, dopravnou licenciou, jazdným listom a ak ide o prepravu na územie a z územia Slovenskej republiky do tretieho štátu a z tretieho štátu, aj platným prepravným povolením ak je potrebné",
+                    "c) pri kontrole nevie preukáť originálom povolenia prevádzkovateľa vnútroštátnej dopravy alebo licencie Spoločenstva ostatné doklady sú nepovinné",
+                    "d) pri kontrole nevie preukázať originálom povolenia prevádzkovateľa vnútroštátnej dopravy alebo originálom licencie Spoločenstva, dopravnou licenciou, jazdným listom a ak ide o prepravu na územie a z územia Slovenskej republiky do tretieho štátu a z tretieho štátu, aj platným prepravným povolením ak je potrebné,"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "296. Čo je to tarifa v doprave ?",
+                "options": [
+                    "a) podmienky, za ktorých sa uskutočni preprava",
+                    "b) je to cena za prepravu a podmienky za ktorých sa použije",
+                    "c) cena za prepravu",
+                    "d) mzda za realizovanú prepravu"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "297. Aký je význam kalkulácie vlastných nákladov a kalkulácia ceny v trhovej ekonomike?",
+                "options": [
+                    "a) kalkulácia slúži pre výpočet miezd vodiča",
+                    "b) kalkulácia slúži pre stanovenie ceny a tiež kontrolu hospodárnosti dopravcu",
+                    "c) kalkulácia slúži pre výpočet dane z príjmov",
+                    "d) kalkulácia slúži pre správne vyplnenie účtovných výkazov a následný správny výpočet výšky dane z príjmov dopravcu"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "298. Ktoré druhy dopravy podliehajú cenovej regulácii zo strany samosprávnych krajov?",
+                "options": [
+                    "a) všetky druhy autobusovej dopravy",
+                    "b) pravidelná prímestská autobusová dopravy",
+                    "c) príležitostná vnútroštátna autobusová doprava",
+                    "d) príležitostná vnútroštátna a medzinárodná doprava"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "299. Ako sa stanovuje cena za konkrétnu prepravu v príležitostnej autobusovej doprave?",
+                "options": [
+                    "a) podľa dohody medzi prepravcom a dopravcom",
+                    "b) cena je stanovená záväznou tarifou",
+                    "c) podľa dohody medzi objednávateľom prepravy a cestujúcimi v príležitostnej autobusovej doprave",
+                    "d) cenu stanovuje okresný úrad v sídle kraja"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "300. Ktorú z nasledovných možností možno klasifikovať ako variabilné (pružné, premenlivé) náklady v autobusovej doprave?",
+                "options": [
+                    "a) náklady na základné mzdy vodičov",
+                    "b) potvrdenie o zaplatení dane za vozidlo",
+                    "c) pohonné hmoty",
+                    "d) amortizácia (odpis) vozidla"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "301. Na ktorom faktore sú závislé variabilné náklady (napr. náklady na pohonné hmoty)?",
+                "options": [
+                    "a) na počte hodín prevádzkovania autobusu",
+                    "b) na počte dní prevádzkovania autobusu",
+                    "c) na počte zastávok realizovaných počas prepravy",
+                    "d) na ubehnutej vzdialenosti s autobusom"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "302. Na ktoré vozidlá sa uplatňuje mýto v Rakúsku?",
+                "options": [
+                    "a) len na vozidlá s celkovou hmotnosťou nad 3,5 t",
+                    "b) na vozidlá s celkovou hmotnosťou nad 3,5 t a autobusy",
+                    "c) len na vozidlá s celkovou hmotnosťou nad 12 t",
+                    "d) na vozidlá s celkovou hmotnosťou nad 12 ta autobusy"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "303. Ktorý faktor neovplyvňuje výšku sadzieb mýta v Slovenskej republike v prípade autobusovej dopravy?",
+                "options": [
+                    "a) ročné obdobie",
+                    "b) druh spoplatnenej cesty",
+                    "c) celková hmotnosť autobusu",
+                    "d) emisná trieda vozidla"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "304. Ovplyvňuje emisná trieda (EURO 1 až EURO 6) autobusu výšku nákladov na mýto v SR?",
+                "options": [
+                    "a) nie, všetky vozidlá platia rovnaké sadzby za kilometer",
+                    "b) nie, sadzby mýta závisia iba od celkovej hmotnosti vozidla",
+                    "c) áno, ale len pri vozidlách do 3,5 tony celkovej hmotnosti",
+                    "d) áno, sadzby mýta závisia aj od emisnej triedy autobusu"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "305. Ako je elektronickým mýtom zaťažená prímestská autobusová doprava v SR?",
+                "options": [
+                    "a) je úplne oslobodená od platenia elektronického mýta",
+                    "b) nie je oslobodená od platenia elektronického mýta, ale má nižšie sadzby ako nákladná doprava",
+                    "c) nie je oslobodená od platenia elektronického mýta a má rovnaké sadzby ako nákladná doprava",
+                    "d) je oslobodená od elektronického mýta iba na cestách 1. triedy (na diaľniciach musí platiť elektronické mýto aj pravidelná autobusová doprava)."
+                ],
+                "correct": 1
+            },
+            {
+                "q": "306. Medzi aké náklady sa zaradzujú mýtne poplatky?",
+                "options": [
+                    "a) nezávislé od ubehnutej vzdialenosti",
+                    "b) závislé od ubehnutej vzdialenosti",
+                    "c) mýtne poplatky nepatria medzi náklady v cestnej doprave",
+                    "d) ide o fixné náklady v cestnej doprave"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "307. Od čoho závisí výška stravného pri zahraničných pracovných cestách vodičov medzinárodnej autobusovej dopravy podľa zákona o cestovných náhradách?",
+                "options": [
+                    "a) len od počtu štátov cez ktoré je vykonávaná",
+                    "b) od počtu hodín strávenej na pracovnej ceste z miesta nástupu cestujúcich po miesto výstupu",
+                    "c) od počtu hodín strávenej na pracovnej ceste počítaných po prekročení štátnych hraníc od výstupu až po vstup na územie SR",
+                    "d) od počtu nakládok a počtu ubehnutých kilometrov v priebehu celej prepravy"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "308. Od čoho závisí výška minimálnej mzdy v SR?",
+                "options": [
+                    "a) od počtu odpracovaných rokov",
+                    "b) od praxe",
+                    "c) v prípade vodiča od počtu odpracovaných hodín v mesiaci a počtu ubehnutých kilometrov zverených vozidlom",
+                    "d) je stanovená zákonom o minimálnej mzde"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "309. Ako sa kráti stravné v prípade, ak zamestnávateľ vodičovi pri pracovnej ceste bezplatne poskytne večeru?",
+                "options": [
+                    "a) o 20 %",
+                    "b) o 25 %",
+                    "c) o 35 %",
+                    "d) o 40 %"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "310. Aké je minimálne mzdové zvýhodnenie za nočnú prácu?",
+                "options": [
+                    "a) 40 % z priemernej mzdy",
+                    "b) 30 % z priemernej mzdy",
+                    "c) 20 % z priemernej mzdy",
+                    "d) 10 % z priemernej mzdy"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "311. Ako sa kráti stravné v prípade, ak zamestnávateľ vodičovi pri pracovnej ceste bezplatne poskytne obed?",
+                "options": [
+                    "a) o 20 %",
+                    "b) o 25 %",
+                    "c) o 35 %",
+                    "d) o 40 %"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "312. Čo je obsahom prepravného poriadku?",
+                "options": [
+                    "a) Podmienky, za ktorých sa prepravujú osoby, ich batožina a veci v cestnej doprave",
+                    "b) Podmienky, za ktorých sa prepravujú len osoby v cestnej doprave, prepravy batožiny a vecí sa netýka",
+                    "c) Podmienky, za ktorých sa prepravuje len batožina a veci v cestnej doprave, prepravy osôb sa netýka",
+                    "d) Podmienky, za ktorých sa prepravujú len osoby v cestnej doprave"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "313. Vykonávanie pravidelnej autobusovej dopravy je upravené hlavne?",
+                "options": [
+                    "a) prepravným poriadkom a cestovným poriadkom",
+                    "b) prepravným poriadkom, cestovným poriadkom a tarifou",
+                    "c) cestovným poriadkom, tarifou a vydanou dopravnou licenciou na autobusovú linku",
+                    "d) prepravným poriadkom, cestovným poriadkom, tarifou a vydanou dopravnou licenciou na autobusovú linku"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "314. Ku komu sa vzťahuje, resp. nevzťahuje, prepravná povinnosť dopravcu v pravidelnej autobusovej doprave?",
+                "options": [
+                    "a) Nevzťahuje sa voči každému cestujúcemu, ktorý sa chce prepraviť do zastávky na autobusovej linke a ktorý je v čase odchodu autobusu podľa cestovného poriadku na zastávke pripravený nastúpiť do autobusu",
+                    "b) Nevzťahuje sa na cestujúcich s miestenkami na povinne miestenkových spojoch",
+                    "c) Vzťahuje sa voči každému cestujúcemu, ktorý sa chce prepraviť do zastávky na autobusovej linke a ktorý je v čase odchodu autobusu podľa cestovného poriadku na zastávke pripravený nastúpiť do autobusu",
+                    "d) Nevzťahuje sa na telesne postihnutú osobu alebo zrakovo postihnutú osobu"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "315. Koho je povinný prednostne prijať na prepravu dopravca v pravidelnej autobusovej doprave?",
+                "options": [
+                    "a) Cestujúceho, ktorý sa ponáhľa",
+                    "b) Skupinu cestujúcich pred jednotlivcami",
+                    "c) Cestujúceho, ktorý prišiel na zastávku ako prvý",
+                    "d) Cestujúceho s miestenkou"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "316. Kde sa umiestňuje na autobuse označenie obchodným menom dopravcu?",
+                "options": [
+                    "a) na prednom čele a pravej strane karosérie autobusu",
+                    "b) na obidvoch stranách karosérie autobusu",
+                    "c) na prednom a zadnom čele karosérie",
+                    "d) na obidvoch stranách karosérie autobusu a môže sa umiestniť aj na prednom a zadnom čele karosérie"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "317. Čo je osobitná pravidelná osobná doprava?",
+                "options": [
+                    "a) Je pravidelná doprava pre vopred dohodnuté skupiny cestujúcich s vylúčením ostatných cestujúcich, najmä doprava zamestnancov do zamestnania a zo zamestnania a žiakov a študentov do vzdelávacích zariadení a späť. Uskutočňuje sa na základe zmluvy medzi dopravcom a objednávateľom prepravy po dohodnutej trase s dohodnutými zastávkami v dohodnutej periodicite.",
+                    "b) Je to pravidelná doprava pre obce a samosprávne kraje na základe zmluvy o dopravných službách vo verejnom záujme.",
+                    "c) Je pravidelná doprava pre vopred dohodnuté skupiny cestujúcich s vylúčením ostatných cestujúcich, najmä doprava zamestnancov do zamestnania a zo zamestnania a žiakov a študentov do vzdelávacích zariadení a späť. Uskutočňuje sa na základe zmluvy medzi dopravcom a objednávateľom prepravy trasa prepravy sa určuje na základe dopytu a môže sa meniť. Zástavky nie sú určené.",
+                    "d) Je pravidelná doprava pre vopred dohodnuté skupiny cestujúcich, najmä doprava zamestnancov do zamestnania a zo zamestnania a žiakov a študentov do vzdelávacích zariadení a späť. Uskutočňuje sa na základe zmluvy medzi dopravcom a objednávateľom prepravy po dohodnutej trase s dohodnutými zastávkami v dohodnutej periodicite. Môžu ju využívať aj iný cestujúci, ktorí čakajú na zastávkach."
+                ],
+                "correct": 0
+            },
+            {
+                "q": "318. Ako sa musia označiť používané autobusy popri označení obchodným menom dopravcu pri osobitnej pravidelnej osobnej doprave?",
+                "options": [
+                    "a) vpredu a vzadu názvom cieľovej zastávky obchodným menom objednávateľa prepravy",
+                    "b) vpredu a vzadu názvom cieľovej zastávky a nápisom Osobitná pravidelná doprava alebo obchodným menom objednávateľa prepravy",
+                    "c) vpredu a vzadu názvom cieľovej zastávky a nápisom označujúcim osobitnú pravidelnú dopravu, napríklad Školský autobus, Zmluvná preprava alebo obchodným menom objednávateľa prepravy",
+                    "d) na obidvoch stranách karosérie autobusu názvom objednávateľa dopravcu"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "319. Čo sa považuje za vybavenie potrebné na starostlivosť o osádky vozidiel?",
+                "options": [
+                    "a) sú to bufety",
+                    "b) sú to zariadenia umožňujúce osádke oddych, stravovanie, hygienickú očistu a krátkodobé ubytovanie po ukončení prepravy a pod.",
+                    "c) sú to rekreačné a rehabilitačné zariadenia umožňujúce vodičom oddych a regeneráciu fyzických a duševných síl",
+                    "d) sú to zdravotné zariadenia, kde osádky vozidiel absolvujú lekárske vyšetrenia"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "320. Môže zamestnávateľ požadovať od vodiča nosenie uniformy dopravcu resp. firemného oblečenia?",
+                "options": [
+                    "a) nie, používanie uniformy je z pozície vodiča dobrovoľné",
+                    "b) nie, v prípade, že vodič odmietne používať uniformu dopravcu, stráca nárok na príspevok na opotrebovanie ošatenia",
+                    "c) áno, používanie uniformy resp. firemného oblečenia zvyšuje imidž podniku",
+                    "d) áno, uniformu musí používať každý zamestnanec v SR, ktorý uzatvoril pracovnú zmluvu podľa zákonník práce"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "321. Dodržiavanie termínov prepravy z prepravnej zmluvy alebo cestovného poriadku je dôležité z pohľadu kvality prepravnej služby?",
+                "options": [
+                    "a) nie pretože, za dodržanie kvality sa považuje neporanenie cestujúceho",
+                    "b) v cestnej doprave nie je možné hodnotiť kvalitu, pretože ide o doplnkovú službu pre verejnosť a podniky",
+                    "c) áno, ale ide o nepodstatné ukazovatele kvality",
+                    "d) áno, ide o podstatné ukazovatele kvality prepravnej služby"
+                ],
+                "correct": 3
+            },
+            {
+                "q": "322. Ktorou dopravou je možné sa prepraviť z akejkoľvek obce v SR do akejkoľvek inej obce v SR?",
+                "options": [
+                    "a) autobusovou dopravou",
+                    "b) železničnou osobnou dopravou",
+                    "c) vodnou osobnou dopravou",
+                    "d) leteckou osobnou dopravou"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "323. Ako vplýva zvyšovanie počtu osobných vozidiel evidovaných v SR?",
+                "options": [
+                    "a) zvyšuje počet prepravených osôb v autobusovej doprave",
+                    "b) nemá vplyv na autobusovú dopravu",
+                    "c) znižuje počet prepravených osôb v autobusovej doprave",
+                    "d) spôsobuje zvyšovanie prepravných výkonov hromadnej osobnej dopravy"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "324. Pri medzinárodnej pravidelnej autobusovej doprave na autobusových linkách",
+                "options": [
+                    "a) je vždy potrebné stáť na autobusových zastávkach schválených podľa cestovného poriadku",
+                    "b) nie je potrebné vždy stáť na autobusových zastávkach schválených podľa cestovného poriadku",
+                    "c) je potrebné vždy stáť na autobusových zastávkach schválených podľa cestovného poriadku a podľa požiadaviek cestujúcich je možné zastaviť aj mimo týchto zastávok",
+                    "d) je potrebné vždy stáť na autobusových zastávkach schválených podľa cestovného poriadku a podľa požiadaviek cestujúcich je možné zastaviť aj mimo týchto zastávok ale musí byť zabezpečená bezpečnosť pri vystupovaní"
+                ],
+                "correct": 0
+            },
+            {
+                "q": "325. Pri prekračovaní hraníc členských štátov Európskej únie v autobusovej doprave",
+                "options": [
+                    "a) sa už nikde nevykonávajú pasové kontroly",
+                    "b) sa už nevykonávajú pasové kontroly medzi štátmi Európskej únie, ktoré sú členmi Schengenskej dohody",
+                    "c) sa už nikde nevykonávajú pasové kontroly ale colné kontroly ešte áno",
+                    "d) sa vykonávajú pasové kontroly len medzi štátmi Európskej únie, ktoré sú členmi Schengenskej dohody"
+                ],
+                "correct": 1
+            },
+            {
+                "q": "326. Nepravidelná zájazdová autobusová doprava",
+                "options": [
+                    "a) je oslobodená od všetkých zákazov jazdy čo sa týka dni v týždni na rozdiel od nákladnej dopravy vo všetkých štátov Európskej únie a nemôže byť regulovaná ani poplatkami za vjazd napríklad do centier miest",
+                    "b) nie oslobodená od všetkých zákazov jazdy vo všetkých štátov Európskej únie a nemôže byť regulovaná ani poplatkami za vjazd napríklad do centier miest",
+                    "c) je oslobodená od všetkých zákazov jazdy čo sa týka dni v týždni na rozdiel od nákladnej dopravy vo všetkých štátov Európskej únie, ale môže byť regulovaná poplatkami za vjazd napríklad do centier miest",
+                    "d) je oslobodená od všetkých zákazov jazdy vo všetkých štátov Európskej únie a môže vykonávať prepravy všade tam, kde je aj mestská hromadná doprava"
+                ],
+                "correct": 2
+            },
+            {
+                "q": "327. Aký špeciálny doklad musí byť pri nepravidelnej medzinárodnej autobusovej preprave v autobuse pri prepravách do a cez niektoré aj členské štáty Európskej únie napr. (Spolková republika Nemecko)?",
+                "options": [
+                    "a) stačí dopravná licencia spoločenstva a zelená karta,",
+                    "b) doklad o registrácii autobusového dopravcu na platenie dane z obratu v Spolkovej republike Nemecko z nepravidelnej autobusovej dopravy",
+                    "c) špeciálnym dokladom je dopravná licencia spoločenstva, ktorá platí vo všetkých členských štátoch EÚ",
+                    "d) špeciálnym dokladom je zoznam cestujúcich"
+                ],
+                "correct": 1
+            }
+
+       ]; 
