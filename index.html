@@ -231,7 +231,7 @@
             
                 <button id="save-btn" class="btn-nav" onclick="toggleSave()" style="flex: 0; padding: 10px 15px; font-size: 1.2rem;">📌</button>
             
-                <button id="next-btn" class="btn-nav" onclick="nextQuestion()" style="background: var(--primary);">ĎALŠIA OTÁZKA →</button>
+                <button id="next-btn" class="btn-nav" onclick="nextQuestion()" style="background: var(--primary);">NASLEDUJÚCA →</button>
 </div>
         </div>
 
@@ -380,7 +380,7 @@
             });
 
             document.getElementById('prev-btn').disabled = (currentIndex === 0);
-            document.getElementById('next-btn').innerText = (currentIndex === currentQuestions.length - 1) ? "DOKONČIŤ TEST" : "ĎALŠIA OTÁZKA →";
+            document.getElementById('next-btn').innerText = (currentIndex === currentQuestions.length - 1) ? "DOKONČIŤ TEST" : "NASLEDUJÚCA →";
             
             updateProgress();
 
@@ -414,14 +414,17 @@
             function checkAnswer(selectedIdx) {
                 if (userAnswers[currentIndex] !== null) return;
                 const q = currentQuestions[currentIndex];
-                userAnswers[currentIndex] = selectedIdx;
-    
-                if (selectedIdx !== q.correct) {
+                    userAnswers[currentIndex] = selectedIdx;
+                if (selectedIdx === q.correct) {
+                    score++;
+                } 
+                else {
                 if (!reviewList.includes(q.originalIndex)) {
                     reviewList.push(q.originalIndex);
                     localStorage.setItem('kkv_review_list', JSON.stringify(reviewList));
                 }
-                }
+            }
+    
                 showQuestion();
                 calculateLiveScore();
                 updateReviewButton();
