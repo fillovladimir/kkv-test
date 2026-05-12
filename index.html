@@ -227,7 +227,7 @@
             </div>
 
             <div class="nav-controls">
-                <button id="prev-btn" class="btn-nav" onclick="prevQuestion()">← PREDCHÁDZAJÚCA</button>
+                <button id="prev-btn" class="btn-nav" onclick="prevQuestion()" style="background: var(--primary);">← PREDCHÁDZAJÚCA</button>
             
                 <button id="save-btn" class="btn-nav" onclick="toggleSave()" style="flex: 0; padding: 10px 15px; font-size: 1.2rem;">📌</button>
             
@@ -308,7 +308,8 @@
 
         function startQuiz(mode) {
             const indexed = rawquestions.map((q, idx) => ({ ...q, originalIndex: idx }));
-    
+            isExamMode = (mode === 'exam');
+
             if (mode === 'exam') {
                 const A = indexed.filter(q => (q.originalIndex + 1) <= 101).sort(() => 0.5 - Math.random()).slice(0, 20);
                 const B = indexed.filter(q => (q.originalIndex + 1) > 101 && (q.originalIndex + 1) <= 195).sort(() => 0.5 - Math.random()).slice(0, 20);
@@ -336,6 +337,7 @@
 
         function startTimer() {
             timeLeft = 90 * 60;
+            let isExamMode = false;
             const display = document.getElementById('timer');
             display.style.display = 'block';
             timerInterval = setInterval(() => {
@@ -424,11 +426,24 @@
                     localStorage.setItem('kkv_review_list', JSON.stringify(reviewList));
                 }
             }
-    
+                // Tieto funkcie prekreslia farby a aktualizujú skóre na obrazovke
                 showQuestion();
                 calculateLiveScore();
                 updateReviewButton();
+            
+                // Automatický posun na ďaľšiu otázku len pre časť Skúšobný test ---
+               if (isExamMode) {
+                    setTimeout(() => {
+               if (currentIndex < currentQuestions.length - 1) {
+                    currentIndex++;
+                showQuestion();
+                }
+                else {
+                showResults();
+                }
+                }, 1000); // 1000 miliseúnd je ideálny čas, aby si videl výsledok
             }
+}
 
         function calculateLiveScore() {
             const answered = userAnswers.filter(a => a !== null).length;
