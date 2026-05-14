@@ -177,7 +177,7 @@
             </a>
             <br>
             <a href="log.html" class="note";>
-            📜 Verzia 2.1 (Zoznam zmien)
+            📜 Verzia 2.2 (Zoznam zmien)
             </a>
             <br>    
             <div class="link-row" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -205,8 +205,8 @@
             <div style="text-align: left; display: inline-block; background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; border: 1px solid var(--border);">
                 <p>• Počet otázok: <b>80</b> (z každej sekcie 20)</p>
                 <p>• Časový limit: <b>90 minút</b></p>
-                <p>• Hranica úspešnosti: <b>70%</b></p>
-                <p>• Minimum správnych odpovedí: <b>56</b></p>
+                <p>• Hranica úspešnosti: <b>70% z každej sekcie A, B, C a D.</b></p>
+                <p>• Minimum správnych odpovedí: <b>16 z každej sekcie</b></p>
             </div>
             <p style="margin-top: 25px; color: var(--text-dim);"><i>Systém automaticky vyhodnotí test po uplynutí limitu.</i></p>
             <button class="btn-main btn-exam" onclick="startQuiz('exam')" style="max-width: 300px; margin-top: 10px;">ZAČAŤ TEST TERAZ</button>
@@ -268,6 +268,7 @@
         let currentIndex = 0;
         let score = 0;
         let userAnswers = [];
+        let isExamMode = false;
         let reviewList = JSON.parse(localStorage.getItem('kkv_review_list')) || [];
         let timerInterval;
         let timeLeft = 90 * 60;
@@ -337,7 +338,6 @@
 
         function startTimer() {
             timeLeft = 90 * 60;
-            let isExamMode = false;
             const display = document.getElementById('timer');
             display.style.display = 'block';
             timerInterval = setInterval(() => {
@@ -461,24 +461,53 @@
 
         function showResults() {
             clearInterval(timerInterval);
-            document.getElementById('timer').style.display = 'none';
-            document.getElementById('quiz-screen').style.display = 'none';
-            document.getElementById('results-screen').style.display = 'block';
-            
-            const pct = Math.round((score / currentQuestions.length) * 100);
-            const status = document.getElementById('result-status');
-            const msg = document.getElementById('result-msg');
-            
+                document.getElementById('timer').style.display = 'none';
+                document.getElementById('quiz-screen').style.display = 'none';
+                document.getElementById('results-screen').style.display = 'block';
+    
+                const pct = Math.round((score / currentQuestions.length) * 100);
+                const status = document.getElementById('result-status');
+                const msg = document.getElementById('result-msg');
+    
+                // --- LOGIKA STRIKUTNÉHO HODNOTENIA ---
+                let passed = pct >= 70;
+                let failedReason = "";
+
+                if (isExamMode) {
+
+                // Spočítame body za každú kategóriu (v teste je vždy 20 z každej)
+                const catPoints = { A: 0, B: 0, C: 0, D: 0 };
+                    currentQuestions.forEach((q, idx) => {
+                const n = q.originalIndex + 1;
+                let g = (n <= 101) ? 'A' : (n <= 195) ? 'B' : (n <= 262) ? 'C' : 'D';
+                if (userAnswers[idx] === q.correct) catPoints[g]++;
+                });
+
+                // Kontrola: Musí byť aspoň 14 z 20 v každej skupine
+                const failedCats = [];
+                if (catPoints.A < 14) failedCats.push("A");
+                if (catPoints.B < 14) failedCats.push("B");
+                if (catPoints.C < 14) failedCats.push("C");
+                if (catPoints.D < 14) failedCats.push("D");
+
+                if (failedCats.length > 0) {
+                passed = false;
+                failedReason = `Nesplnili ste limit 70% v kategóriách: ${failedCats.join(", ")}.`;
+                }
+            }
+
             document.getElementById('final-score').innerText = `${score} / ${currentQuestions.length} (${pct}%)`;
-            
-            if (pct >= 70) {
+    
+            if (passed) {
                 status.innerText = "🎉 TESTOM STE PREŠLI!";
                 status.style.color = "var(--secondary)";
-                msg.innerText = "Výborne! Váš výkon spĺňa požiadavky na udelenie certifikátu.";
+                msg.innerText = "Výborne! Váš výkon spĺňa požiadavky vo všetkých kategóriách.";
             } else {
                 status.innerText = "❌ TESTOM STE NEPREŠLI";
                 status.style.color = "var(--error)";
-                msg.innerText = "Na úspešné zvládnutie potrebujete aspoň 70% (56 správnych odpovedí).";
+                msg.innerHTML = failedReason 
+                    ? `<b>${failedReason}</b><br>Na úspech potrebujete aspoň 14 bodov z každej časti.`
+                    : "Na úspešné zvládnutie potrebujete aspoň 70% správnych odpovedí.";
             }
             
             drawStatistics(); // SPUSTENIE NOVEJ FUNKCIE
